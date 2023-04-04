@@ -4,101 +4,80 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Models\User;
+use App\Http\Resources\FailedCollection;
+use App\Http\Resources\SuccessCollection;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var UserRepositoryInterface
      */
+    protected UserRepositoryInterface $userRepo;
+
+    public function __construct(UserRepositoryInterface $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function index()
     {
         try {
-            $list = User::query()->paginate();
+            $users = $this->userRepo->getAll();
 
-            return response()->json(['data' => $list, 'status' => 200]);
+            return new SuccessCollection($users);
         }catch (\Exception $e){
-            return response()->json(['status' => 500]);
+            return new FailedCollection($e);
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        try {
+            $user = $this->userRepo->find($id);
+
+            return new SuccessCollection($user);
+        }catch (\Exception $e){
+            return new FailedCollection($e);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(UserRequest $request)
     {
         try {
             $data = request(['name', 'email', 'password']);
             $data['password'] = Hash::make($request->get('password'));
 
-            $user = User::query()->create($data);
+            $user = $this->userRepo->create($data);
 
-            return response()->json(['data' => $user, 'status' => 200]);
+            return new SuccessCollection($user);
         }catch (\Exception $e){
-            return response()->json(['status' => 500]);
+            return new FailedCollection($e);
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $data = $request->all();
+
+            $user = $this->userRepo->update($id, $data);
+            return new SuccessCollection($user);
+        }catch (\Exception $e){
+            return new FailedCollection($e);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        try {
+            $user = $this->userRepo->delete($id);
+
+            return new SuccessCollection($user);
+        }catch (\Exception $e){
+            return new FailedCollection($e);
+        }
     }
 }
