@@ -9,5 +9,6 @@ interface UserRepositoryInterface extends RepositoryInterface
     //ví dụ: lấy 5 user đầu tiên
     public function getUser();
 
+    public function deleteAvatar($id);
 
 }
