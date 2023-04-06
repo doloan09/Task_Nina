@@ -13,6 +13,9 @@ use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
+    public function showForgotPass(){
+
+    }
     public function forgotPass(ForgotPassRequest $request) {
         try {
             $status = Password::sendResetLink(
