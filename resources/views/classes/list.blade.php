@@ -29,7 +29,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{!! route('classes.index') !!}',
+                    url: '{!! route('v1.classes.index') !!}',
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
                     },

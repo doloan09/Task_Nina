@@ -30,7 +30,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{!! route('points.index') !!}',
+                    url: '{!! route('v1.points.index') !!}',
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
                     },

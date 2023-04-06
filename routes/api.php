@@ -36,16 +36,17 @@ Route::get('/reset-password/{token}', [ResetPasswordController::class, 'tokenRes
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPass'])->middleware('guest')->name('password.update'); // reset pass
 
 
-Route::prefix('v1')
+Route::middleware(['auth:sanctum'])
+    ->prefix('v1')
     ->name('v1.')
     ->group(function () {
         Route::name('users.')
             ->prefix('users')
             ->group(function () {
                 Route::get('/', [UserController::class, 'index'])->name('index'); // danh sach user
-                Route::post('create', [UserController::class, 'create'])->name('create');
+                Route::post('/create', [UserController::class, 'create'])->name('create');
                 Route::post('/store', [UserController::class, 'store'])->name('store'); // dang ky
-                Route::post('update/{id}', [UserController::class, 'update'])->name('update');
+                Route::put('/update/{id}', [UserController::class, 'update'])->name('update');
                 Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
             });
 
@@ -53,35 +54,37 @@ Route::prefix('v1')
             ->prefix('subjects')
             ->group(function () {
                 Route::get('/', [SubjectController::class, 'index'])->name('index'); // danh sach mon hoc
-                Route::post('create', [SubjectController::class, 'create'])->name('create');
-                Route::post('update', [SubjectController::class, 'update'])->name('update');
+                Route::post('/create', [SubjectController::class, 'create'])->name('create');
+                Route::put('/update/{id}', [SubjectController::class, 'update'])->name('update');
             });
 
         Route::name('semesters.')
             ->prefix('semesters')
             ->group(function (){
-                Route::get('/', [SemesterController::class, 'index']);
-                Route::get('/{id}', [SemesterController::class, 'show']);
+                Route::get('/', [SemesterController::class, 'index'])->name('index');
+                Route::post('/create', [SemesterController::class, 'create'])->name('create');
+                Route::put('/update/{id}', [SemesterController::class, 'update'])->name('update');
             });
 
         Route::name('notifications.')
             ->prefix('notifications')
             ->group(function (){
-                Route::get('/', [NotificationController::class, 'index']);
-                Route::get('/{id}', [NotificationController::class, 'show']);
-                Route::post('/', [NotificationController::class, 'store']);
+                Route::get('/', [NotificationController::class, 'index'])->name('index');
+                Route::get('/{id}', [NotificationController::class, 'show'])->name('show');
+                Route::post('/create', [NotificationController::class, 'store'])->name('create');
+                Route::put('/update/{id}', [NotificationController::class, 'update'])->name('update');
             });
 
         Route::name('classes.')
             ->prefix('classes')
             ->group(function (){
-                Route::get('/', [ClassHPController::class, 'index']);
+                Route::get('/', [ClassHPController::class, 'index'])->name('index');
             });
 
         Route::name('points.')
             ->prefix('points')
             ->group(function (){
-                Route::get('/', [PointController::class, 'index']);
+                Route::get('/', [PointController::class, 'index'])->name('index');
             });
 
     });

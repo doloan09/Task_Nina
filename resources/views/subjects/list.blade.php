@@ -28,7 +28,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{!! route('subjects.index') !!}',
+                    url: '{!! route('v1.subjects.index') !!}',
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
                     },

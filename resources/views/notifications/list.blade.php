@@ -27,7 +27,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{!! route('notification.index') !!}',
+                    url: '{!! route('v1.notifications.index') !!}',
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
                     },
