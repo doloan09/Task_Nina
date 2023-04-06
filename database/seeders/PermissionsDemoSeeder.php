@@ -42,23 +42,29 @@ class PermissionsDemoSeeder extends Seeder
 
         // create demo users
         $user = User::query()->create([
-            'name' => 'Example User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('12345678'),
+            'name'          => 'Example User',
+            'email'         => 'test@example.com',
+            'password'      => Hash::make('12345678'),
+            'code_user'     => '191204220',
+            'date_of_birth' => '2001-09-14',
         ]);
         $user->assignRole($role1);
 
         $user = User::query()->create([
-            'name' => 'Example Admin User',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('12345678'),
+            'name'          => 'Example Admin User',
+            'email'         => 'admin@example.com',
+            'password'      => Hash::make('12345678'),
+            'code_user'     => '191204221',
+            'date_of_birth' => '2001-09-15',
         ]);
         $user->assignRole($role2);
 
         $user = User::query()->create([
-            'name' => 'Example Super-Admin User',
-            'email' => 'superadmin@example.com',
-            'password' => Hash::make('12345678'),
+            'name'          => 'Example Super-Admin User',
+            'email'         => 'superadmin@example.com',
+            'password'      => Hash::make('12345678'),
+            'code_user'     => '191204222',
+            'date_of_birth' => '2001-09-16',
         ]);
         $user->assignRole($role3);
     }
