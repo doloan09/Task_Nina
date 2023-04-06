@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\Auth;
+
 abstract class BaseRepository implements RepositoryInterface
 {
     //model muốn tương tác
@@ -64,5 +66,17 @@ abstract class BaseRepository implements RepositoryInterface
         }
 
         return false;
+    }
+
+    public function viewList($view)
+    {
+        if (!Auth::user()){
+            return redirect()->route('login.request');
+        }
+        else if (!Auth::user()->hasRole('admin')){
+            return abort(403);
+        }
+
+        return view($view);
     }
 }

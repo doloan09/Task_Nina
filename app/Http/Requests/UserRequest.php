@@ -12,21 +12,22 @@ class UserRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name'     => ['required'],
-            'email'    => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:8'],
+            'name'          => ['required'],
+            'email'         => ['required', 'email', 'unique:users'],
+            'code_user'     => ['required'],
+            'date_of_birth' => ['required'],
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required'     => 'Username không được bỏ trống!',
-            'email.required'    => 'Email không được bỏ trống!',
-            'email.email'       => 'Email không đúng định dạng!',
-            'email.unique'      => 'Email phải là duy nhất!',
-            'password.required' => 'Password không được bỏ trống!',
-            'password.min'      => 'Password phải chứa ít nhất 8 ký tự!',
+            'name.required'          => 'Username không được bỏ trống!',
+            'email.required'         => 'Email không được bỏ trống!',
+            'email.email'            => 'Email không đúng định dạng!',
+            'email.unique'           => 'Email phải là duy nhất!',
+            'code_user.required'     => 'Mã sinh viên/ Mã nhân viên không được bỏ trống!',
+            'date_of_birth.required' => 'Ngày sinh không được bỏ trống!',
         ];
     }
 

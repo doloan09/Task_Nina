@@ -18,7 +18,7 @@ class AuthMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::user()->hasRole('admin')){
-            return response()->json(['status' => 403]);
+            return abort(403);
         }
 
         return $next($request);
