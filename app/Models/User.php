@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -48,4 +49,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = ['url_avatar'];
+    /**
+     * @return string
+     */
+//    public function getAvatarAttribute($value)
+//    {
+//        return $value ? asset('storage/' . $value) : 'https://res.cloudinary.com/dsh5japr1/image/upload/v1672136942/cld-sample-4.jpg';
+//    }
+
+    public function getUrlAvatarAttribute()
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : 'https://res.cloudinary.com/dsh5japr1/image/upload/v1672136942/cld-sample-4.jpg';
+    }
 }

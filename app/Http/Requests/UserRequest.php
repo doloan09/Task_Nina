@@ -14,7 +14,7 @@ class UserRequest extends BaseRequest
         return [
             'name'          => ['required'],
             'email'         => ['required', 'email', 'unique:users'],
-            'code_user'     => ['required'],
+            'code_user'     => ['required', 'unique:users'],
             'date_of_birth' => ['required'],
         ];
     }
@@ -27,6 +27,7 @@ class UserRequest extends BaseRequest
             'email.email'            => 'Email không đúng định dạng!',
             'email.unique'           => 'Email phải là duy nhất!',
             'code_user.required'     => 'Mã sinh viên/ Mã nhân viên không được bỏ trống!',
+            'code_user.unique'     => 'Mã sinh viên/ Mã nhân viên phải là duy nhất!',
             'date_of_birth.required' => 'Ngày sinh không được bỏ trống!',
         ];
     }

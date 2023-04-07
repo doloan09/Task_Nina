@@ -10,10 +10,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\ErrorHandler\Debug;
 use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Editor\Fields\Image;
 
 class UserController extends Controller
 {
@@ -27,14 +24,14 @@ class UserController extends Controller
         $this->userRepo = $userRepo;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $users = $this->userRepo->getAll();
+            $users = $this->userRepo->filterByRole($request->get('role'));
 
             return Datatables::of($users)
                 ->editColumn('avatar', function ($user) {
-                    return '<img src="'. Storage::url($user->avatar) .'" alt="" class="img-avatar-list" style="width: 50px; height: 50px;" alt="avatar">';
+                    return '<img src="'. $user->url_avatar .'" alt="" class="img-avatar-list" style="width: 50px; height: 50px;" alt="avatar">';
                 })
                 ->editColumn('action', function ($user) {
                     return '<a href="' . route('users.edit', ['id' => $user->id]) . '" class="btn btn-xs btn-warning">Update</a><button onclick="deleteUser('. $user->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
@@ -76,16 +73,23 @@ class UserController extends Controller
             $password = (($time->day < 10) ? ('0' . $time->day) : ($time->day)) . (($time->month < 10) ? ('0' . $time->month) : ($time->day)) . $time->year;
             $data['password'] = Hash::make($password);
 
-//            dd($request->all());
-
             if ($request->hasFile('avatar')) {
 //                $name = $request->file('avatar')->getClientOriginalName();
                 $name = 'avatar_' . $request->get('name') . '_' . $request->get('code_user') . '_' . rand(0, 100) . '.' . $request->file('avatar')->extension();
-                $path = $request->file('avatar')->storeAs('public/profile', $name);
+                $path = $request->file('avatar')->storeAs('profile', $name);
                 $data['avatar'] = $path;
             }
 
             $user = $this->userRepo->create($data);
+
+            $role = $request->get('role');
+            if ($role === 'admin'){
+                $user->assignRole('admin');
+            }elseif ($role === 'teacher'){
+                $user->assignRole('teacher');
+            }elseif ($role === 'student'){
+                $user->assignRole('student');
+            }
 
             return new SuccessCollection($user);
         }catch (\Exception $e){
@@ -101,13 +105,21 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('user.update');
+        $user = $this->userRepo->find($id);
+        return view('user.update', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
         try {
             $data = $request->all();
+
+            if ($request->hasFile('avatar')) {
+                $this->userRepo->deleteAvatar($id);
+                $name = 'avatar_' . $request->get('name') . '_' . $request->get('code_user') . '_' . rand(0, 100) . '.' . $request->file('avatar')->extension();
+                $path = $request->file('avatar')->storeAs('profile', $name);
+                $data['avatar'] = $path;
+            }
 
             $user = $this->userRepo->update($id, $data);
             return new SuccessCollection($user);
@@ -119,7 +131,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user = $this->userRepo->delete($id);
+            $user = $this->userRepo->find($id);
+            $this->userRepo->deleteAvatar($id);
+            $this->userRepo->delete($id);
 
             return new SuccessCollection($user);
         }catch (\Exception $e){
