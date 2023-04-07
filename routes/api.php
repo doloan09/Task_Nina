@@ -46,7 +46,7 @@ Route::middleware(['auth:sanctum'])
                 Route::get('/', [UserController::class, 'index'])->name('index'); // danh sach user
                 Route::post('/create', [UserController::class, 'create'])->name('create');
                 Route::post('/store', [UserController::class, 'store'])->name('store'); // dang ky
-                Route::put('/update/{id}', [UserController::class, 'update'])->name('update');
+                Route::post('/update/{id}', [UserController::class, 'update'])->name('updated');
                 Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
             });
 
