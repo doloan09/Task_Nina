@@ -32,4 +32,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return false;
     }
 
+    public function filterByRole($role)
+    {
+        $list = $this->model->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->select('users.*', 'roles.name as name_role');
+
+        if ($role) return $list->where('name_role', $role)->get();
+
+        return $list->get();
+    }
 }
