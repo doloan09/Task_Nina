@@ -86,17 +86,9 @@
                                     <p class="text-center font-semibold mx-4 mb-0">Or</p>
                                 </div>
 
-                                @if(session('status'))
-                                    <div class="text-center text-sm text-green-600 mb-2">
-                                        {{ session('status') }}
-                                    </div>
-                                @endif
+                                <div class="text-red-600 text-sm mb-2 text-center" id="HelpText">
 
-                                @if(\Session::has('message'))
-                                    <div class="text-red-600 text-sm mb-2 text-center">
-                                        {{\Session::get('message')}}
-                                    </div>
-                                @endif
+                                </div>
 
                                 <div class="mb-4">
                                     @if(\Session::has('errorEmail'))
@@ -178,6 +170,7 @@
 
                     window.location = "/users";
                 } else {
+                    console.log(data);
                     $("#HelpText").html('Tài khoản hoặc mật khẩu không đúng');
                 }
             },
