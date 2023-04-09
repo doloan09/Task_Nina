@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubjectRequest;
 use App\Http\Resources\FailedCollection;
+use App\Http\Resources\SuccessCollection;
 use App\Repositories\Subject\SubjectRepositoryInterface;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -26,9 +28,14 @@ class SubjectController extends Controller
         try {
             $list = $this->subjectRepo->getAll();
 
-            return DataTables::of($list)->make(true);
+            return Datatables::of($list)
+                ->editColumn('action', function ($item) {
+                    return '<button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal" style="margin: 0px 10px;">Update</button><button onclick="deleteSub('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }catch (\Exception $e){
-            return new FailedCollection($e);
+            return new FailedCollection(collect([$e]));
         }
     }
 
@@ -46,11 +53,19 @@ class SubjectController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return FailedCollection|SuccessCollection|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubjectRequest $request)
     {
-        //
+        try {
+            $data = request(['name_subject', 'code_subject', 'number_of_credits']);
+
+            $item = $this->subjectRepo->create($data);
+
+            return new SuccessCollection($item);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 
     /**
@@ -80,22 +95,36 @@ class SubjectController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return FailedCollection|SuccessCollection|\Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $data = $request->all();
+
+            $item = $this->subjectRepo->update($id, $data);
+            return new SuccessCollection($item);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return FailedCollection|SuccessCollection|\Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        try {
+            $item = $this->subjectRepo->find($id);
+            $this->subjectRepo->delete($id);
+
+            return new SuccessCollection($item);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 
     /**
