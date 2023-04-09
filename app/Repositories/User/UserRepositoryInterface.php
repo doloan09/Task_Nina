@@ -11,6 +11,6 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function deleteAvatar($id);
 
-    public function filterByRole($role);
+    public function filterByRole($request);
 
 }

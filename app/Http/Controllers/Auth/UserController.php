@@ -27,7 +27,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            $users = $this->userRepo->filterByRole($request->get('role'));
+            $users = $this->userRepo->filterByRole($request);
 
             return Datatables::of($users)
                 ->editColumn('avatar', function ($user) {

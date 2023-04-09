@@ -96,7 +96,7 @@
                     },
                     method: "DELETE",
                     success: function (data) {
-                        window.location = "/users";
+                        window.location = "{{ route('users.list') }}";
                     },
                     error: function (err) {
                         alert('error');
