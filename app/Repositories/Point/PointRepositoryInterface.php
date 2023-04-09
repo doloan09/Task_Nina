@@ -6,5 +6,5 @@ use App\Repositories\RepositoryInterface;
 
 interface PointRepositoryInterface extends RepositoryInterface
 {
-
+    public function getAllPoint($request);
 }
