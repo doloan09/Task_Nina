@@ -30,7 +30,10 @@ class SubjectController extends Controller
 
             return Datatables::of($list)
                 ->editColumn('action', function ($item) {
-                    return '<button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal" style="margin: 0px 10px;">Update</button><button onclick="deleteSub('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    $name = "'" . $item->name_subject . "'";
+                    $code = "'" . $item->code_subject . "'";
+
+                    return '<button onclick="setValue('. $item->id . ', '. $name .', '. $code .', '. $item->number_of_credits .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSubject" style="margin: 0px 10px;">Update</button><button onclick="deleteSub('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

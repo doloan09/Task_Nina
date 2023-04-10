@@ -13,4 +13,6 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function filterByRole($request);
 
+    public function topStudent($request);
+
 }

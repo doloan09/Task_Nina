@@ -43,4 +43,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $list->get();
     }
+
+    public function topStudent($request)
+    {
+        $list = $this->model->join('points', 'points.id_user', '=', 'users.id')
+            ->select('users.*', 'points.score_final');
+
+        return $list->get();
+    }
 }

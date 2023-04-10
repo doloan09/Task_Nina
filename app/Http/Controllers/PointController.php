@@ -29,10 +29,13 @@ class PointController extends Controller
             $list = $this->pointRepo->getAllPoint($request);
 
             return Datatables::of($list)
+                ->editColumn('code_class', function ($item) {
+                    return $item->code_class;
+                })
                 ->editColumn('action', function ($item) {
                     return '<button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal" style="margin: 0px 10px;">Update</button><button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['code_class', 'action'])
                 ->make(true);
         }catch (\Exception $e){
             return new FailedCollection($e);
@@ -58,6 +61,25 @@ class PointController extends Controller
     public function store(PointRequest $request)
     {
         try {
+            $score_component = $request->get('score_component');
+            $score_test = $request->get('score_test');
+            $score_final = $request->get('score_final');
+            $error = [];
+
+            if ($score_component > 10 || $score_component < 0){
+                $error['score_component'] = 'Điểm thành phần không hợp lệ!';
+            }
+            if ($score_test > 10 || $score_test < 0){
+                $error['score_component'] = 'Điểm thi không hợp lệ!';
+            }
+            if ($score_final > 10 || $score_final < 0){
+                $error['score_component'] = 'Điểm tổng kết không hợp lệ!';
+            }
+
+            if (count($error)){
+                return new FailedCollection(collect([$error]));
+            }
+
             $data = request(['id_user', 'id_class', 'score_component', 'score_test', 'score_final']);
 
             $item = $this->pointRepo->create($data);

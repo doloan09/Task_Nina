@@ -34,9 +34,26 @@ class UserController extends Controller
                     return '<img src="'. $user->url_avatar .'" alt="" class="img-avatar-list" style="width: 50px; height: 50px;" alt="avatar">';
                 })
                 ->editColumn('action', function ($user) {
-                    return '<a href="' . route('users.edit', ['id' => $user->id]) . '" class="btn btn-xs btn-warning">Update</a><button onclick="deleteUser('. $user->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    return '<a href="' . route('users.edit', ['id' => $user->id]) . '" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Update</a><button onclick="deleteUser('. $user->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
                 })
                 ->rawColumns(['avatar', 'action'])
+                ->make(true);
+
+        }catch (\Exception $e){
+            return new FailedCollection($e);
+        }
+    }
+
+    public function topSV(Request $request)
+    {
+        try {
+            $users = $this->userRepo->topStudent($request);
+
+            return Datatables::of($users)
+                ->editColumn('avatar', function ($user) {
+                    return '<img src="'. $user->url_avatar .'" alt="" class="img-avatar-list" style="width: 50px; height: 50px;" alt="avatar">';
+                })
+                ->rawColumns(['avatar'])
                 ->make(true);
 
         }catch (\Exception $e){
