@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login.request');
 Route::get('/register', [AuthController::class, 'viewRegister'])->name('register.request');

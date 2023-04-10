@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum'])
                 Route::post('/store', [UserController::class, 'store'])->name('store'); // dang ky
                 Route::post('/update/{id}', [UserController::class, 'update'])->name('updated');
                 Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
+                Route::get('/top', [UserController::class, 'topSV'])->name('top'); // danh sach user
             });
 
         Route::name('subjects.')
@@ -54,7 +55,7 @@ Route::middleware(['auth:sanctum'])
             ->group(function () {
                 Route::get('/', [SubjectController::class, 'index'])->name('index'); // danh sach mon hoc
                 Route::post('/store', [SubjectController::class, 'store'])->name('store');
-                Route::put('/update/{id}', [SubjectController::class, 'update'])->name('update');
+                Route::post('/update/{id}', [SubjectController::class, 'update'])->name('update');
                 Route::delete('/{id}', [SubjectController::class, 'destroy'])->name('destroy');
             });
 
@@ -63,7 +64,7 @@ Route::middleware(['auth:sanctum'])
             ->group(function (){
                 Route::get('/', [SemesterController::class, 'index'])->name('index');
                 Route::post('/store', [SemesterController::class, 'store'])->name('store');
-                Route::put('/update/{id}', [SemesterController::class, 'update'])->name('update');
+                Route::post('/update/{id}', [SemesterController::class, 'update'])->name('update');
                 Route::delete('/{id}', [SemesterController::class, 'destroy'])->name('destroy');
             });
 
@@ -73,7 +74,7 @@ Route::middleware(['auth:sanctum'])
                 Route::get('/', [NotificationController::class, 'index'])->name('index');
                 Route::get('/{id}', [NotificationController::class, 'show'])->name('show');
                 Route::post('/store', [NotificationController::class, 'store'])->name('store');
-                Route::put('/update/{id}', [NotificationController::class, 'update'])->name('update');
+                Route::post('/update/{id}', [NotificationController::class, 'update'])->name('update');
                 Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('destroy');
             });
 
@@ -82,7 +83,7 @@ Route::middleware(['auth:sanctum'])
             ->group(function (){
                 Route::get('/', [ClassHPController::class, 'index'])->name('index');
                 Route::post('/store', [ClassHPController::class, 'store'])->name('store');
-                Route::put('/update/{id}', [ClassHPController::class, 'update'])->name('update');
+                Route::post('/update/{id}', [ClassHPController::class, 'update'])->name('update');
                 Route::delete('/{id}', [ClassHPController::class, 'destroy'])->name('destroy');
             });
 
@@ -91,7 +92,7 @@ Route::middleware(['auth:sanctum'])
             ->group(function (){
                 Route::get('/', [PointController::class, 'index'])->name('index');
                 Route::post('/store', [PointController::class, 'store'])->name('store');
-                Route::put('/update/{id}', [PointController::class, 'update'])->name('update');
+                Route::post('/update/{id}', [PointController::class, 'update'])->name('update');
                 Route::delete('/{id}', [PointController::class, 'destroy'])->name('destroy');
             });
 
