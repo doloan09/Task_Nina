@@ -3,11 +3,11 @@
 @section('content')
     <div>
         <h3>Quản lý lớp học phần</h3>
-        <div style="margin-top: 20px; margin-bottom: 20px;">
-            <button type="button" id="btn" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass">
+        <div style="margin-top: 20px; margin-bottom: 40px;">
+            <button type="button" id="btn" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="padding: 5px">
                 Create
             </button>
-            <div style="margin-top: 20px; margin-bottom: 20px; float: right; display: flex">
+            <div style="float: right; display: flex">
                 <p style="margin-right: 10px;">Kỳ học:</p>
                 <select id="filter_semester">
                     <option value="">- Tất cả -</option>
@@ -22,7 +22,7 @@
                 <th>Mã lớp học phần</th>
                 <th>Mã môn học</th>
                 <th>Mã kỳ học</th>
-                <th>Action</th>
+                <th style="width: 15%;">Action</th>
             </tr>
             </thead>
         </table>
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-success" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
                         </div>
                     </form>
                 </div>
@@ -171,7 +171,7 @@
                 {data: 'code_class', name: 'code_class'},
                 {data: 'name_subject', name: 'name_subject'},
                 {data: 'name_semester', name: 'id_semester'},
-                {data: 'action', name: ''},
+                {data: 'action', name: '', orderable: false, searchable: false},
             ]
         });
 

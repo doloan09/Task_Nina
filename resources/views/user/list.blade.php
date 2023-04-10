@@ -3,11 +3,11 @@
 @section('content')
     <div>
         <h3>Quản lý người dùng</h3>
-        <div style="margin-top: 20px; margin-bottom: 20px;">
-            <div style="float: left;">
-                <a href="{{ route('users.create') }}" class="btn btn-xs btn-warning">Create</a>
-            </div>
-            <div style="margin-top: 20px; margin-bottom: 20px; float: right; display: flex">
+        <div style="margin-top: 20px; margin-bottom: 40px;">
+            <button class="btn btn-xs btn-warning" style="padding: 5px">
+                <a href="{{ route('users.create') }}" style="color: white;">Create</a>
+            </button>
+            <div style="float: right; display: flex">
                 <p style="margin-right: 10px;">Vai trò:</p>
                 <select id="filter_role">
                     <option value="">- Tất cả -</option>
@@ -30,7 +30,7 @@
                 <th>Địa chỉ</th>
                 <th>Giới tính</th>
                 <th>Chức vụ</th>
-                <th>Action</th>
+                <th style="width: 15%;">Action</th>
             </tr>
             </thead>
         </table>
@@ -56,7 +56,7 @@
             },
             columns: [
                 {data: 'id', name: 'id'},
-                {data: 'avatar', name: 'avatar'},
+                {data: 'avatar', name: 'avatar', orderable: false, searchable: false},
                 {data: 'name', name: 'name'},
                 {data: 'code_user', name: 'code_user'},
                 {data: 'email', name: 'email'},
@@ -71,7 +71,7 @@
                 {data: 'address', name: 'address'},
                 {data: 'sex', name: 'sex'},
                 {data: 'name_role', name: 'name_role'},
-                {data: 'action', name: ''},
+                {data: 'action', name: '', orderable: false, searchable: false},
             ]
         });
 

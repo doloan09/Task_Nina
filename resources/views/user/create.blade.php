@@ -6,8 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <p class="text-uppercase text-sm">Thông tin người dùng</p>
-                    <form method="POST" action="{{ route('v1.users.create') }}" id="create-user" enctype="multipart/form-data">
+                    <p class="text-uppercase text-sm" style="font-size: 20px;">Thông tin người dùng</p>
+                    <form method="POST" action="{{ route('v1.users.store') }}" id="create-user" enctype="multipart/form-data" style="padding-left: 20px; padding-top: 20px;">
                         @csrf
                         <div class="row">
                             <div class="">
@@ -84,8 +84,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="margin-top: 20px; margin-bottom: 20px;">
-                            <button type="submit" class="btn btn-xs btn-warning">Create</button>
+                        <div style="margin-top: 40px; margin-bottom: 20px; margin-left: -10px;">
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 5px;">Create</button>
                         </div>
                     </form>
                 </div>
@@ -97,7 +97,7 @@
 
 @push('scripts')
     <script type="module">
-        toastr.success('Thêm mới tài khoản thành công!', 'Success');
+        // toastr.success('Thêm mới tài khoản thành công!', 'Success');
         // toastr.options.positionClass = 'toast-bottom-right';
         // toastr.options.closeButton = true;
 

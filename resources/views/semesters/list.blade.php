@@ -4,7 +4,7 @@
     <div>
         <h3>Quản lý học kỳ</h3>
         <div style="margin-top: 20px; margin-bottom: 20px;">
-            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSemester">
+            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSemester" style="padding: 5px">
                 Create
             </button>
         </div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-success" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
                         </div>
                     </form>
                 </div>
@@ -77,7 +77,7 @@
                     { data: 'id', name: 'id' },
                     { data: 'name_semester', name: 'name_semester' },
                     { data: 'year_semester', name: 'year_semester' },
-                    { data: 'action', name: '' },
+                    { data: 'action', name: '', orderable: false, searchable: false},
 
                     // {
                     //     data: 'action',

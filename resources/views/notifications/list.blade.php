@@ -4,7 +4,7 @@
     <div>
         <h3>Quản lý thông báo</h3>
         <div style="margin-top: 20px; margin-bottom: 20px;">
-            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createNoti">
+            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createNoti" style="padding: 5px">
                 Create
             </button>
         </div>
@@ -14,7 +14,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
-                <th>Action</th>
+                <th style="width: 15%;">Action</th>
             </tr>
             </thead>
         </table>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-success" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
                         </div>
                     </form>
                 </div>
@@ -82,7 +82,7 @@
                     //         return '<p style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; width: 500px;">' + content +'</p>'
                     //     }
                     // },
-                    { data: 'action', name: ''},
+                    { data: 'action', name: '', orderable: false, searchable: false},
                 ]
             });
         });

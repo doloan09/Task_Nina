@@ -18,20 +18,46 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-{{--    --}}
+
+    <link
+        href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+        rel="stylesheet"
+    />
+
     <![endif]-->
     <style>
+
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
         body {
             padding-top: 40px;
         }
     </style>
 
 </head>
-<body>
-<div class="container">
-    @include('layouts.navbar')
-
-    @yield('content')
+<body style="padding-top: 0px;">
+<div class="" style="margin: 0 30px 0 10px;">
+    {{--    @include('layouts.navbar')--}}
+    <div style="display: flex">
+        <div style="padding-right: 0px">
+            @include('layouts.menu')
+        </div>
+        <div style="padding-left: 0px; width: 100%;">
+            <div>
+                @include('layouts.navbar')
+            </div>
+            <div style="padding: 20px 30px;">
+                @yield('content')
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- jQuery -->
@@ -46,3 +72,4 @@
 @stack('scripts')
 </body>
 </html>
+

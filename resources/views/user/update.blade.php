@@ -6,8 +6,8 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <p class="text-uppercase text-sm">Cập nhật thông tin người dùng</p>
-                        <form method="POST" action="{{ route('v1.users.updated', ['id' => $user->id]) }}" id="update-user" enctype="multipart/form-data">
+                        <p class="text-uppercase text-sm" style="font-size: 20px;">Cập nhật thông tin người dùng</p>
+                        <form method="POST" action="{{ route('v1.users.updated', ['id' => $user->id]) }}" id="update-user" enctype="multipart/form-data" style="padding-left: 20px; padding-top: 20px;">
                             @csrf
                             <div class="row">
                                 <div class="">
@@ -73,8 +73,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="margin-top: 20px; margin-bottom: 20px;">
-                                <button type="submit" class="btn btn-xs btn-warning">Cập nhật</button>
+                            <div style="margin-top: 40px; margin-bottom: 20px; margin-left: -10px;">
+                                <button type="submit" class="btn btn-xs btn-warning" style="padding: 5px;">Cập nhật</button>
                             </div>
                         </form>
                     </div>

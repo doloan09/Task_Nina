@@ -4,7 +4,7 @@
     <div>
         <h3>Quản lý môn học</h3>
         <div style="margin-top: 20px; margin-bottom: 20px;">
-            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSubject">
+            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSubject" style="padding: 5px">
                 Create
             </button>
         </div>
@@ -15,7 +15,7 @@
                 <th>Tên môn học</th>
                 <th>Mã môn học</th>
                 <th>Số tín chỉ</th>
-                <th>Action</th>
+                <th style="width: 15%;">Action</th>
             </tr>
             </thead>
         </table>
@@ -29,9 +29,10 @@
                     <h3 class="modal-title" id="exampleModalLabel">Thông tin môn học</h3>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('v1.subjects.store') }}" id="create-subject" enctype="multipart/form-data" style="margin: 0px 20px;">
+                    <form method="POST" action="" id="create-subject" enctype="multipart/form-data" style="margin: 0px 20px;">
                         @csrf
                         <div class="row">
+                            <input id="id_subject" name="id_subject" class="form-control" type="text" style="display: none">
                             <div class="">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Tên môn học</label>
@@ -61,7 +62,8 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-success" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-sub">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-sub">Update</button>
                         </div>
                     </form>
                 </div>
@@ -72,6 +74,15 @@
 
 @push('scripts')
     <script>
+        function setValue(id, name, code, number){
+            $('#id_subject').val(id);
+            $('#name_subject').val(name);
+            $('#code_subject').val(code);
+            $('#number_of_credits').val(number);
+            $("#create-sub").hide();
+            $("#update-sub").show();
+        };
+
         $(function () {
             $('#users-table').DataTable({
                 processing: true,
@@ -87,7 +98,7 @@
                     {data: 'name_subject', name: 'name_subject'},
                     {data: 'code_subject', name: 'code_subject'},
                     {data: 'number_of_credits', name: 'number_of_credits'},
-                    {data: 'action', name: ''},
+                    {data: 'action', name: '', orderable: false, searchable: false},
                 ]
             });
         });
@@ -101,8 +112,13 @@
             formData.append('code_subject', $("#code_subject").val());
             formData.append('number_of_credits', $("#number_of_credits").val());
 
+            let url = '{{ route('v1.subjects.store') }}';
+            if ($('#id_subject').val()){
+                url = 'http://nina-soft.com/api/v1/subjects/update/' + $('#id_subject').val();
+            }
+
             $.ajax({
-                url: '{{ route('v1.subjects.store') }}',
+                url: url,
                 processData: false,
                 contentType: false,
                 headers: {
