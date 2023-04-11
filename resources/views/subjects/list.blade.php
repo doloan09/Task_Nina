@@ -114,7 +114,7 @@
 
             let url = '{{ route('v1.subjects.store') }}';
             if ($('#id_subject').val()){
-                url = 'http://nina-soft.com/api/v1/subjects/update/' + $('#id_subject').val();
+                url = '{{ env('URL_API') }}' + 'subjects/update/' + $('#id_subject').val();
             }
 
             $.ajax({
@@ -154,7 +154,7 @@
         function deleteSub(id){
             if (confirm('Ban co muon xoa khong?') === true) {
                 $.ajax({
-                    url: `http://nina-soft.com/api/v1/subjects/` + id,
+                    url: '{{ env('URL_API') }}' + `subjects/` + id,
                     headers: {
                         'X-CSRF-TOKEN': '{{ @csrf_token() }}',
                         "Authorization": "Bearer " + localStorage.getItem("token"),

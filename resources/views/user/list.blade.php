@@ -49,7 +49,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: 'http://nina-soft.com/api/v1/users?role=',
+                url: '{{ env('URL_API') }}' + 'users?role=',
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 },
@@ -89,7 +89,7 @@
         function deleteUser(id){
             if (confirm('Ban co muon xoa khong?') === true) {
                 $.ajax({
-                    url: `http://nina-soft.com/api/v1/users/` + id,
+                    url: '{{ env('URL_API') }}' + `users/` + id,
                     headers: {
                         'X-CSRF-TOKEN': '{{ @csrf_token() }}',
                         "Authorization": "Bearer " + localStorage.getItem("token"),

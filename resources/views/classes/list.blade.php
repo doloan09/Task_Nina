@@ -10,7 +10,7 @@
             <div style="float: right; display: flex">
                 <p style="margin-right: 10px;">Kỳ học:</p>
                 <select id="filter_semester">
-                    <option value="">- Tất cả -</option>
+
                 </select>
             </div>
         </div>
@@ -36,9 +36,10 @@
                     <h3 class="modal-title" id="exampleModalLabel">Thông tin lớp học phần</h3>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('v1.classes.store') }}" id="create-class" enctype="multipart/form-data" style="margin: 0px 20px;">
+                    <form method="POST" action="" id="create-class" enctype="multipart/form-data" style="margin: 0px 20px;">
                         @csrf
                         <div class="row">
+                            <input id="id_class" name="id_class" class="form-control" type="text" style="display: none;">
                             <div class="">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Tên lớp học phần</label>
@@ -81,7 +82,8 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -94,6 +96,7 @@
     <script>
 
         getSemester();
+        getSubject();
 
         $('#btn').on('click', function (){
             getSubject();
@@ -104,6 +107,16 @@
             let semester = document.getElementById('filter_semester').value;
             getData(semester);
         });
+
+        function setValue(id, name, code, id_subject, id_semester){
+            $('#id_class').val(id);
+            $('#name_class').val(name);
+            $('#code_class').val(code);
+            $('#id_subject').val(id_subject);
+            $('#id_semester').val(id_semester);
+            $("#create-btn").hide();
+            $("#update-btn").show();
+        };
 
         function getSubject(){
             $.ajax({
@@ -142,12 +155,14 @@
                 success: function (data) {
                     let list = data.data;
                     let str = '';
+                    let str2 = '<option value="">- Tất cả -</option>';
                     for (let item in list){
                         str += '<option value="' + list[item]['id'] + '">' + list[item]['name_semester'] + '_' + list[item]['year_semester'] + '</option>'
                     }
 
+                    str2 += str;
                     $('#id_semester').html(str);
-                    $('#filter_semester').append(str);
+                    $('#filter_semester').html(str2);
                 },
                 error: function (err) {
                     toastr.error(err.statusText);
@@ -160,7 +175,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: 'http://nina-soft.com/api/v1/classes?id_semester=',
+                url: '{{ env('URL_API') }}' + 'classes?id_semester=',
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 },
@@ -192,8 +207,15 @@
             formData.append('id_subject', $("#id_subject").val());
             formData.append('id_semester', $("#id_semester").val());
 
+            let url = '{{ route('v1.classes.store') }}';
+            let noti = 'Thêm mới lớp học phần thành công!';
+            if ($('#id_class').val()){
+                url = '{{ env('URL_API') }}' + 'classes/update/' + $('#id_class').val();
+                noti = 'Cập nhật thông tin lớp học phần thành công!';
+            }
+
             $.ajax({
-                url: '{{ route('v1.classes.store') }}',
+                url: url,
                 processData: false,
                 contentType: false,
                 headers: {
@@ -204,7 +226,7 @@
                 data: formData,
                 success: function (data) {
                     if (data.response.code === 200) {
-                        toastr.success('Thêm mới lớp học phần thành công!', 'Success');
+                        toastr.success(noti, 'Success');
                         window.location = "{{ route('classes.list') }}";
                     }
                 },
@@ -229,7 +251,7 @@
         function deleteClass(id){
             if (confirm('Ban co muon xoa khong?') === true) {
                 $.ajax({
-                    url: `http://nina-soft.com/api/v1/classes/` + id,
+                    url: '{{ env('URL_API') }}' + `classes/` + id,
                     headers: {
                         'X-CSRF-TOKEN': '{{ @csrf_token() }}',
                         "Authorization": "Bearer " + localStorage.getItem("token"),

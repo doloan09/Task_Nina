@@ -28,9 +28,10 @@
                     <h3 class="modal-title" id="exampleModalLabel">Nội dung thông báo</h3>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('v1.notifications.store') }}" id="create-subject" enctype="multipart/form-data" style="margin: 0px 20px;">
+                    <form method="POST" action="" id="create-notification" enctype="multipart/form-data" style="margin: 0px 20px;">
                         @csrf
                         <div class="row">
+                            <input id="id_noti" name="id_noti" class="form-control" type="text" style="display: none;">
                             <div class="">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Tên môn học</label>
@@ -51,7 +52,8 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -63,6 +65,15 @@
 
 @push('scripts')
     <script>
+
+        function setValue(id, title, content){
+            $('#id_noti').val(id);
+            $('#content').val(content);
+            $('#title').val(title);
+            $("#create-btn").hide();
+            $("#update-btn").show();
+        };
+
         $(function() {
             $('#notifications-table').DataTable({
                 processing: true,
@@ -87,7 +98,7 @@
             });
         });
 
-        $("#create-subject").submit(function (e) {
+        $("#create-notification").submit(function (e) {
             e.preventDefault();
 
             var formData = new FormData();
@@ -95,8 +106,15 @@
             formData.append('title', $("#title").val());
             formData.append('content', $("#content").val());
 
+            let url = '{{ route('v1.notifications.store') }}';
+            let noti = 'Thêm mới thông báo thành công!';
+            if ($('#id_noti').val()){
+                url = '{{ env('URL_API') }}' + 'notifications/update/' + $('#id_noti').val();
+                noti = 'Cập nhật thông báo thành công!';
+            }
+
             $.ajax({
-                url: '{{ route('v1.notifications.store') }}',
+                url: url,
                 processData: false,
                 contentType: false,
                 headers: {
@@ -106,7 +124,7 @@
                 data: formData,
                 success: function (data) {
                     if (data.response.code === 200) {
-                        toastr.success('Thêm mới thông báo thành công!', 'Success');
+                        toastr.success(noti, 'Success');
                         window.location = "{{ route('notifications.list') }}";
                     }
                 },
@@ -131,7 +149,7 @@
         function deleteNoti(id){
             if (confirm('Ban co muon xoa khong?') === true) {
                 $.ajax({
-                    url: `http://nina-soft.com/api/v1/notifications/` + id,
+                    url: '{{ env('URL_API') }}' + `notifications/` + id,
                     headers: {
                         'X-CSRF-TOKEN': '{{ @csrf_token() }}',
                         "Authorization": "Bearer " + localStorage.getItem("token"),

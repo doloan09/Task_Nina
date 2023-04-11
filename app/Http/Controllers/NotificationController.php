@@ -33,7 +33,9 @@ class NotificationController extends Controller
                     return '<p style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; width: 500px;">' . $item->content . '</p>';
                 })
                 ->editColumn('action', function ($item) {
-                    return '<button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal" style="margin: 0px 10px;">Update</button><button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    $title = "'" . $item->title . "'";
+                    $content = "'" . $item->content . "'";
+                    return '<button onclick="setValue('. $item->id .', '. $title .', '. $content .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createNoti" style="margin: 0px 10px;">Update</button><button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
                 })
                 ->rawColumns(['content', 'action'])
                 ->make(true);

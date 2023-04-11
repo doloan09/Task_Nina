@@ -30,7 +30,9 @@ class SemesterController extends Controller
 
             return Datatables::of($list)
                 ->editColumn('action', function ($item) {
-                    return '<button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal" style="margin: 0px 10px;">Update</button><button onclick="deleteSemester('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    $name = "'" . $item->name_semester . "'";
+                    $year = "'" . $item->year_semester . "'";
+                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $year .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSemester" style="margin: 0px 10px;">Update</button><button onclick="deleteSemester('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

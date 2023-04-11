@@ -110,7 +110,7 @@
             if (file) formData.append('avatar', $("#avatar")[0].files[0] );
 
             $.ajax({
-                url: 'http://nina-soft.com/api/v1/users/update/' + '{{ $user->id }}',
+                url: '{{ env('URL_API') }}' + 'users/update/' + '{{ $user->id }}',
                 processData: false,
                 contentType: false,
                 headers: {

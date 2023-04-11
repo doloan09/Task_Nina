@@ -242,7 +242,7 @@
 
         function getClass(id){
             $.ajax({
-                url: 'http://nina-soft.com/api/v1/classes?id_subject=' + id,
+                url: '{{ env('URL_API') }}' + 'classes?id_subject=' + id,
                 processData: false,
                 contentType: false,
                 headers: {
@@ -268,7 +268,7 @@
 
         function getUser(code_user){
             $.ajax({
-                url: 'http://nina-soft.com/api/v1/users?code_user=' + code_user,
+                url: '{{ env('URL_API') }}' + 'users?code_user=' + code_user,
                 processData: false,
                 contentType: false,
                 headers: {
@@ -303,7 +303,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: 'http://nina-soft.com/api/v1/points',
+                    url: '{{ env('URL_API') }}' + 'points',
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
                     },
@@ -384,7 +384,7 @@
         function deleteClass(id){
             if (confirm('Ban co muon xoa khong?') === true) {
                 $.ajax({
-                    url: `http://nina-soft.com/api/v1/points/` + id,
+                    url: '{{ env('URL_API') }}' + `points/` + id,
                     headers: {
                         'X-CSRF-TOKEN': '{{ @csrf_token() }}',
                         "Authorization": "Bearer " + localStorage.getItem("token"),

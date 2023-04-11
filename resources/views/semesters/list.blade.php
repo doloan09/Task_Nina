@@ -28,9 +28,10 @@
                     <h3 class="modal-title" id="exampleModalLabel">Thông tin học kỳ</h3>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('v1.semesters.store') }}" id="create-semester" enctype="multipart/form-data" style="margin: 0px 20px;">
+                    <form method="POST" action="" id="create-semester" enctype="multipart/form-data" style="margin: 0px 20px;">
                         @csrf
                         <div class="row">
+                            <input id="id_semester" name="id_semester" class="form-control" type="text" style="display: none;">
                             <div class="">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Kỳ</label>
@@ -51,7 +52,8 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -63,6 +65,15 @@
 
 @push('scripts')
     <script>
+
+        function setValue(id, name, year){
+            $('#id_semester').val(id);
+            $('#name_semester').val(name);
+            $('#year_semester').val(year);
+            $("#create-btn").hide();
+            $("#update-btn").show();
+        };
+
         $(function() {
             $('#semesters-table').DataTable({
                 processing: true,
@@ -97,8 +108,16 @@
             formData.append('name_semester', $("#name_semester").val());
             formData.append('year_semester', $("#year_semester").val());
 
+            let url = '{{ route('v1.semesters.store') }}';
+            let noti = 'Thêm mới học kỳ thành công!';
+
+            if ($('#id_semester').val()){
+                url = '{{ env('URL_API') }}' + 'semesters/update/' + $('#id_semester').val();
+                noti = 'Cập nhât thông tin học kỳ thành công!';
+            }
+
             $.ajax({
-                url: '{{ route('v1.semesters.store') }}',
+                url: url,
                 processData: false,
                 contentType: false,
                 headers: {
@@ -109,7 +128,7 @@
                 data: formData,
                 success: function (data) {
                     if (data.response.code === 200) {
-                        toastr.success('Thêm mới học kỳ thành công!', 'Success');
+                        toastr.success(noti, 'Success');
                         window.location = "{{ route('semesters.list') }}";
                     }
                 },
@@ -134,7 +153,7 @@
         function deleteSemester(id){
             if (confirm('Ban co muon xoa khong?') === true) {
                 $.ajax({
-                    url: `http://nina-soft.com/api/v1/semesters/` + id,
+                    url: '{{ env('URL_API') }}' + `semesters/` + id,
                     headers: {
                         'X-CSRF-TOKEN': '{{ @csrf_token() }}',
                         "Authorization": "Bearer " + localStorage.getItem("token"),
