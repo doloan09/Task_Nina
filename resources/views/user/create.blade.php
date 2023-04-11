@@ -106,15 +106,14 @@
         $("#create-user").submit(function (e) {
             e.preventDefault();
 
-            console.log($('input[name="sex"]').val());
             var formData = new FormData();
 
-            formData.append('role', $('input[name="role"]').val());
+            formData.append('role', $('input[name="role"]:checked').val());
             formData.append('name', $("#name").val());
             formData.append('email', $("#email").val());
             formData.append('code_user', $("#code_user").val());
             formData.append('date_of_birth', $("#date_of_birth").val());
-            formData.append('sex', $('input[name="sex"]').val());
+            formData.append('sex', $('input[name="sex"]:checked').val());
             formData.append('address', $("#address").val());
             formData.append('phone', $("#phone").val());
             var file =   $("#avatar")[0].files[0];

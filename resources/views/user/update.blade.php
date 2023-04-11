@@ -104,7 +104,7 @@
 
             formData.append('name', $("#name").val());
             formData.append('date_of_birth', $("#date_of_birth").val());
-            formData.append('sex', $('input[name="sex"]').val());
+            formData.append('sex', $('input[name="sex"]:checked').val());
             formData.append('address', $("#address").val());
             formData.append('phone', $("#phone").val());
 
