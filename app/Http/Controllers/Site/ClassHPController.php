@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site;
 
-use App\Http\Requests\SemesterRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ClassRequest;
 use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
-use App\Repositories\Semester\SemesterRepositoryInterface;
+use App\Repositories\Class_HP\ClassRepositoryInterface;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class SemesterController extends Controller
+class ClassHPController extends Controller
 {
-    protected SemesterRepositoryInterface $semesterRepo;
+    protected ClassRepositoryInterface $classRepo;
 
-    public function __construct(SemesterRepositoryInterface $semesterRepo)
+    public function __construct(ClassRepositoryInterface $classRepo)
     {
-        $this->semesterRepo = $semesterRepo;
+        $this->classRepo = $classRepo;
     }
 
     /**
@@ -23,18 +24,22 @@ class SemesterController extends Controller
      *
      * @return FailedCollection|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $list = $this->semesterRepo->getAll();
+            $list = $this->classRepo->getAllClass($request);
 
             return Datatables::of($list)
-                ->editColumn('action', function ($item) {
-                    $name = "'" . $item->name_semester . "'";
-                    $year = "'" . $item->year_semester . "'";
-                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $year .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSemester" style="margin: 0px 10px;">Update</button><button onclick="deleteSemester('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                ->editColumn('name_semester', function ($item) {
+                    return $item->name_semester . '_' . $item->year_semester;
                 })
-                ->rawColumns(['action'])
+                ->editColumn('action', function ($item) {
+                    $name = "'" . $item->name_class . "'";
+                    $code = "'" . $item->code_class . "'";
+
+                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $code .', '. $item->id_subject .', '. $item->id_semester .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 10px;">Update</button><button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                })
+                ->rawColumns(['name_semester', 'action'])
                 ->make(true);
         }catch (\Exception $e){
             return new FailedCollection(collect([$e]));
@@ -48,7 +53,7 @@ class SemesterController extends Controller
      */
     public function create()
     {
-        return view('semesters.create');
+        //
     }
 
     /**
@@ -57,12 +62,12 @@ class SemesterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return FailedCollection|SuccessCollection|\Illuminate\Http\Response
      */
-    public function store(SemesterRequest $request)
+    public function store(ClassRequest $request)
     {
         try {
-            $data = request(['name_semester', 'year_semester']);
+            $data = request(['name_class', 'code_class', 'id_subject', 'id_semester']);
 
-            $item = $this->semesterRepo->create($data);
+            $item = $this->classRepo->create($data);
 
             return new SuccessCollection($item);
         }catch (\Exception $e){
@@ -104,8 +109,8 @@ class SemesterController extends Controller
         try {
             $data = $request->all();
 
-            $user = $this->semesterRepo->update($id, $data);
-            return new SuccessCollection($user);
+            $item = $this->classRepo->update($id, $data);
+            return new SuccessCollection($item);
         }catch (\Exception $e){
             return new FailedCollection(collect([$e]));
         }
@@ -120,8 +125,8 @@ class SemesterController extends Controller
     public function destroy($id)
     {
         try {
-            $item = $this->semesterRepo->find($id);
-            $this->semesterRepo->delete($id);
+            $item = $this->classRepo->find($id);
+            $this->classRepo->delete($id);
 
             return new SuccessCollection($item);
         }catch (\Exception $e){
@@ -129,13 +134,13 @@ class SemesterController extends Controller
         }
     }
 
-
     /**
      * Show the form for list a new resource.
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function list(){
-        return $this->semesterRepo->viewList('semesters.list');
+        return $this->classRepo->viewList('classes.list');
     }
+
 }

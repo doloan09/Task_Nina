@@ -3,11 +3,11 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\ClassHPController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\PointController;
-use App\Http\Controllers\SemesterController;
-use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\Site\ClassHPController;
+use App\Http\Controllers\Site\NotificationController;
+use App\Http\Controllers\Site\PointController;
+use App\Http\Controllers\Site\SemesterController;
+use App\Http\Controllers\Site\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

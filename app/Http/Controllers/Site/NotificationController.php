@@ -1,41 +1,45 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site;
 
-use App\Http\Requests\SubjectRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\NotificationRequest;
 use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
-use App\Repositories\Subject\SubjectRepositoryInterface;
+use App\Repositories\Notification\NotificationRepositoryInterface;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class SubjectController extends Controller
+class NotificationController extends Controller
 {
-    protected SubjectRepositoryInterface $subjectRepo;
+    protected NotificationRepositoryInterface $notiRepo;
 
-    public function __construct(SubjectRepositoryInterface $subjectRepo)
+    public function __construct(NotificationRepositoryInterface $notiRepo)
     {
-        $this->subjectRepo = $subjectRepo;
+        $this->notiRepo = $notiRepo;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return FailedCollection|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return FailedCollection|\Illuminate\Http\JsonResponse
      */
     public function index()
     {
         try {
-            $list = $this->subjectRepo->getAll();
+            $list = $this->notiRepo->getAll();
 
             return Datatables::of($list)
-                ->editColumn('action', function ($item) {
-                    $name = "'" . $item->name_subject . "'";
-                    $code = "'" . $item->code_subject . "'";
-
-                    return '<button onclick="setValue('. $item->id . ', '. $name .', '. $code .', '. $item->number_of_credits .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSubject" style="margin: 0px 10px;">Update</button><button onclick="deleteSub('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                ->editColumn('content', function ($item) {
+                    return '<p style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; width: 500px;">' . $item->content . '</p>';
                 })
-                ->rawColumns(['action'])
+                ->editColumn('action', function ($item) {
+
+                    return '<a href="'. route('notifications.show', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="padding: 2px 10px;">View</a>
+                            <a href="'. route('notifications.edit', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Update</a>
+                            <button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                })
+                ->rawColumns(['content', 'action'])
                 ->make(true);
         }catch (\Exception $e){
             return new FailedCollection(collect([$e]));
@@ -58,12 +62,12 @@ class SubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return FailedCollection|SuccessCollection|\Illuminate\Http\Response
      */
-    public function store(SubjectRequest $request)
+    public function store(NotificationRequest $request)
     {
         try {
-            $data = request(['name_subject', 'code_subject', 'number_of_credits']);
+            $data = request(['title', 'content']);
 
-            $item = $this->subjectRepo->create($data);
+            $item = $this->notiRepo->create($data);
 
             return new SuccessCollection($item);
         }catch (\Exception $e){
@@ -75,11 +79,13 @@ class SubjectController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $notification = $this->notiRepo->find($id);
+
+        return view('notifications.show', compact('notification'));
     }
 
     /**
@@ -90,7 +96,9 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $notification = $this->notiRepo->find($id);
+
+        return view('notifications.update', compact('notification'));
     }
 
     /**
@@ -105,8 +113,8 @@ class SubjectController extends Controller
         try {
             $data = $request->all();
 
-            $item = $this->subjectRepo->update($id, $data);
-            return new SuccessCollection($item);
+            $user = $this->notiRepo->update($id, $data);
+            return new SuccessCollection($user);
         }catch (\Exception $e){
             return new FailedCollection(collect([$e]));
         }
@@ -121,8 +129,8 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         try {
-            $item = $this->subjectRepo->find($id);
-            $this->subjectRepo->delete($id);
+            $item = $this->notiRepo->find($id);
+            $this->notiRepo->delete($id);
 
             return new SuccessCollection($item);
         }catch (\Exception $e){
@@ -136,6 +144,16 @@ class SubjectController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function list(){
-        return $this->subjectRepo->viewList('subjects.list');
+        return $this->notiRepo->viewList('notifications.list');
+    }
+
+    public function listNotificationNewest(){
+        try {
+            $list = $this->notiRepo->getNewest();
+
+            return new SuccessCollection($list);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 }
