@@ -161,7 +161,11 @@
                     },
                     method: "DELETE",
                     success: function (data) {
-                        window.location = "{{ route('subjects.list') }}";
+                        if (data.response.code === 500){
+                            toastr.error('Bạn không thể xóa môn học này!', 'Error');
+                        }else {
+                            window.location = "{{ route('subjects.list') }}";
+                        }
                     },
                     error: function (err) {
                         alert('error');

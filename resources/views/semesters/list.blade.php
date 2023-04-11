@@ -160,7 +160,11 @@
                     },
                     method: "DELETE",
                     success: function (data) {
-                        window.location = "{{ route('semesters.list') }}";
+                        if (data.response.code === 500){
+                            toastr.error('Bạn không thể xóa kỳ học này!', 'Error');
+                        }else {
+                            window.location = "{{ route('semesters.list') }}";
+                        }
                     },
                     error: function (err) {
                         alert('error');
