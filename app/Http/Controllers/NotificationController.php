@@ -33,9 +33,10 @@ class NotificationController extends Controller
                     return '<p style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; width: 500px;">' . $item->content . '</p>';
                 })
                 ->editColumn('action', function ($item) {
-                    $title = "'" . $item->title . "'";
-                    $content = "'" . $item->content . "'";
-                    return '<button onclick="setValue('. $item->id .', '. $title .', '. $content .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createNoti" style="margin: 0px 10px;">Update</button><button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+
+                    return '<a href="'. route('notifications.show', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="padding: 2px 10px;">View</a>
+                            <a href="'. route('notifications.edit', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Update</a>
+                            <button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
                 })
                 ->rawColumns(['content', 'action'])
                 ->make(true);
@@ -77,11 +78,13 @@ class NotificationController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $notification = $this->notiRepo->find($id);
+
+        return view('notifications.show', compact('notification'));
     }
 
     /**
@@ -92,7 +95,9 @@ class NotificationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $notification = $this->notiRepo->find($id);
+
+        return view('notifications.update', compact('notification'));
     }
 
     /**
@@ -139,5 +144,15 @@ class NotificationController extends Controller
      */
     public function list(){
         return $this->notiRepo->viewList('notifications.list');
+    }
+
+    public function listNotificationNewest(){
+        try {
+            $list = $this->notiRepo->getNewest();
+
+            return new SuccessCollection($list);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 }

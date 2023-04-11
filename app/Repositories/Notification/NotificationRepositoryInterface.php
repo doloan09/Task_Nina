@@ -6,5 +6,5 @@ use App\Repositories\RepositoryInterface;
 
 interface NotificationRepositoryInterface extends RepositoryInterface
 {
-
+    public function getNewest();
 }

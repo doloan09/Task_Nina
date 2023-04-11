@@ -72,6 +72,7 @@ Route::middleware(['auth:sanctum'])
             ->prefix('notifications')
             ->group(function (){
                 Route::get('/', [NotificationController::class, 'index'])->name('index');
+                Route::get('/newest', [NotificationController::class, 'listNotificationNewest'])->name('newest');
                 Route::get('/{id}', [NotificationController::class, 'show'])->name('show');
                 Route::post('/store', [NotificationController::class, 'store'])->name('store');
                 Route::post('/update/{id}', [NotificationController::class, 'update'])->name('update');
@@ -82,6 +83,7 @@ Route::middleware(['auth:sanctum'])
             ->prefix('classes')
             ->group(function (){
                 Route::get('/', [ClassHPController::class, 'index'])->name('index');
+                Route::get('/{id}', [ClassHPController::class, 'show'])->name('show');
                 Route::post('/store', [ClassHPController::class, 'store'])->name('store');
                 Route::post('/update/{id}', [ClassHPController::class, 'update'])->name('update');
                 Route::delete('/{id}', [ClassHPController::class, 'destroy'])->name('destroy');
@@ -91,6 +93,7 @@ Route::middleware(['auth:sanctum'])
             ->prefix('points')
             ->group(function (){
                 Route::get('/', [PointController::class, 'index'])->name('index');
+                Route::get('/{id}', [PointController::class, 'show'])->name('show');
                 Route::post('/store', [PointController::class, 'store'])->name('store');
                 Route::post('/update/{id}', [PointController::class, 'update'])->name('update');
                 Route::delete('/{id}', [PointController::class, 'destroy'])->name('destroy');

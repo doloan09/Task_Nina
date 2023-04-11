@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Quản lý thông báo')
+
 @section('content')
     <div>
         <h3>Quản lý thông báo</h3>
@@ -34,7 +36,7 @@
                             <input id="id_noti" name="id_noti" class="form-control" type="text" style="display: none;">
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Tên môn học</label>
+                                    <label for="example-text-input" class="form-control-label">Tiêu đề thông báo</label>
                                     <input id="title" name="title" class="form-control" type="text" placeholder="Nhập vào tiêu đề thông báo ..." required>
                                     <div style="margin-top: 5px; " id="div_err_title">
 
@@ -43,7 +45,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Mã môn học</label>
+                                    <label for="example-text-input" class="form-control-label">Nội dung thông báo</label>
                                     <textarea rows="25" id="content" name="content" class="form-control" type="text" placeholder="Nhập vào nội dung thông báo ... " required></textarea>
                                     <div style="margin-top: 5px; " id="div_err_content">
 
@@ -52,8 +54,7 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
                         </div>
                     </form>
                 </div>
@@ -65,14 +66,6 @@
 
 @push('scripts')
     <script>
-
-        function setValue(id, title, content){
-            $('#id_noti').val(id);
-            $('#content').val(content);
-            $('#title').val(title);
-            $("#create-btn").hide();
-            $("#update-btn").show();
-        };
 
         $(function() {
             $('#notifications-table').DataTable({
@@ -106,15 +99,8 @@
             formData.append('title', $("#title").val());
             formData.append('content', $("#content").val());
 
-            let url = '{{ route('v1.notifications.store') }}';
-            let noti = 'Thêm mới thông báo thành công!';
-            if ($('#id_noti').val()){
-                url = '{{ env('URL_API') }}' + 'notifications/update/' + $('#id_noti').val();
-                noti = 'Cập nhật thông báo thành công!';
-            }
-
             $.ajax({
-                url: url,
+                url: '{{ route('v1.notifications.store') }}',
                 processData: false,
                 contentType: false,
                 headers: {
@@ -124,7 +110,7 @@
                 data: formData,
                 success: function (data) {
                     if (data.response.code === 200) {
-                        toastr.success(noti, 'Success');
+                        toastr.success('Thêm mới thông báo thành công!', 'Success');
                         window.location = "{{ route('notifications.list') }}";
                     }
                 },

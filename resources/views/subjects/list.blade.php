@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Quản lý môn học')
+
 @section('content')
     <div>
         <h3>Quản lý môn học</h3>

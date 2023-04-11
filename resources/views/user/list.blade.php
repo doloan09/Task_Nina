@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Quản lý người dùng')
+
 @section('content')
     <div>
         <h3>Quản lý người dùng</h3>

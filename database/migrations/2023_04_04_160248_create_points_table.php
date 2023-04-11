@@ -16,9 +16,9 @@ return new class extends Migration
         // bảng điểm của sinh viên
         Schema::create('points', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('score_component'); // điểm thành phần
-            $table->integer('score_test'); // điểm thi
-            $table->integer('score_final'); // điểm tong ket
+            $table->float('score_component'); // điểm thành phần
+            $table->float('score_test'); // điểm thi
+            $table->float('score_final'); // điểm tong ket
             $table->unsignedBigInteger('id_user');  // id sinh vien
             $table->unsignedInteger('id_class'); // id lop hoc phan
             $table->foreign('id_user')->references('id')->on('users');

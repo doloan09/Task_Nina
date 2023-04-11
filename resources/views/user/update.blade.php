@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Quản lý người dùng')
+
 @section('content')
     <div class="container-fluid py-4">
         <div class="row">

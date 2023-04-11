@@ -43,6 +43,7 @@ Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotPass'
     Route::prefix('notifications')
         ->group(function (){
             Route::get('/', [NotificationController::class, 'list'])->name('notifications.list'); // view danh sach notifications
+            Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show'); // view danh sach notifications
             Route::get('/create', [NotificationController::class, 'create'])->name('notifications.create'); // view create notifications
             Route::get('/{id}/edit', [NotificationController::class, 'edit'])->name('notifications.edit'); // view edit notifications
 

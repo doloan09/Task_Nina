@@ -12,4 +12,11 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
         return \App\Models\Notification::class;
     }
 
+    public function getNewest()
+    {
+        $list = $this->model->orderBy('id', 'desc')->paginate(5);
+
+        return $list;
+    }
+
 }

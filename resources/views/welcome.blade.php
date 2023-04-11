@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Trang chủ')
+
 @section('content')
     <div style="display: flex; margin-top: 20px;">
         <div style="height: 200px; background-color: royalblue; border-radius: 10px; color: white; margin: 10px 0; width: 22%;">
@@ -21,7 +23,7 @@
     </div>
     <div style="margin: 20px 0;">
         <p style="font-size: 25px; ">Sinh viên</p>
-        <p style="margin-bottom: 30px;">Top 10 sinh viên có điểm tổng kết cao nhất</p>
+        <p style="margin-bottom: 30px;">>> Top 10 sinh viên có điểm tổng kết cao nhất</p>
         <table class="table table-bordered" id="users-top-table">
             <thead>
             <tr>
@@ -39,11 +41,63 @@
     </div>
     <div style="margin: 40px 0;">
         <p style="font-size: 25px; ">Thông báo</p>
+        <div>
+            <p>>> Thông báo mới</p>
+            <div style="margin-left: 40px;">
+                <ul id="list-noti">
+                    <li style="margin-bottom: 10px;">
+                        <a href="#">Tiêu đề thông báo 1</a>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="#">Tiêu đề thông báo 2</a>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="#">Tiêu đề thông báo 3</a>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="#">Tiêu đề thông báo 4</a>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="#">Tiêu đề thông báo 5</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 @endsection
 
 @push('scripts')
     <script>
+        showNoti();
+        function showNoti(){
+            $.ajax({
+                url: '{{ route('v1.notifications.newest') }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "GET",
+                success: function (data) {
+                    let list = data.data;
+                    let str = '';
+                    for (let item in list){
+                        let url = '{{ env('URL_API') }}' + 'notifications/' + list[item]['id'];
+
+                        str += `<li style="margin-bottom: 10px;">
+                                    <a href="`+ url + `">` + list[item]['title'] + `</a>
+                                </li>`;
+                    }
+
+                    $('#list-noti').html(str);
+                },
+                error: function (err) {
+                    toastr.error(err.statusText);
+                    console.log(err);
+                },
+            });
+        }
+
         $(function() {
             $('#users-top-table').DataTable({
                 processing: true,
