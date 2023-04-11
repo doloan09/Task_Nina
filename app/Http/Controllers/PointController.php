@@ -33,7 +33,9 @@ class PointController extends Controller
                     return $item->code_class;
                 })
                 ->editColumn('action', function ($item) {
-                    return '<button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal" style="margin: 0px 10px;">Update</button><button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+
+                    return '<button onclick="update('. $item->id .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="margin: 0px 10px;">Update</button>
+                            <button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
                 })
                 ->rawColumns(['code_class', 'action'])
                 ->make(true);
@@ -94,11 +96,17 @@ class PointController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return FailedCollection|SuccessCollection|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        try {
+            $item = $this->pointRepo->find($id);
+
+            return response()->json(['data' => $item, 'status' => 200]);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 
     /**
@@ -117,11 +125,18 @@ class PointController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return FailedCollection|SuccessCollection|\Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $data = $request->all();
+
+            $item = $this->pointRepo->update($id, $data);
+            return new SuccessCollection($item);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 
     /**

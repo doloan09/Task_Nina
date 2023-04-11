@@ -40,6 +40,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         if ($request['role'])       $list = $list->where('name_role', $request['role']);
         if ($request['code_user'])  $list = $list->where('code_user', $request['code_user']);
+        if ($request['id_user'])  $list = $list->where('users.id', $request['id_user']);
 
         return $list->get();
     }

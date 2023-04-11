@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Quản lý điểm sinh viên ')
 
 @section('content')
     <div>
@@ -9,15 +10,9 @@
             </button>
             <div style="float: right; display: flex">
                 <div style="margin-right: 10px; display: flex">
-                    <p style="margin-right: 10px;">Môn học:</p>
-                    <select id="filter_subject" style="width: 150px;">
-
-                    </select>
-                </div>
-                <div style="margin-right: 10px; display: flex">
-                    <p style="margin-right: 10px;">Lớp học phần:</p>
+                    <p style="margin-right: 10px;">Lớp học:</p>
                     <select id="filter_class" style="width: 150px;">
-                        <option value="">---</option>
+
                     </select>
                 </div>
             </div>
@@ -47,18 +42,11 @@
                     <h3 class="modal-title" id="exampleModalLabel">Thông tin điểm học phần</h3>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('v1.classes.store') }}" id="create-point" enctype="multipart/form-data" style="margin: 0px 20px;">
+                    <form method="POST" action="" id="create-point" enctype="multipart/form-data" style="margin: 0px 20px;">
                         @csrf
                         <div class="row">
-                            <div class="col-md-6" style="padding-left: 0;">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Môn học</label>
-                                    <select style="width: 100%; padding: 6px;" id="subject">
-                                        <option value="">---</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6" style="padding-right: 0;">
+                            <input id="id_point" name="id_point" class="form-control" type="text" style="display: none;">
+                            <div class="" style="padding-right: 0;">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label" style="width: 100%;">Lớp học phần</label>
                                     <select style="width: 100%; padding: 6px;" id="id_class">
@@ -81,7 +69,7 @@
                             <div class="">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Tên sinh viên</label>
-                                    <input id="name_user" name="name_user" class="form-control" type="text" value="Do Thi Loan" readonly>
+                                    <input id="name_user" name="name_user" class="form-control" type="text" value="" readonly>
                                     <input id="id_user" name="id_user" class="form-control" type="text" value="" style="display: none;">
                                     <div style="margin-top: 5px; " id="div_err_name_user">
 
@@ -132,7 +120,8 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -143,20 +132,10 @@
 
 @push('scripts')
     <script>
-        getSubject('');
+        getClass();
 
-        $('#btn').on('click', function (){
-            getSubject();
-        });
-
-        $('#subject').on('change', function() {
-            let id_subject = $('#subject').val();
-            getClass(id_subject);
-        });
-
-        $('#filter_subject').on('change', function() {
-            let id_subject = $('#filter_subject').val();
-            getClass(id_subject);
+        $(document).ready(function() {
+            $('#filter_class').select2();
         });
 
         $('#filter_class').on('change', function() {
@@ -165,8 +144,8 @@
         });
 
         $('#code_user').on('keyup', function() {
-            let id_subject = $('#code_user').val();
-            getUser(id_subject);
+            let code = $('#code_user').val();
+            getUser(code);
         });
 
         $('#score_component').on('keyup', function() {
@@ -214,33 +193,7 @@
             }
         }
 
-        function getSubject(){
-            $.ajax({
-                url: '{{ route('v1.subjects.index') }}',
-                processData: false,
-                contentType: false,
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token"),
-                },
-                method: "GET",
-                success: function (data) {
-                    let list = data.data;
-                    let str = '<option value="">---</option>';
-                    for (let item in list){
-                        str += '<option value="' + list[item]['id'] + '">' + list[item]['name_subject'] + '</option>'
-                    }
-
-                    $('#subject').html(str);
-                    $('#filter_subject').html(str);
-                },
-                error: function (err) {
-                    toastr.error(err.statusText);
-                    console.log(err);
-                },
-            });
-        }
-
-        function getClass(id){
+        function getClass(id = ''){
             $.ajax({
                 url: '{{ env('URL_API') }}' + 'classes?id_subject=' + id,
                 processData: false,
@@ -266,9 +219,9 @@
             });
         }
 
-        function getUser(code_user){
+        function getUser(code_user='', id_user=''){
             $.ajax({
-                url: '{{ env('URL_API') }}' + 'users?code_user=' + code_user,
+                url: '{{ env('URL_API') }}' + 'users?code_user=' + code_user + '&id_user=' + id_user,
                 processData: false,
                 contentType: false,
                 headers: {
@@ -277,11 +230,17 @@
                 method: "GET",
                 success: function (data) {
                     let list = data.data;
-                    for (let item in list){
-                        $('#name_user').val(list[item]['name']);
-                        $('#id_user').val(list[item]['id']);
+                    if (list.length > 0) {
+                        for (let item in list) {
+                            $('#name_user').val(list[item]['name']);
+                            $('#id_user').val(list[item]['id']);
+                            $('#code_user').val(list[item]['code_user']);
+                        }
+                    }else {
+                        $('#name_user').val('');
+                        $('#id_user').val('');
+                        $('#code_user').val('');
                     }
-
                 },
                 error: function (err) {
                     toastr.error(err.statusText);
@@ -321,23 +280,41 @@
                 ],
             });
 
-        // tablePoint.button().add( 0, {
-        //     action: function ( e, dt, button, config ) {
-        //         dt.ajax.reload();
-        //     },
-        //     text: 'Reload table'
-        // });
+        function setValue(id_point, score_component, score_test, score_final, id_user, id_class){
+            $('#id_point').val(id_point);
+            $('#score_component').val(score_component);
+            $('#score_test').val(score_test);
+            $('#score_final').val(score_final);
+            $('#id_user').val(id_user);
+            $('#id_class').val(id_class);
+            $("#create-btn").hide();
+            $("#update-btn").show();
+        };
+
+        function update(id){
+            $.ajax({
+                url: '{{ env('URL_API') }}' + 'points/' + id,
+                processData: false,
+                contentType: false,
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "GET",
+                success: function (data) {
+                    let item = data.data;
+                    setValue(item['id'], item['score_component'], item['score_test'], item['score_final'], item['id_user'], item['id_class']);
+                    getUser('', item['id_user']);
+                },
+                error: function (err) {
+                    toastr.error(err.statusText);
+                    console.log(err);
+                },
+            });
+        }
 
         $("#create-point").submit(function (e) {
             e.preventDefault();
 
-            let score_component = $("#score_component").val();
-            let score_test = $("#score_test").val();
-            let score_final = $("#score_final").val();
-
-            if (Number(score_component) < 0 || Number(score_component) > 10){
-                $("#div_err_score_component").html(`<p style="color: red; font-size: small;">* Điểm thành phần không hợp lệ!</p>`);
-            }
             var formData = new FormData();
 
             formData.append('score_component', $("#score_component").val());
@@ -346,8 +323,15 @@
             formData.append('id_user', $("#id_user").val());
             formData.append('id_class', $("#id_class").val());
 
+            let url = '{{ route('v1.points.store') }}';
+            let noti = 'Thêm mới thành công!';
+            if ($('#id_point').val()){
+                url = '{{ env('URL_API') }}' + 'points/update/' + $('#id_point').val();
+                noti = 'Cập nhật thành công!';
+            }
+
             $.ajax({
-                url: '{{ route('v1.points.store') }}',
+                url: url,
                 processData: false,
                 contentType: false,
                 headers: {
@@ -359,7 +343,7 @@
                 success: function (data) {
                     console.log(data);
                     if (data.response.code === 200) {
-                        toastr.success('Thêm mới thành công!', 'Success');
+                        toastr.success(noti, 'Success');
                         window.location = "{{ route('points.list') }}";
                     }
                 },
