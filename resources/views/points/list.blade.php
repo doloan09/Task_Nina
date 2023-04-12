@@ -8,6 +8,12 @@
             <button type="button" id="btn" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="padding: 5px">
                 Create
             </button>
+            <button type="button" id="btn-import" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#importPoint" style="padding: 5px">
+                Import
+            </button>
+            <button type="button" id="btn-export" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exportPoint" style="padding: 5px">
+                Export
+            </button>
             <div style="float: right; display: flex">
                 <div style="margin-right: 10px; display: flex">
                     <p style="margin-right: 10px;">Lớp học:</p>
@@ -45,6 +51,9 @@
                     <form method="POST" action="" id="create-point" enctype="multipart/form-data" style="margin: 0px 20px;">
                         @csrf
                         <div class="row">
+                            <div style="margin-top: 5px; " id="div_err_point_unique">
+
+                            </div>
                             <input id="id_point" name="id_point" class="form-control" type="text" style="display: none;">
                             <div class="" style="padding-right: 0;">
                                 <div class="form-group">
@@ -128,6 +137,106 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal import -->
+    <div class="modal fade" id="importPoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; justify-content: center">
+                    <h3 class="modal-title" id="exampleModalLabel">Import danh sách điểm học phần</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="" id="import-point" enctype="multipart/form-data" style="margin: 0px 20px;">
+                        @csrf
+                        <div class="row">
+                            <div class="" style="padding-right: 0;">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Chọn file</label>
+                                    <input type="file" name="file" id="input-import">
+                                    <div style="margin-top: 5px; " id="div_err_id_class">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="" style="padding-right: 0; margin-top: 30px;">
+                                <p for="example-text-input" class="form-control-label" style="width: 100%;" id="message-err"></p>
+                                <div style="margin-top: 5px; " id="div_err_err">
+
+                                </div>
+                                <div style="margin-top: 5px; " id="div_err_errData">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Import</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal export -->
+    <div class="modal fade" id="exportPoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; justify-content: center">
+                    <h3 class="modal-title" id="exampleModalLabel">Xuất bảng điểm</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="" style="padding-right: 0;">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label" style="width: 100%;">Xuất file theo: </label>
+                            <div style="display: flex;">
+                                <div style="margin-right: 20px;">
+                                    <input type="radio" name="choose" value="class" checked>
+                                    <label for="html">Lớp học phần</label><br>
+                                </div>
+                                <div>
+                                    <input type="radio" name="choose" value="user">
+                                    <label for="css">Một sinh viên</label><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="class_export">
+                            <label for="example-text-input" class="form-control-label" style="width: 100%;">Lớp học phần</label>
+                            <select style="width: 100%; padding: 6px;" id="id_class_export">
+                                <option value="">---</option>
+                            </select>
+                            <div style="margin-top: 5px; " id="div_err_id_class_export">
+
+                            </div>
+                        </div>
+                        <div class="form-group" id="user_export" style="display: none; ">
+                            <div class="">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Mã sinh viên</label>
+                                    <input id="code_user_export" name="code_user_export" class="form-control" type="text" placeholder="Nhập vào mã sinh viên ..." required>
+                                    <div style="margin-top: 5px; " id="div_err_code_user_export">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Tên sinh viên</label>
+                                    <input id="name_user_export" name="name_user_export" class="form-control" type="text" value="" readonly>
+                                    <input id="id_user_export" name="id_user_export" class="form-control" type="text" value="" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: right; margin-top: 40px; ">
+                            <button type="button" class="btn btn-xs btn-warning" style="padding: 5px" onclick="exportFile()">
+                                <a style="color: white;" href="#" id="export_point">Export</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @stop
 
 @push('scripts')
@@ -138,14 +247,54 @@
             $('#filter_class').select2();
         });
 
+        $('#btn').on('click', function() {
+            $('#id_point').val('');
+            $('#score_component').val('');
+            $('#score_test').val('');
+            $('#score_final').val('');
+            $('#id_user').val('');
+            $('#id_class').val('');
+            $('#code_user').val('');
+            $('#name_user').val('');
+            $('#code_user').attr('readonly', false);
+            $("#create-btn").show();
+            $("#update-btn").hide();
+        });
+
+        $('#btn-export').on('click', function() {
+            getClass();
+        });
+
+        $('input[name="choose"]').on('change', function() {
+            let choose = $('input[name="choose"]:checked').val();
+
+            if (choose === 'class'){
+                $('#class_export').css('display', 'block');
+                $('#user_export').css('display', 'none');
+            }if (choose === 'user') {
+                $('#class_export').css('display', 'none');
+                $('#user_export').css('display', 'block');
+            }
+        });
+
         $('#filter_class').on('change', function() {
             let id_class = $('#filter_class').val();
             getData(id_class);
         });
 
+        $('#id_class_export').on('change', function() {
+            $('#export_point').attr('href', '{{ env('URL_API') }}' + 'points/export?id_class=' + $('#id_class_export').val() + '&code_user=');
+        });
+
         $('#code_user').on('keyup', function() {
             let code = $('#code_user').val();
             getUser(code);
+        });
+
+        $('#code_user_export').on('keyup', function() {
+            let code = $('#code_user_export').val();
+            getUser(code, '', 'export');
+            $('#export_point').attr('href', '{{ env('URL_API') }}' + 'points/export?id_class=&code_user=' + $('#code_user_export').val());
         });
 
         $('#score_component').on('keyup', function() {
@@ -211,6 +360,7 @@
 
                     $('#id_class').html(str);
                     $('#filter_class').html(str);
+                    $('#id_class_export').html(str);
                 },
                 error: function (err) {
                     toastr.error(err.statusText);
@@ -219,7 +369,7 @@
             });
         }
 
-        function getUser(code_user='', id_user=''){
+        function getUser(code_user='', id_user='', exp=''){
             $.ajax({
                 url: '{{ env('URL_API') }}' + 'users?code_user=' + code_user + '&id_user=' + id_user,
                 processData: false,
@@ -231,15 +381,18 @@
                 success: function (data) {
                     let list = data.data;
                     if (list.length > 0) {
-                        for (let item in list) {
-                            $('#name_user').val(list[item]['name']);
-                            $('#id_user').val(list[item]['id']);
-                            $('#code_user').val(list[item]['code_user']);
+                        if (exp === 'export'){
+                            for (let item in list) {
+                                $('#name_user_export').val(list[item]['name']);
+                                $('#id_class_export').val(list[item]['id']);
+                            }
+                        }else {
+                            for (let item in list) {
+                                $('#name_user').val(list[item]['name']);
+                                $('#id_user').val(list[item]['id']);
+                                $('#code_user').val(list[item]['code_user']);
+                            }
                         }
-                    }else {
-                        $('#name_user').val('');
-                        $('#id_user').val('');
-                        $('#code_user').val('');
                     }
                 },
                 error: function (err) {
@@ -287,6 +440,7 @@
             $('#score_final').val(score_final);
             $('#id_user').val(id_user);
             $('#id_class').val(id_class);
+            $('#code_user').attr('readonly', true);
             $("#create-btn").hide();
             $("#update-btn").show();
         };
@@ -341,21 +495,18 @@
                 method: "POST",
                 data: formData,
                 success: function (data) {
-                    console.log(data);
                     if (data.response.code === 200) {
                         toastr.success(noti, 'Success');
                         window.location = "{{ route('points.list') }}";
                     }
+                    if (data.response.code === 500){
+                        let errList = data.error;
+                        $("#div_err_point_unique").html(`<p style="color: red; font-size: small;">* ` + errList[0]['point_unique'] + `</p>`);
+                    }
                 },
                 error: function (err) {
-                    if (err.status === 422) {
-                        let errList = err.responseJSON.Err_Message;
-
-                        for (let key in errList) {
-                            $("#div_err_" + key).html(`<p style="color: red; font-size: small;">* ` + errList[key] + `</p>`);
-                        }
-
-                        console.log(err);
+                    if (err.status === 404) {
+                        toastr.error('Vui lòng chonh file trước khi nhaanss import!', 'Error');
                     }else if (err.status === 500){
                         toastr.error(err.statusText);
                         console.log(err);
@@ -364,6 +515,80 @@
             });
             return true;
         });
+
+        $("#import-point").submit(function (e) {
+            e.preventDefault();
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: '{{ route('v1.points.import') }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    if (data.status === 200) {
+                        toastr.success('Import thành công!', 'Success');
+                        window.location = "{{ route('points.list') }}";
+                    }
+                    else if (data.status === 404){
+                        toastr.error('Vui lòng chọn file trước khi import!');
+                    }
+                    else if (data.status === 500){
+                        toastr.error(data.Err_Message, 'Error');
+                        let err = data.err;
+                        let errData = data.errData;
+
+                        if (err.length || errData.length){
+                            $('#message-err').html('>> Có lỗi khi import:');
+                        }
+                        if (err.length){
+                            let str_err = '';
+                            for (let key in err) {
+                                str_err += `<p style="color: red; font-size: small;">* Hàng ` + err[key]['row'] + ` - ` + err[key]['err'] + `</p>`;
+                            }
+                            $("#div_err_err").html(str_err);
+                        }
+
+                        if (errData.length){
+                            let str_err = '';
+                            for (let key in errData) {
+                                str_err += `<p style="color: red; font-size: small;">* Hàng ` + errData[key]['row'] + ` - ` + errData[key]['err'] + `</p>`;
+                            }
+                            $("#div_err_errData").html(str_err);
+                        }
+                    }
+                },
+                error: function (err) {
+                    if (err.status === 500){
+                        toastr.error(err.statusText);
+                        console.log(err);
+                    }
+                },
+            });
+            return true;
+        });
+
+        function exportFile(){
+            let id_class = $('#id_class_export').val();
+            let code_user = $('#code_user_export').val();
+            let choose = $('input[name="choose"]:checked').val();
+
+            if (!id_class && choose === 'class'){
+                toastr.error('Vui lòng chọn lớp học phần trước khi xuất file!');
+            }
+            else if (!code_user && choose === 'user'){
+                toastr.error('Vui lòng nhập mã sinh viên trước khi xuất file!');
+            }else {
+                let url = '{{ env('URL_API') }}' + 'points/export?id_class=' + $('#id_class_export') + '&code_user=' + $('#code_user_export');
+
+            }
+        }
 
         function deleteClass(id){
             if (confirm('Ban co muon xoa khong?') === true) {

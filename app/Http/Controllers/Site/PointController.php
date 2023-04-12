@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Exports\PointExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PointRequest;
 use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
+use App\Imports\PointImport;
+use App\Models\Class_HP;
+use App\Models\Point;
+use App\Models\User;
 use App\Repositories\Point\PointRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class PointController extends Controller
@@ -77,6 +83,11 @@ class PointController extends Controller
             }
             if ($score_final > 10 || $score_final < 0){
                 $error['score_component'] = 'Điểm tổng kết không hợp lệ!';
+            }
+
+            $item = Point::query()->where('id_user', $request->get('id_user'))->where('id_class', $request->get('id_class'))->first();
+            if ($item){
+                $error['point_unique'] = 'Đã tồn tại điểm của sinh viên với môn học';
             }
 
             if (count($error)){
@@ -165,5 +176,48 @@ class PointController extends Controller
      */
     public function list(){
         return $this->pointRepo->viewList('points.list');
+    }
+
+    public function import(Request $request){
+        $validator = Validator::make($request->all(), [
+            'file' => 'required',
+        ]);
+        if ($validator->fails()) {
+            // Bad Request
+            return response()->json(['err' => $validator->getMessageBag(), 'status' => 404]);
+        }
+        $import = new PointImport();
+        $import->import($request->file);
+        if (!$import->failures()->isNotEmpty() && count($import->Err) == 0) {
+            return response()->json(['status' => 200]);
+        } else {
+            $errors = [];
+            $errorsData = [];
+            foreach ($import->failures() as $value) { // loi khi validate
+                $errors[] = ['row' => $value->row(), 'err' => $value->errors()];
+            }
+            foreach ($import->Err as $value) {
+                $errorsData[] = ['row' => $value['row'], 'err' => $value['err']];
+            }
+            return response()->json(['status' => 500, 'Err_Message' => 'Dữ liệu đầu vào có lỗi!', 'err' => $errors, 'errData' => $errorsData]);
+        }
+    }
+
+    public function export(Request $request)
+    {
+        $name = 'bang_diem.xlsx';
+
+        if ($request->query('id_class')){
+            $class = Class_HP::query()->select('name_class', 'code_class')->where('id', $request->query('id_class'))->first();
+            $name = 'bang_diem_' . $class['name_class'] . '_' . $class['code_class'];
+        }
+        else if ($request->query('code_user')){
+            $user = User::query()->select('name', 'code_user')->where('code_user', $request->query('code_user'))->first();
+            $name = 'bang_diem_' . $user['name'] . '_' . $request->query('code_user');
+        }
+
+        $name .= '.xlsx';
+
+        return (new PointExport($request))->download($name);
     }
 }
