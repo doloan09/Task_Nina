@@ -16,12 +16,20 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Chức vụ người dùng</label>
                                     <br>
-                                    <input type="radio" id="admin" name="role" value="admin" checked>
-                                    <label for="html">Admin</label><br>
-                                    <input type="radio" id="teacher" name="role" value="teacher">
-                                    <label for="css">Giáo viên</label><br>
-                                    <input type="radio" id="student" name="role" value="student">
-                                    <label for="css">Sinh viên</label><br>
+                                    <div style="display: flex; margin-top: 5px;">
+                                        <div>
+                                            <input type="radio" id="admin" name="role" value="admin" checked>
+                                            <label for="html">Admin</label><br>
+                                        </div>
+                                        <div style="margin: 0 20px;">
+                                            <input type="radio" id="teacher" name="role" value="teacher">
+                                            <label for="css">Giáo viên</label><br>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="student" name="role" value="student">
+                                            <label for="css">Sinh viên</label><br>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="">
@@ -73,10 +81,16 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Giới tính</label>
                                     <br>
-                                    <input type="radio" id="nam" name="sex" value="nam" checked>
-                                    <label for="html">Nam</label><br>
-                                    <input type="radio" id="nu" name="sex" value="nữ">
-                                    <label for="css">Nữ</label><br>
+                                    <div style="display: flex; margin-top: 5px;">
+                                        <div style="margin-right: 20px;">
+                                            <input type="radio" id="nam" name="sex" value="nam" checked>
+                                            <label for="html">Nam</label><br>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="nu" name="sex" value="nữ">
+                                            <label for="css">Nữ</label><br>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="">
