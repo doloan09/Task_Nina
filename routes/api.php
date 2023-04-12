@@ -93,8 +93,10 @@ Route::middleware(['auth:sanctum'])
             ->prefix('points')
             ->group(function (){
                 Route::get('/', [PointController::class, 'index'])->name('index');
+                Route::get('/export', [PointController::class, 'export'])->name('export');
                 Route::get('/{id}', [PointController::class, 'show'])->name('show');
                 Route::post('/store', [PointController::class, 'store'])->name('store');
+                Route::post('/import', [PointController::class, 'import'])->name('import');
                 Route::post('/update/{id}', [PointController::class, 'update'])->name('update');
                 Route::delete('/{id}', [PointController::class, 'destroy'])->name('destroy');
             });
