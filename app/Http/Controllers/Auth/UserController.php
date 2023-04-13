@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
+use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -149,9 +150,16 @@ class UserController extends Controller
     {
         try {
             $user = $this->userRepo->find($id);
-            $this->userRepo->deleteAvatar($id);
-            $this->userRepo->delete($id);
+            $class_user = User::query()->join('class_users', 'class_users.id_user', '=', 'users.id')->where('users.id', $id)->get();
+            $notification_users = User::query()->join('notification_users', 'notification_users.id_user', '=', 'users.id')->where('users.id', $id)->get();
+            $points = User::query()->join('points', 'points.id_user', '=', 'users.id')->where('users.id', $id)->get();
 
+            if (count($class_user) || count($notification_users) || count($points)){
+                return new FailedCollection(collect(['error']));
+            }else {
+                $this->userRepo->deleteAvatar($id);
+                $this->userRepo->delete($id);
+            }
             return new SuccessCollection($user);
         }catch (\Exception $e){
             return new FailedCollection($e);

@@ -114,10 +114,16 @@
                     },
                     method: "DELETE",
                     success: function (data) {
-                        window.location = "{{ route('users.list') }}";
+                        // console.log(data);
+                        if (data.response.code === 500){
+                            toastr.error('Bạn không thể xóa người dùng này! Có nhiều dữ liệu ràng buộc!', 'Error');
+                        }else {
+                            toastr.success('Xóa người dùng thành công!', 'Success');
+                            window.location = "{{ route('users.list') }}";
+                        }
                     },
                     error: function (err) {
-                        alert('error');
+                        toastr('Có lỗi khi xóa thông tin người dùng!', 'Error');
                         console.log(err);
                     }
                 });
