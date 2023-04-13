@@ -3,7 +3,7 @@
 
 @section('content')
     <div>
-        <h3>Quản lý học kỳ</h3>
+        <p style="color: #707070; font-size: 25px;">Quản lý học kỳ</p>
         <div style="margin-top: 20px; margin-bottom: 20px;">
             <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSemester" style="padding: 5px">
                 Create

@@ -4,14 +4,14 @@
 
 @section('content')
     <div>
-        <h3>Quản lý người dùng</h3>
+        <p style="color: #707070; font-size: 25px;">Quản lý người dùng</p>
         <div style="margin-top: 20px; margin-bottom: 40px;">
             <button class="btn btn-xs btn-warning" style="padding: 5px">
                 <a href="{{ route('users.create') }}" style="color: white;">Create</a>
             </button>
             <div style="float: right; display: flex">
                 <p style="margin-right: 10px;">Vai trò:</p>
-                <select id="filter_role">
+                <select id="filter_role" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; ">
                     <option value="">- Tất cả -</option>
                     <option value="admin">admin</option>
                     <option value="teacher">teacher</option>

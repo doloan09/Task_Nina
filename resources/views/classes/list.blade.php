@@ -3,14 +3,14 @@
 
 @section('content')
     <div>
-        <h3>Quản lý lớp học phần</h3>
+        <p style="color: #707070; font-size: 25px;">Quản lý lớp học phần</p>
         <div style="margin-top: 20px; margin-bottom: 40px;">
             <button type="button" id="btn" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="padding: 5px">
                 Create
             </button>
             <div style="float: right; display: flex">
                 <p style="margin-right: 10px;">Kỳ học:</p>
-                <select id="filter_semester">
+                <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; ">
 
                 </select>
             </div>

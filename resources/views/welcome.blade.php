@@ -6,23 +6,23 @@
     <div style="display: flex; margin-top: 20px;">
         <div style="height: 200px; background-color: royalblue; border-radius: 10px; color: white; margin: 10px 0; width: 22%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Người dùng</p>
-            <p class="text-center" style="font-size: 35px; padding-top: 30px;">141509</p>
+            <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\User::query()->select('id')->get()) }}</p>
         </div>
         <div style="height: 200px; background-color: #eea236; border-radius: 10px; color: white; margin: 10px 20px; width: 22%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Lớp học phần</p>
-            <p class="text-center" style="font-size: 35px; padding-top: 30px;">140998</p>
+            <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\Class_HP::query()->select('id')->get()) }}</p>
         </div>
         <div style="height: 200px; background-color: #b44593; border-radius: 10px; color: white; margin:10px 20px 10px 0; width: 22%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Môn học</p>
-            <p class="text-center" style="font-size: 35px; padding-top: 30px;">150901</p>
+            <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\Subject::query()->select('id')->get()) }}</p>
         </div>
         <div style="height: 200px; background-color: forestgreen; border-radius: 10px; color: white; margin: 10px 0; width: 22%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Thông báo</p>
-            <p class="text-center" style="font-size: 35px; padding-top: 30px;">2198</p>
+            <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\Notification::query()->select('id')->get()) }}</p>
         </div>
     </div>
     <div style="margin: 20px 0;">
-        <p style="font-size: 25px; ">Sinh viên</p>
+        <p style="font-size: 25px; color: #707070;">Sinh viên</p>
         <p style="margin-bottom: 30px;">>> Top 10 sinh viên có điểm tổng kết cao nhất</p>
         <table class="table table-bordered" id="users-top-table">
             <thead>
@@ -40,7 +40,7 @@
         </table>
     </div>
     <div style="margin: 40px 0;">
-        <p style="font-size: 25px; ">Thông báo</p>
+        <p style="font-size: 25px; color: #707070; ">Thông báo</p>
         <div>
             <p>>> Thông báo mới</p>
             <div style="margin-left: 40px;">

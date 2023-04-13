@@ -4,7 +4,7 @@
 
 @section('content')
     <div>
-        <h3>Quản lý thông báo</h3>
+        <p style="color: #707070; font-size: 25px;">Quản lý thông báo</p>
         <div style="margin-top: 20px; margin-bottom: 20px;">
             <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createNoti" style="padding: 5px">
                 Create

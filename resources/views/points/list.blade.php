@@ -3,12 +3,12 @@
 
 @section('content')
     <div>
-        <h3>Quản lý điểm </h3>
+        <p style="color: #707070; font-size: 25px;">Quản lý điểm</p>
         <div style="margin-top: 20px; margin-bottom: 40px;">
             <button type="button" id="btn" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="padding: 5px">
                 Create
             </button>
-            <button type="button" id="btn-import" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#importPoint" style="padding: 5px">
+            <button type="button" id="btn-import" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#importPoint" style="padding: 5px; margin: 0 5px; ">
                 Import
             </button>
             <button type="button" id="btn-export" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exportPoint" style="padding: 5px">
@@ -17,7 +17,7 @@
             <div style="float: right; display: flex">
                 <div style="margin-right: 10px; display: flex">
                     <p style="margin-right: 10px;">Lớp học:</p>
-                    <select id="filter_class" style="width: 150px;">
+                    <select id="filter_class" class="focus-visible: none" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; width: 150px;">
 
                     </select>
                 </div>
