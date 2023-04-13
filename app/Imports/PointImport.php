@@ -33,37 +33,39 @@ class PointImport implements ToModel, WithHeadingRow, WithChunkReading, SkipsEmp
         if (!$user) {
             $error       = [
                 'err' => ["Mã sinh viên: " . $row['ma_sinh_vien'] . " không tồn tại!"],
-                "row" => $row['ma_sinh_vien']
+                "row" => $row['stt']
             ];
             $this->Err[] = $error;
         }
         if (!$class) {
             $error       = [
                 'err' => ["Lớp học phần " . $row['ma_lop_hoc_phan'] . " không tồn tại!"],
-                "row" => $row['lop_hoc_phan']
-            ];
-            $this->Err[] = $error;
-        }
-
-        $point = Point::query()->where('id_user', $user['id'])->where('id_class', $class['id'])->first();
-        if ($point) {
-            $error       = [
-                'err' => ["Đã tồn tại điểm của sinh viên cho lớp học phần này: " . $row['ma_sinh_vien'] . " - " . $row['ma_lop_hoc_phan']],
                 "row" => $row['stt']
             ];
             $this->Err[] = $error;
         }
 
-        if (Point::query()->where('id_user', $user['id'])->where('id_class', $class['id'])->doesntExist()
-            && User::query()->where('code_user', $row['ma_sinh_vien'])->exists()
-            && Class_HP::query()->where('code_class', $row['ma_lop_hoc_phan'])->exists()) {
-            return new Point([
-                'score_component' => $row['diem_thanh_phan'],
-                'score_test'      => $row['diem_thi'],
-                'score_final'     => $row['diem_tong_ket'],
-                'id_user'         => $user['id'],
-                'id_class'        => $class['id'],
-            ]);
+        if ($user && $class) {
+            $point = Point::query()->where('id_user', $user['id'])->where('id_class', $class['id'])->first();
+            if ($point) {
+                $error       = [
+                    'err' => ["Đã tồn tại điểm của sinh viên cho lớp học phần này: " . $row['ma_sinh_vien'] . " - " . $row['ma_lop_hoc_phan']],
+                    "row" => $row['stt']
+                ];
+                $this->Err[] = $error;
+            }
+
+            if (Point::query()->where('id_user', $user['id'])->where('id_class', $class['id'])->doesntExist()
+                && User::query()->where('code_user', $row['ma_sinh_vien'])->exists()
+                && Class_HP::query()->where('code_class', $row['ma_lop_hoc_phan'])->exists()) {
+                return new Point([
+                    'score_component' => $row['diem_thanh_phan'],
+                    'score_test'      => $row['diem_thi'],
+                    'score_final'     => $row['diem_tong_ket'],
+                    'id_user'         => $user['id'],
+                    'id_class'        => $class['id'],
+                ]);
+            }
         }
     }
 
