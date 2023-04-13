@@ -5,10 +5,13 @@
 @section('content')
     <div>
         <p style="color: #707070; font-size: 25px;">Quản lý thông báo</p>
-        <div style="margin-top: 20px; margin-bottom: 20px;">
-            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createNoti" style="padding: 5px">
-                Create
-            </button>
+        <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
+            <div class="dropdown">
+                <button class="dropbtn">Thao tác</button>
+                <div class="dropdown-content">
+                    <p data-toggle="modal" data-target="#createNoti">Create</p>
+                </div>
+            </div>
         </div>
         <table class="table table-bordered" id="notifications-table">
             <thead>
@@ -71,6 +74,13 @@
             $('#notifications-table').DataTable({
                 processing: true,
                 serverSide: true,
+                "bInfo" : false,
+                language: {
+                    paginate: {
+                        next: '>',
+                        previous: '<'
+                    }
+                },
                 ajax: {
                     url: '{!! route('v1.notifications.index') !!}',
                     headers: {

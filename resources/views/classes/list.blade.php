@@ -4,25 +4,39 @@
 @section('content')
     <div>
         <p style="color: #707070; font-size: 25px;">Quản lý lớp học phần</p>
-        <div style="margin-top: 20px; margin-bottom: 40px;">
-            <button type="button" id="btn" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="padding: 5px">
-                Create
-            </button>
-            <div style="float: right; display: flex">
-                <p style="margin-right: 10px;">Kỳ học:</p>
-                <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; ">
+        <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
+            <div class="dropdown" style="margin-right: 10px;">
+                <button class="dropbtn">Bộ lọc</button>
+                <div class="dropdown-content" style="padding: 30px 20px; margin-left: -50px;">
+                    <div>
+                        <div style="margin-right: 10px;">Kỳ học:</div>
+                        <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
 
-                </select>
+                        </select>
+                    </div>
+                    <div>
+                        <div style="margin-right: 10px; margin-top: 20px;">Môn học:</div>
+                        <select id="filter_subject" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Thao tác</button>
+                <div class="dropdown-content">
+                    <p data-toggle="modal" data-target="#createClass">Create</p>
+                </div>
             </div>
         </div>
         <table class="table table-bordered" id="users-table">
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Môn học</th>
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
-                <th>Mã môn học</th>
-                <th>Mã kỳ học</th>
+                <th>Kỳ học</th>
                 <th style="width: 15%;">Action</th>
             </tr>
             </thead>
@@ -109,6 +123,11 @@
             getData(semester);
         });
 
+        $('#filter_subject').on('change', function() {
+            let subject = document.getElementById('filter_subject').value;
+            getDataBySubject(subject);
+        });
+
         function setValue(id, name, code, id_subject, id_semester){
             $('#id_class').val(id);
             $('#name_class').val(name);
@@ -131,11 +150,14 @@
                 success: function (data) {
                     let list = data.data;
                     let str = '';
+                    let str2 = '<option value="">--Tất cả--</option>';
                     for (let item in list){
                         str += '<option value="' + list[item]['id'] + '">' + list[item]['name_subject'] + '</option>'
                     }
 
+                    str2 += str;
                     $('#id_subject').html(str);
+                    $('#filter_subject').html(str2);
                 },
                 error: function (err) {
                     toastr.error(err.statusText);
@@ -175,6 +197,13 @@
         var tableClass = $('#users-table').DataTable({
             processing: true,
             serverSide: true,
+            "bInfo" : false,
+            language: {
+                paginate: {
+                    next: '>',
+                    previous: '<'
+                }
+            },
             ajax: {
                 url: '{{ env('URL_API') }}' + 'classes?id_semester=',
                 headers: {
@@ -183,9 +212,9 @@
             },
             columns: [
                 {data: 'id', name: 'id'},
+                {data: 'name_subject', name: 'id_subject'},
                 {data: 'name_class', name: 'name_class'},
                 {data: 'code_class', name: 'code_class'},
-                {data: 'name_subject', name: 'name_subject'},
                 {data: 'name_semester', name: 'id_semester'},
                 {data: 'action', name: '', orderable: false, searchable: false},
             ]
@@ -195,6 +224,13 @@
             tableClass
                 .columns([4])
                 .search(semester)
+                .draw();
+        }
+
+        function getDataBySubject(subject = '') {
+            tableClass
+                .columns([1])
+                .search(subject)
                 .draw();
         }
 

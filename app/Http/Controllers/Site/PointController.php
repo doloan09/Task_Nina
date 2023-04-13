@@ -205,19 +205,24 @@ class PointController extends Controller
 
     public function export(Request $request)
     {
-        $name = 'bang_diem.xlsx';
+        try {
+            $name = 'bang_diem.xlsx';
 
-        if ($request->query('id_class')){
-            $class = Class_HP::query()->select('name_class', 'code_class')->where('id', $request->query('id_class'))->first();
-            $name = 'bang_diem_' . $class['name_class'] . '_' . $class['code_class'];
+            if ($request->query('id_class')){
+                $class = Class_HP::query()->select('name_class', 'code_class')->where('id', $request->query('id_class'))->first();
+                $name = 'bang_diem_' . $class['name_class'] . '_' . $class['code_class'];
+            }
+            else if ($request->query('code_user')){
+                $user = User::query()->select('name', 'code_user')->where('code_user', $request->query('code_user'))->first();
+                $name = 'bang_diem_' . $user['name'] . '_' . $request->query('code_user');
+            }
+
+            $name .= '.xlsx';
+
+            return (new PointExport($request))->download($name);
+        }catch (\Exception $exception){
+            $message = 'Error';
+            return view('points.list', compact('message'));
         }
-        else if ($request->query('code_user')){
-            $user = User::query()->select('name', 'code_user')->where('code_user', $request->query('code_user'))->first();
-            $name = 'bang_diem_' . $user['name'] . '_' . $request->query('code_user');
-        }
-
-        $name .= '.xlsx';
-
-        return (new PointExport($request))->download($name);
     }
 }

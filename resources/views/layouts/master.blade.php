@@ -42,6 +42,48 @@
     </style>
     <link href="//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <style>
+        .dropbtn {
+            background-color: #eea236;
+            border-radius: 5px;
+            color: white;
+            padding: 6px 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            padding-top: 10px;
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content p {
+            color: black;
+            padding: 5px 12px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+
+        .dropdown-content p:hover {background-color: #f1f1f1}
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+
 </head>
 <body style="padding-top: 0px;">
 <div class="" style="margin: 0 30px 0 10px;">

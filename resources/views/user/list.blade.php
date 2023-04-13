@@ -5,20 +5,29 @@
 @section('content')
     <div>
         <p style="color: #707070; font-size: 25px;">Quản lý người dùng</p>
-        <div style="margin-top: 20px; margin-bottom: 40px;">
-            <button class="btn btn-xs btn-warning" style="padding: 5px">
-                <a href="{{ route('users.create') }}" style="color: white;">Create</a>
-            </button>
-            <div style="float: right; display: flex">
-                <p style="margin-right: 10px;">Vai trò:</p>
-                <select id="filter_role" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; ">
-                    <option value="">- Tất cả -</option>
-                    <option value="admin">admin</option>
-                    <option value="teacher">teacher</option>
-                    <option value="student">student</option>
-                </select>
+        <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
+            <div class="dropdown" style="margin-right: 10px;">
+                <button class="dropbtn">Bộ lọc</button>
+                <div class="dropdown-content" style="padding: 30px 20px;">
+                    <span style="margin-right: 10px;">Vai trò:</span>
+                    <select id="filter_role" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
+                        <option value="">- Tất cả -</option>
+                        <option value="admin">admin</option>
+                        <option value="teacher">teacher</option>
+                        <option value="student">student</option>
+                    </select>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Thao tác</button>
+                <div class="dropdown-content">
+                    <div style="padding: 10px 12px;">
+                        <a href="{{ route('users.create') }}" style="color: black; ">Create</a>
+                    </div>
+                </div>
             </div>
         </div>
+
         <table class="table table-bordered" id="users-table">
             <thead>
             <tr>
@@ -50,6 +59,13 @@
         var tableUser = $('#users-table').DataTable({
             processing: true,
             serverSide: true,
+            "bInfo" : false,
+            language: {
+                paginate: {
+                    next: '>',
+                    previous: '<'
+                }
+            },
             ajax: {
                 url: '{{ env('URL_API') }}' + 'users?role=',
                 headers: {

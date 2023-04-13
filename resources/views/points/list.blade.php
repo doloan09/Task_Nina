@@ -4,22 +4,25 @@
 @section('content')
     <div>
         <p style="color: #707070; font-size: 25px;">Quản lý điểm</p>
-        <div style="margin-top: 20px; margin-bottom: 40px;">
-            <button type="button" id="btn" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="padding: 5px">
-                Create
-            </button>
-            <button type="button" id="btn-import" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#importPoint" style="padding: 5px; margin: 0 5px; ">
-                Import
-            </button>
-            <button type="button" id="btn-export" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exportPoint" style="padding: 5px">
-                Export
-            </button>
-            <div style="float: right; display: flex">
-                <div style="margin-right: 10px; display: flex">
-                    <p style="margin-right: 10px;">Lớp học:</p>
-                    <select id="filter_class" class="focus-visible: none" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; width: 150px;">
+        @isset($message)
+            <script> alert('Không thể xuất file! Không tồn tại sinh viên này!'); window.location = "/points";</script>
+        @endisset
+        <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
+            <div class="dropdown" style="margin-right: 10px;">
+                <button class="dropbtn">Bộ lọc</button>
+                <div class="dropdown-content" style="padding: 30px 20px;">
+                    <span style="margin-right: 10px;">Lớp học:</span>
+                    <select id="filter_class" class="focus-visible: none" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; width: 150px; margin-top: 10px; padding: 5px;">
 
                     </select>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Thao tác</button>
+                <div class="dropdown-content">
+                    <p data-toggle="modal" data-target="#createPoint">Create</p>
+                    <p data-toggle="modal" data-target="#importPoint">Import</p>
+                    <p data-toggle="modal" data-target="#exportPoint">Export</p>
                 </div>
             </div>
         </div>
@@ -294,7 +297,9 @@
         $('#code_user_export').on('keyup', function() {
             let code = $('#code_user_export').val();
             getUser(code, '', 'export');
-            $('#export_point').attr('href', '{{ env('URL_API') }}' + 'points/export?id_class=&code_user=' + $('#code_user_export').val());
+            if ($('#name_user_export').val() !== '') {
+                $('#export_point').attr('href', ($('#code_user_export').val() !== '') ? ('{{ env('URL_API') }}' + 'points/export?id_class=&code_user=' + $('#code_user_export').val()) : '#');
+            }
         });
 
         $('#score_component').on('keyup', function() {
@@ -414,6 +419,13 @@
         var tablePoint = $('#points-table').DataTable({
                 processing: true,
                 serverSide: true,
+                "bInfo" : false,
+                language: {
+                    paginate: {
+                        next: '>',
+                        previous: '<'
+                    }
+                },
                 ajax: {
                     url: '{{ env('URL_API') }}' + 'points',
                     headers: {
@@ -584,9 +596,9 @@
             }
             else if (!code_user && choose === 'user'){
                 toastr.error('Vui lòng nhập mã sinh viên trước khi xuất file!');
-            }else {
+            }else if (choose === 'user' && $('#name_user_export').val() === '') {
                 let url = '{{ env('URL_API') }}' + 'points/export?id_class=' + $('#id_class_export') + '&code_user=' + $('#code_user_export');
-
+                toastr.error('Vui lòng nhập mã sinh viên trước khi xuất file!');
             }
         }
 

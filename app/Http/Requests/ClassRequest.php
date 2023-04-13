@@ -13,7 +13,7 @@ class ClassRequest extends BaseRequest
     {
         return [
             'name_class'  => ['required', 'unique:classes'],
-            'code_class'  => ['required'],
+            'code_class'  => ['required', 'unique:classes'],
             'id_subject'  => ['required'],
             'id_semester' => ['required'],
         ];
@@ -28,6 +28,7 @@ class ClassRequest extends BaseRequest
             'name_class.required'   => 'Tên lớp học phần không được bỏ trống!',
             'name_class.unique'   => 'Tên lớp học phần phải là duy nhất!',
             'code_class.required' => 'Mã lớp học phần không được bỏ trống!',
+            'code_class.unique'   => 'Mã lớp học phần phải là duy nhất!',
             'id_subject.required' => 'Mã môn học không được bỏ trống!',
             'id_semester.required' => 'Mã kỳ học không được bỏ trống!',
         ];
