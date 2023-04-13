@@ -17,7 +17,10 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::user()->hasRole('admin')){
+        if (!Auth::user()){
+            return redirect()->route('login.request');
+        }
+        else if (!Auth::user()->hasRole('admin') && !Auth::user()->hasRole('teacher')){
             return abort(403);
         }
 

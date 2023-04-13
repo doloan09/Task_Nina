@@ -132,54 +132,75 @@
         </div>
         <div class="sidebar-content">
             <div class="lists" style="border-right: 1px solid #eea236; padding-right: 5px;">
-                <div class="list">
-                    <a href="{{ route('home') }}" class="nav-link" id="page_home">
-                        <i class="bx bx-home-alt icon" id="icon_home"></i>
-                        <span class="link" id="link_home">Trang chủ</span>
-                    </a>
-                </div>
-                <div class="list">
-                    <a href="{{ route('users.list') }}" class="nav-link" id="page_users">
-                        <i class="bx bx-bar-chart-alt-2 icon" id="icon_users"></i>
-                        <span class="link" id="link_users">Người dùng</span>
-                    </a>
-                </div>
-                <div class="list">
-                    <a href="{{ route('subjects.list') }}" class="nav-link" id="page_subjects">
-                        <i class="bx bx-folder-open icon" id="icon_subjects"></i>
-                        <span class="link" id="link_subjects">Môn học</span>
-                    </a>
-                </div>
-                <div class="list">
-                    <a href="{{ route('semesters.list') }}" class="nav-link" id="page_semesters">
-                        <i class="bx bx-message-rounded icon" id="icon_semesters"></i>
-                        <span class="link" id="link_semesters">Kỳ học</span>
-                    </a>
-                </div>
-                <div class="list">
-                    <a href="{{ route('classes.list') }}" class="nav-link" id="page_classes">
-                        <i class="bx bx-pie-chart-alt-2 icon" id="icon_classes"></i>
-                        <span class="link" id="link_classes">Lớp học phần</span>
-                    </a>
-                </div>
-                <div class="list">
-                    <a href="{{ route('points.list') }}" class="nav-link" id="page_points">
-                        <i class="bx bx-heart icon" id="icon_points"></i>
-                        <span class="link" id="link_points">Điểm sinh viên</span>
-                    </a>
-                </div>
-                <div class="list">
-                    <a href="{{ route('notifications.list') }}" class="nav-link" id="page_notifications">
-                        <i class="bx bx-bell icon" id="icon_notifications"></i>
-                        <span class="link" id="link_notifications">Thông báo</span>
-                    </a>
-                </div>
-                <div class="list">
-                    <a href="#" class="nav-link">
-                        <i class="bx bx-cog icon"></i>
-                        <span class="link">Settings</span>
-                    </a>
-                </div>
+                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                    <div class="list">
+                        <a href="{{ route('home') }}" class="nav-link" id="page_home">
+                            <i class="bx bx-home-alt icon" id="icon_home"></i>
+                            <span class="link" id="link_home">Trang chủ</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('users.list') }}" class="nav-link" id="page_users">
+                            <i class="bx bx-bar-chart-alt-2 icon" id="icon_users"></i>
+                            <span class="link" id="link_users">Người dùng</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('subjects.list') }}" class="nav-link" id="page_subjects">
+                            <i class="bx bx-folder-open icon" id="icon_subjects"></i>
+                            <span class="link" id="link_subjects">Môn học</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('semesters.list') }}" class="nav-link" id="page_semesters">
+                            <i class="bx bx-message-rounded icon" id="icon_semesters"></i>
+                            <span class="link" id="link_semesters">Kỳ học</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('classes.list') }}" class="nav-link" id="page_classes">
+                            <i class="bx bx-pie-chart-alt-2 icon" id="icon_classes"></i>
+                            <span class="link" id="link_classes">Lớp học phần</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('points.list') }}" class="nav-link" id="page_points">
+                            <i class="bx bx-heart icon" id="icon_points"></i>
+                            <span class="link" id="link_points">Điểm sinh viên</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('notifications.list') }}" class="nav-link" id="page_notifications">
+                            <i class="bx bx-bell icon" id="icon_notifications"></i>
+                            <span class="link" id="link_notifications">Thông báo</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="#" class="nav-link">
+                            <i class="bx bx-cog icon"></i>
+                            <span class="link">Settings</span>
+                        </a>
+                    </div>
+                @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('teacher'))
+                    <div class="list">
+                        <a href="{{ route('subjects.list') }}" class="nav-link" id="page_subjects">
+                            <i class="bx bx-folder-open icon" id="icon_subjects"></i>
+                            <span class="link" id="link_subjects">Môn học</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('classes.list') }}" class="nav-link" id="page_classes">
+                            <i class="bx bx-pie-chart-alt-2 icon" id="icon_classes"></i>
+                            <span class="link" id="link_classes">Lớp học phần</span>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a href="{{ route('points.list') }}" class="nav-link" id="page_points">
+                            <i class="bx bx-heart icon" id="icon_points"></i>
+                            <span class="link" id="link_points">Điểm sinh viên</span>
+                        </a>
+                    </div>
+                @endif
                 <div class="list">
                     <a href="#" class="nav-link" onclick="logout()">
                         <i class="bx bx-log-out icon"></i>

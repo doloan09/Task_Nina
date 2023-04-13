@@ -21,17 +21,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login.request');
 Route::get('/register', [AuthController::class, 'viewRegister'])->name('register.request');
 
 /// forgot password
 Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotPass'])->middleware('guest')->name('password.request'); // view forgot pass
 
-//Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('admin')->group(function (){
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('home');
+
     Route::prefix('users')
         ->group(function (){
             Route::get('/', [UserController::class, 'list'])->name('users.list'); // view danh sach user
@@ -81,4 +81,4 @@ Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotPass'
 
         });
 
-//});
+});

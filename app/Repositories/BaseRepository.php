@@ -73,7 +73,7 @@ abstract class BaseRepository implements RepositoryInterface
         if (!Auth::user()){
             return redirect()->route('login.request');
         }
-        else if (!Auth::user()->hasRole('admin')){
+        else if (!Auth::user()->hasRole('admin') && !Auth::user()->hasRole('teacher')){
             return abort(403);
         }
 
