@@ -8,17 +8,29 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function home(){
+        if (Auth::user()->hasRole('teacher')){
+            return redirect()->route('subjects.list');
+        }else{
+            return view('welcome');
+        }
+    }
+
+    /**
      * @return Application|Factory|View
      */
     public function viewLogin(){
         if (Auth::user()){
-            return redirect()->route('users.list');
+            return redirect()->route('home');
         }
         return view('auth.login');
     }

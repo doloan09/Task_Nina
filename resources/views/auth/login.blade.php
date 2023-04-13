@@ -168,7 +168,7 @@
                     localStorage.setItem("token", data.access_token);
                     localStorage.setItem("token_type", data.token_type);
 
-                    window.location = "/users";
+                    window.location = "/";
                 } else {
                     console.log(data);
                     $("#HelpText").html('Tài khoản hoặc mật khẩu không đúng');

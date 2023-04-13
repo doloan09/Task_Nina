@@ -28,9 +28,7 @@ Route::get('/register', [AuthController::class, 'viewRegister'])->name('register
 Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotPass'])->middleware('guest')->name('password.request'); // view forgot pass
 
 Route::middleware('admin')->group(function (){
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('home');
+    Route::get('/', [AuthController::class, 'home'])->name('home');
 
     Route::prefix('users')
         ->group(function (){
