@@ -150,11 +150,11 @@ class UserController extends Controller
     {
         try {
             $user = $this->userRepo->find($id);
-            $class_user = User::query()->join('class_users', 'class_users.id_user', '=', 'users.id')->where('users.id', $id)->get();
-            $notification_users = User::query()->join('notification_users', 'notification_users.id_user', '=', 'users.id')->where('users.id', $id)->get();
-            $points = User::query()->join('points', 'points.id_user', '=', 'users.id')->where('users.id', $id)->get();
+            $class_user = User::query()->join('class_users', 'class_users.id_user', '=', 'users.id')->where('users.id', $id)->select('users.id')->first();
+            $notification_users = User::query()->join('notification_users', 'notification_users.id_user', '=', 'users.id')->where('users.id', $id)->select('users.id')->first();
+            $points = User::query()->join('points', 'points.id_user', '=', 'users.id')->where('users.id', $id)->select('users.id')->first();
 
-            if (count($class_user) || count($notification_users) || count($points)){
+            if ($class_user || $notification_users || $points){
                 return new FailedCollection(collect(['error']));
             }else {
                 $this->userRepo->deleteAvatar($id);
