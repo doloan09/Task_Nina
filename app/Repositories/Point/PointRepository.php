@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Point;
 
+use App\Models\ClassUser;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 
 class PointRepository extends BaseRepository implements PointRepositoryInterface
 {
@@ -20,6 +22,15 @@ class PointRepository extends BaseRepository implements PointRepositoryInterface
 
         if ($request['id_user']) $list = $list->where('id_user', $request['id_user']);
         if ($request['id_class']) $list = $list->where('id_class', $request['id_class']);
+        if (Auth::user()->hasRole('teacher')){
+            $classes = ClassUser::query()->where('id_user', Auth::id())->select('id_class')->get();
+            $list_class = [];
+            foreach ($classes as $item){
+                $list_class[] = $item->id_class;
+            }
+
+            $list = $list->whereIn('points.id_class', $list_class);
+        }
 
         return $list->get();
     }

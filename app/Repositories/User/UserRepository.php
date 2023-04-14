@@ -38,7 +38,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->select('users.*', 'roles.name as name_role');
 
-        if ($request['role'])       $list = $list->where('name_role', $request['role']);
+        if ($request['role'])       $list = $list->where('roles.name', $request['role']);
         if ($request['code_user'])  $list = $list->where('code_user', $request['code_user']);
         if ($request['id_user'])  $list = $list->where('users.id', $request['id_user']);
 

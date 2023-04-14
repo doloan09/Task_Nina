@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function home(){
         if (Auth::user()->hasRole('teacher')){
-            return redirect()->route('subjects.list');
+            return redirect()->route('class-user.list');
         }else{
             return view('welcome');
         }
