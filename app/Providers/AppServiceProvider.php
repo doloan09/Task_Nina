@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Class_HP\ClassRepository;
 use App\Repositories\Class_HP\ClassRepositoryInterface;
+use App\Repositories\Class_User\ClassUserRepository;
+use App\Repositories\Class_User\ClassUserRepositoryInterface;
 use App\Repositories\Notification\NotificationRepository;
 use App\Repositories\Notification\NotificationRepositoryInterface;
 use App\Repositories\Point\PointRepository;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         PointRepositoryInterface::class        => PointRepository::class,
         SemesterRepositoryInterface::class     => SemesterRepository::class,
         SubjectRepositoryInterface::class      => SubjectRepository::class,
+        ClassUserRepositoryInterface::class    => ClassUserRepository::class,
     ];
 
     /**

@@ -9,17 +9,13 @@
         font-family: "Poppins", sans-serif;
     }
 
-    body {
-        min-height: 100%;
-        /*background: #e3f2fd;*/
-    }
-
     nav {
         /*position: fixed;*/
         top: 0;
         left: 0;
-        height: 70px;
+        height: 1000px;
         width: 100%;
+        border-right: 1px #eea236 solid;
         display: flex;
         align-items: center;
         background: #fff;
@@ -48,8 +44,8 @@
     nav .sidebar {
         /*position: fixed;*/
         top: 0;
-        left: -100%;
-        height: 100%;
+        /*left: -100%;*/
+        /*height: 100%;*/
         width: 260px;
         padding: 20px 0;
         background-color: #fff;
@@ -126,12 +122,12 @@
 
 <nav>
     <div class="sidebar" style="padding-top: 0px;">
-        <div class="logo" style="padding: 20px 0px; border-right: 1px solid #eea236;">
+        <div class="logo" style="padding: 20px 0px;">
             <i class="bx bx-menu menu-icon"></i>
             <span class="logo-name">CodingLab</span>
         </div>
         <div class="sidebar-content">
-            <div class="lists" style="border-right: 1px solid #eea236; padding-right: 5px;">
+            <div class="lists" style="padding-right: 5px;">
                 @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
                     <div class="list">
                         <a href="{{ route('home') }}" class="nav-link" id="page_home">
@@ -164,6 +160,12 @@
                         </a>
                     </div>
                     <div class="list">
+                        <a href="{{ route('class-user.list') }}" class="nav-link" id="page_class-user">
+                            <i class="bx bx-folder-open icon" id="icon_class-user"></i>
+                            <span class="link" id="link_class-user">Phân giảng</span>
+                        </a>
+                    </div>
+                    <div class="list">
                         <a href="{{ route('points.list') }}" class="nav-link" id="page_points">
                             <i class="bx bx-heart icon" id="icon_points"></i>
                             <span class="link" id="link_points">Điểm sinh viên</span>
@@ -183,15 +185,9 @@
                     </div>
                 @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('teacher'))
                     <div class="list">
-                        <a href="{{ route('subjects.list') }}" class="nav-link" id="page_subjects">
-                            <i class="bx bx-folder-open icon" id="icon_subjects"></i>
-                            <span class="link" id="link_subjects">Môn học</span>
-                        </a>
-                    </div>
-                    <div class="list">
-                        <a href="{{ route('classes.list') }}" class="nav-link" id="page_classes">
-                            <i class="bx bx-pie-chart-alt-2 icon" id="icon_classes"></i>
-                            <span class="link" id="link_classes">Lớp học phần</span>
+                        <a href="{{ route('class-user.list') }}" class="nav-link" id="page_class-user">
+                            <i class="bx bx-folder-open icon" id="icon_class-user"></i>
+                            <span class="link" id="link_class-user">Phân giảng</span>
                         </a>
                     </div>
                     <div class="list">
@@ -224,6 +220,7 @@
             else if (path.includes('semesters')) path = 'semesters';
             else if (path.includes('notifications')) path = 'notifications';
             else if (path.includes('points')) path = 'points';
+            else if (path.includes('class-user')) path = 'class-user';
             else path = 'home';
 
             $("#page_" + path).css("background-color", "#eea236");
