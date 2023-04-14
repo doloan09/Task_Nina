@@ -33,7 +33,7 @@ class SemesterController extends Controller
                 ->editColumn('action', function ($item) {
                     $name = "'" . $item->name_semester . "'";
                     $year = "'" . $item->year_semester . "'";
-                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $year .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSemester" style="margin: 0px 10px;">Update</button><button onclick="deleteSemester('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $year .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSemester" style="margin: 0px 20px;">Sửa</button><button onclick="deleteSemester('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

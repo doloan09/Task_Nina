@@ -20,7 +20,7 @@
             <div class="dropdown">
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content">
-                    <p data-toggle="modal" data-target="#createPoint">Create</p>
+                    <p data-toggle="modal" data-target="#createPoint">Thêm mới</p>
                     <p data-toggle="modal" data-target="#importPoint">Import</p>
                     <p data-toggle="modal" data-target="#exportPoint">Export</p>
                 </div>
@@ -37,7 +37,7 @@
                 <th>Điểm thành phần</th>
                 <th>Điểm thi</th>
                 <th>Điểm tổng kết</th>
-                <th style="width: 15%;">Action</th>
+                <th style="width: 10%;">Action</th>
             </tr>
             </thead>
         </table>

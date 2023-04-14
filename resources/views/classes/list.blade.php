@@ -24,20 +24,20 @@
             </div>
             <div class="dropdown">
                 <button class="dropbtn">Thao tác</button>
-                <div class="dropdown-content">
-                    <p data-toggle="modal" data-target="#createClass">Create</p>
+                <div class="dropdown-content" style="min-width: 120px;">
+                    <p data-toggle="modal" data-target="#createClass">Thêm mới</p>
                 </div>
             </div>
         </div>
         <table class="table table-bordered" id="users-table">
             <thead>
             <tr>
-                <th>Id</th>
+                <th style="width: 20px;">Id</th>
                 <th>Môn học</th>
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
                 <th>Kỳ học</th>
-                <th style="width: 15%;">Action</th>
+                <th style="width: 10%;">Action</th>
             </tr>
             </thead>
         </table>

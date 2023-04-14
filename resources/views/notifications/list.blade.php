@@ -9,7 +9,7 @@
             <div class="dropdown">
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content">
-                    <p data-toggle="modal" data-target="#createNoti">Create</p>
+                    <p data-toggle="modal" data-target="#createNoti">Thêm mới</p>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
-                <th style="width: 15%;">Action</th>
+                <th style="width: 12%;">Action</th>
             </tr>
             </thead>
         </table>

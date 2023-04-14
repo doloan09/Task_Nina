@@ -35,7 +35,7 @@ class UserController extends Controller
                     return '<img src="'. $user->url_avatar .'" alt="" class="img-avatar-list" style="width: 50px; height: 50px;" alt="avatar">';
                 })
                 ->editColumn('action', function ($user) {
-                    return '<a href="' . route('users.edit', ['id' => $user->id]) . '" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Update</a><button onclick="deleteUser('. $user->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    return '<a href="' . route('users.edit', ['id' => $user->id]) . '" class="btn btn-xs btn-warning" style="margin: 0 20px;">Sửa</a><button onclick="deleteUser('. $user->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                 })
                 ->rawColumns(['avatar', 'action'])
                 ->make(true);

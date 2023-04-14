@@ -35,9 +35,9 @@ class NotificationController extends Controller
                 })
                 ->editColumn('action', function ($item) {
 
-                    return '<a href="'. route('notifications.show', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="padding: 2px 10px;">View</a>
-                            <a href="'. route('notifications.edit', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Update</a>
-                            <button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    return '<a href="'. route('notifications.show', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="">Xem</a>
+                            <a href="'. route('notifications.edit', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Sửa</a>
+                            <button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                 })
                 ->rawColumns(['content', 'action'])
                 ->make(true);

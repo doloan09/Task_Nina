@@ -41,8 +41,8 @@ class PointController extends Controller
                 })
                 ->editColumn('action', function ($item) {
 
-                    return '<button onclick="update('. $item->id .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="margin: 0px 10px;">Update</button>
-                            <button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    return '<button onclick="update('. $item->id .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="margin: 0px 20px;">Sửa</button>
+                            <button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                 })
                 ->rawColumns(['code_class', 'action'])
                 ->make(true);

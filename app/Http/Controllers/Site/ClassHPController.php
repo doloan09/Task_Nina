@@ -37,7 +37,7 @@ class ClassHPController extends Controller
                     $name = "'" . $item->name_class . "'";
                     $code = "'" . $item->code_class . "'";
 
-                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $code .', '. $item->id_subject .', '. $item->id_semester .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 10px;">Update</button><button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $code .', '. $item->id_subject .', '. $item->id_semester .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 20px;">Sửa</button><button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                 })
                 ->rawColumns(['name_semester', 'action'])
                 ->make(true);

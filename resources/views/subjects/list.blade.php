@@ -9,18 +9,18 @@
             <div class="dropdown">
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content">
-                    <p data-toggle="modal" data-target="#createSubject">Create</p>
+                    <p data-toggle="modal" data-target="#createSubject">Thêm mới</p>
                 </div>
             </div>
         </div>
         <table class="table table-bordered" id="users-table">
             <thead>
             <tr>
-                <th>Id</th>
+                <th  style="width: 20px;">Id</th>
                 <th>Tên môn học</th>
                 <th>Mã môn học</th>
                 <th>Số tín chỉ</th>
-                <th style="width: 15%;">Action</th>
+                <th style="width: 10%;">Action</th>
             </tr>
             </thead>
         </table>

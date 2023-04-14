@@ -22,7 +22,7 @@
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content">
                     <div style="padding: 10px 12px;">
-                        <a href="{{ route('users.create') }}" style="color: black; ">Create</a>
+                        <a href="{{ route('users.create') }}" style="color: black; ">Thêm mới</a>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <th>Địa chỉ</th>
                 <th>Giới tính</th>
                 <th>Chức vụ</th>
-                <th style="width: 15%;">Action</th>
+                <th style="width: 10%;">Action</th>
             </tr>
             </thead>
         </table>

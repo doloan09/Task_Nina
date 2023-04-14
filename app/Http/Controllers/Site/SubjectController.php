@@ -34,7 +34,7 @@ class SubjectController extends Controller
                     $name = "'" . $item->name_subject . "'";
                     $code = "'" . $item->code_subject . "'";
 
-                    return '<button onclick="setValue('. $item->id . ', '. $name .', '. $code .', '. $item->number_of_credits .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSubject" style="margin: 0px 10px;">Update</button><button onclick="deleteSub('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Delete</button>';
+                    return '<button onclick="setValue('. $item->id . ', '. $name .', '. $code .', '. $item->number_of_credits .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createSubject" style="margin: 0px 20px;">Sửa</button><button onclick="deleteSub('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
