@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Site\ClassHPController;
+use App\Http\Controllers\Site\ClassUserController;
 use App\Http\Controllers\Site\NotificationController;
 use App\Http\Controllers\Site\PointController;
 use App\Http\Controllers\Site\SemesterController;
@@ -87,6 +88,15 @@ Route::middleware(['auth:sanctum'])
                 Route::post('/store', [ClassHPController::class, 'store'])->name('store');
                 Route::post('/update/{id}', [ClassHPController::class, 'update'])->name('update');
                 Route::delete('/{id}', [ClassHPController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::name('class-user.')
+            ->prefix('class-user')
+            ->group(function (){
+                Route::get('/', [ClassUserController::class, 'index'])->name('index');
+                Route::post('/store', [ClassUserController::class, 'store'])->name('store');
+                Route::post('/update/{id}', [ClassUserController::class, 'update'])->name('update');
+                Route::delete('/{id}', [ClassUserController::class, 'destroy'])->name('destroy');
             });
 
         Route::name('points.')

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Site\ClassHPController;
+use App\Http\Controllers\Site\ClassUserController;
 use App\Http\Controllers\Site\NotificationController;
 use App\Http\Controllers\Site\PointController;
 use App\Http\Controllers\Site\SemesterController;
@@ -71,6 +72,11 @@ Route::middleware('admin')->group(function (){
 
         });
 
+    Route::prefix('class-user')
+        ->group(function (){
+            Route::get('/', [ClassUserController::class, 'list'])->name('class-user.list'); // view danh sach user
+
+        });
     Route::prefix('points')
         ->group(function (){
             Route::get('/', [PointController::class, 'list'])->name('points.list'); // view danh sach user
