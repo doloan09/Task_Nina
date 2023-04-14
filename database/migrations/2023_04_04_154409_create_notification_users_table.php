@@ -15,6 +15,7 @@ return new class extends Migration
     {
         // bảng trung gian giũa thông báo - user (sinh viên - giảng viên)
         Schema::create('notification_users', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('id_notification');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');

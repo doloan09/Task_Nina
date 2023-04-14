@@ -15,6 +15,7 @@ return new class extends Migration
     {
         // bảng trung gian giữa lớp học phần và sinh viên
         Schema::create('class_users', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedBigInteger('id_user');
             $table->unsignedInteger('id_class');
             $table->foreign('id_user')->references('id')->on('users');
