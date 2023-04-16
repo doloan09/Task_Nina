@@ -61,10 +61,16 @@
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Giới tính</label>
                                         <br>
-                                        <input type="radio" id="nam" name="sex" value="nam">
-                                        <label for="html">Nam</label><br>
-                                        <input type="radio" id="nu" name="sex" value="nữ">
-                                        <label for="css">Nữ</label><br>
+                                        <div style="display: flex; margin-top: 5px;">
+                                            <div style="margin-right: 20px;">
+                                                <input type="radio" id="nam" name="sex" value="nam">
+                                                <label for="html">Nam</label><br>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="nu" name="sex" value="nữ">
+                                                <label for="css">Nữ</label><br>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="">

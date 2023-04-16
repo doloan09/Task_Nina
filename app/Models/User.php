@@ -61,6 +61,6 @@ class User extends Authenticatable
 
     public function getUrlAvatarAttribute()
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : 'https://res.cloudinary.com/dsh5japr1/image/upload/v1672136942/cld-sample-4.jpg';
+        return $this->avatar ? asset('storage/' . $this->avatar) : 'https://res.cloudinary.com/dsh5japr1/image/upload/v1681369552/Web/FB_IMG_1606633099895_nmbqlo.jpg';
     }
 }

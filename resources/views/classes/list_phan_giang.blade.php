@@ -185,7 +185,12 @@
                 noti = 'Cập nhật thông tin lớp học phần thành công!';
             }
 
-            console.log(url);
+            if ($('#id_class_pg').val()){
+                $("#div_err_id_class").html(`<p></p>`);
+            }
+            if ($('#id_user_gv').val()){
+                $("#div_err_id_user").html(`<p></p>`);
+            }
 
             $.ajax({
                 url: url,

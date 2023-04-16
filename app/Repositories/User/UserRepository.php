@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
@@ -48,8 +49,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function topStudent($request)
     {
         $list = $this->model->join('points', 'points.id_user', '=', 'users.id')
-            ->select('users.*', 'points.score_final');
+            ->select('users.id', 'name','avatar', 'code_user', 'email', 'date_of_birth', 'sex', DB::raw('round(AVG(score_final), 1) as diemTB'))
+            ->groupBy('users.id')
+            ->orderBy('diemTB', 'desc')
+            ->take(5)
+            ->get();
 
-        return $list->get();
+        return $list;
     }
 }

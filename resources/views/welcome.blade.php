@@ -23,7 +23,7 @@
     </div>
     <div style="margin: 20px 0;">
         <p style="font-size: 25px; color: #707070;">Sinh viên</p>
-        <p style="margin-bottom: 30px;">>> Top 10 sinh viên có điểm tổng kết cao nhất</p>
+        <p style="margin-bottom: 30px;">>> Top 5 sinh viên có điểm tổng kết trung bình cao nhất</p>
         <table class="table table-bordered" id="users-top-table">
             <thead>
             <tr>
@@ -34,7 +34,7 @@
                 <th>Email</th>
                 <th>Ngày sinh</th>
                 <th>Giới tính</th>
-{{--                <th>Điểm tổng kết</th>--}}
+                <th>Điểm trung bình</th>
             </tr>
             </thead>
         </table>
@@ -122,7 +122,7 @@
                         }
                     },
                     {data: 'sex', name: 'sex'},
-                    // {data: '', name: ''},
+                    {data: 'diemTB', name: 'diemTB'},
                 ],
                 "searching": false,
                 "paging": false,
