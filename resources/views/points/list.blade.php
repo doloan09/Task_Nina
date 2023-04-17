@@ -1,6 +1,34 @@
 @extends('layouts.master')
 @section('title', 'Quản lý điểm sinh viên ')
 
+<style>
+    #points-table_filter input{
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+
+    #points-table_filter input:focus-visible{
+        outline: none;
+    }
+
+    #points-table_length select{
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background-color: white;
+    }
+
+    #points-table_length select:focus-visible{
+        outline: none;
+    }
+
+    #points-table_paginate {
+        margin-top: 20px;
+    }
+
+</style>
 @section('content')
     <div>
         <p style="color: #707070; font-size: 25px;">Quản lý điểm</p>

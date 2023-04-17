@@ -2,6 +2,35 @@
 
 @section('title', 'Quản lý môn học')
 
+<style>
+    #subject-table_filter input{
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+
+    #subject-table_filter input:focus-visible{
+        outline: none;
+    }
+
+    #subject-table_length select{
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background-color: white;
+    }
+
+    #subject-table_length select:focus-visible{
+        outline: none;
+    }
+
+    #subject-table_paginate {
+        margin-top: 20px;
+    }
+
+</style>
+
 @section('content')
     <div>
         <p style="color: #707070; font-size: 25px;">Quản lý môn học</p>
@@ -13,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <table class="table table-bordered" id="users-table">
+        <table class="table table-bordered" id="subject-table">
             <thead>
             <tr>
                 <th  style="width: 20px;">Id</th>
@@ -89,7 +118,7 @@
         };
 
         $(function () {
-            $('#users-table').DataTable({
+            $('#subject-table').DataTable({
                 processing: true,
                 serverSide: true,
                 "bInfo" : false,
