@@ -12,8 +12,8 @@ class SubjectRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name_subject'      => ['required'],
-            'code_subject'      => ['required'],
+            'name_subject'      => ['required', 'unique:subjects'],
+            'code_subject'      => ['required', 'unique:subjects'],
             'number_of_credits' => ['required', 'numeric'],
         ];
     }
@@ -25,7 +25,9 @@ class SubjectRequest extends BaseRequest
     {
         return [
             'name_subject.required'      => 'Tên môn học không được bỏ trống!',
+            'name_subject.unique'      => 'Tên môn học phải là duy nhất!',
             'code_subject.required'      => 'Mã môn học không được bỏ trống!',
+            'code_subject.unique'      => 'Mã môn học phải là duy nhất!',
             'number_of_credits.required' => 'Số tín chỉ không đúng định dạng!',
             'number_of_credits.numeric' => 'Số tín chỉ không đúng định dạng!',
         ];
