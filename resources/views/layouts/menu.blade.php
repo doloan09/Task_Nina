@@ -196,6 +196,12 @@
                             <span class="link" id="link_points">Điểm sinh viên</span>
                         </a>
                     </div>
+                    <div class="list">
+                        <a href="{{ route('notifications.list') }}" class="nav-link" id="page_notifications">
+                            <i class="bx bx-bell icon" id="icon_notifications"></i>
+                            <span class="link" id="link_notifications">Thông báo</span>
+                        </a>
+                    </div>
                 @endif
                 <div class="list">
                     <a href="#" class="nav-link" onclick="logout()">

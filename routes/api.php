@@ -74,8 +74,8 @@ Route::middleware(['auth:sanctum'])
             ->group(function (){
                 Route::get('/', [NotificationController::class, 'index'])->name('index');
                 Route::get('/newest', [NotificationController::class, 'listNotificationNewest'])->name('newest');
-                Route::get('/{id}', [NotificationController::class, 'show'])->name('show');
                 Route::post('/store', [NotificationController::class, 'store'])->name('store');
+                Route::post('/send', [NotificationController::class, 'send'])->name('send');
                 Route::post('/update/{id}', [NotificationController::class, 'update'])->name('update');
                 Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('destroy');
             });
