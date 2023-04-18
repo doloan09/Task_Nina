@@ -301,6 +301,11 @@
                     if (err.status === 422) {
                         let errList = err.responseJSON.Err_Message;
 
+                        $("#div_err_code_class").html(`<p></p>`);
+                        $("#div_err_name_class").html(`<p></p>`);
+                        $("#div_err_id_subject").html(`<p></p>`);
+                        $("#div_err_id_semester").html(`<p></p>`);
+
                         for (let key in errList) {
                             $("#div_err_" + key).html(`<p style="color: red; font-size: small;">* ` + errList[key] + `</p>`);
                         }

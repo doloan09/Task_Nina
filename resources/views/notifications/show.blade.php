@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="text-uppercase text-sm" style="font-size: 20px; color: #eea236; margin-bottom: 20px;">{{ $notification->title }}</p>
-                        <p>{{ $notification->content }}</p>
+                        <p>{!! $notification->content !!}</p>
                     </div>
                 </div>
             </div>

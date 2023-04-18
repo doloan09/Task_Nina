@@ -100,6 +100,9 @@
                                         <div id="content_noti">
 
                                         </div>
+{{--                                        <textarea id="content_noti">--}}
+
+{{--                                        </textarea>--}}
                                         <div style="margin-top: 5px; " id="div_err_content">
 
                                         </div>
@@ -263,7 +266,9 @@
             var formData = new FormData();
 
             formData.append('title', $("#title").val());
-            formData.append('content', editor.getData());
+            formData.append('content', editor.getData()); // khi su dung div
+
+            // console.log($('#content_noti').val()); // khi su dung textarea
 
             $.ajax({
                 url: '{{ route('v1.notifications.store') }}',

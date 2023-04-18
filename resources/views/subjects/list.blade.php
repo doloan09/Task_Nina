@@ -178,11 +178,14 @@
                     if (err.status === 422) {
                         let errList = err.responseJSON.Err_Message;
 
+                        $("#div_err_code_subject").html(`<p></p>`);
+                        $("#div_err_name_subject").html(`<p></p>`);
+                        $("#div_err_number_of_credits").html(`<p></p>`);
+
                         for (let key in errList) {
                             $("#div_err_" + key).html(`<p style="color: red; font-size: small;">* ` + errList[key] + `</p>`);
                         }
 
-                        console.log(err);
                     }else if (err.status === 500){
                         toastr.error(err.statusText);
                         console.log(err);
