@@ -102,8 +102,9 @@
             $('#users-top-table').DataTable({
                 processing: true,
                 serverSide: true,
+                order: [[7, 'desc']],
                 ajax: {
-                    url: 'http://nina-soft.com/api/v1/users/top',
+                    url: '{{ env('URL_API') }}' + 'users/top',
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
                     },
