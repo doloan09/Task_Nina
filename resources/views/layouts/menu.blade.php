@@ -10,11 +10,7 @@
     }
 
     nav {
-        /*position: fixed;*/
-        top: 0;
-        left: 0;
         height: 1000px;
-        width: 100%;
         border-right: 1px #eea236 solid;
         display: flex;
         align-items: center;
@@ -25,7 +21,6 @@
     nav .logo {
         display: flex;
         align-items: center;
-        /*margin: 0 24px;*/
     }
 
     .logo .menu-icon {
@@ -42,10 +37,6 @@
     }
 
     nav .sidebar {
-        /*position: fixed;*/
-        top: 0;
-        /*left: -100%;*/
-        /*height: 100%;*/
         width: 260px;
         padding: 20px 0;
         background-color: #fff;
@@ -54,20 +45,7 @@
     }
 
     .sidebar {
-        display: flex;
         height: 100%;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 0px 16px;
-        background-color: #fff;
-    }
-
-    .sidebar-content {
-        display: flex;
-        height: 100%;
-        flex-direction: column;
-        justify-content: space-between;
-        background-color: #fff;
     }
 
     .list .nav-link {
@@ -98,24 +76,6 @@
     .lists .nav-link:hover .icon,
     .lists .nav-link:hover .link {
         color: #fff;
-    }
-
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        height: 1000vh;
-        width: 200%;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.4s ease;
-        background: rgba(0, 0, 0, 0.3);
-    }
-
-    nav.open ~ .overlay {
-        opacity: 1;
-        left: 260px;
-        pointer-events: auto;
     }
 
 </style>

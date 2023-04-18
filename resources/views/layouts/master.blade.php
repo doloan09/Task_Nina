@@ -87,12 +87,12 @@
 <body style="padding-top: 0px;">
 <div class="" style="margin: 0 30px 0 10px;">
     {{--    @include('layouts.navbar')--}}
-    <div style="display: flex">
-        <div style="padding-right: 0px">
+    <div>
+        <div style="padding-right: 0px; position: fixed; top: 0; bottom: 0; left: 10px; z-index: 10;">
             @include('layouts.menu')
         </div>
-        <div style="padding-left: 0px; width: 100%;">
-            <div>
+        <div style="margin-left: 260px;">
+            <div style="">
                 @include('layouts.navbar')
             </div>
             <div style="padding: 20px 30px;">

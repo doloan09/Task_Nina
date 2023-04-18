@@ -30,7 +30,7 @@
 
 </style>
 @section('content')
-    <div>
+    <div style="margin-top: 70px;">
         <p style="color: #707070; font-size: 25px;">Quản lý điểm</p>
         @isset($message)
             <script> alert('Không thể xuất file! Không tồn tại sinh viên này!'); window.location = "/points";</script>

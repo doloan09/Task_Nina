@@ -1,4 +1,4 @@
-<div style="height: 70px; background-color: #eea236; padding-top: 10px; color: white; padding-right: 10px;">
+<div style="height: 70px; background-color: #eea236; padding-top: 10px; color: white; padding-right: 10px; position: fixed; top: 0; width: 85%; z-index: 10;">
     <div class="col-md-6" style="padding-top: 10px; font-size: 25px; ">
         <p>TRƯỜNG ĐẠI HỌC GTVT</p>
     </div>

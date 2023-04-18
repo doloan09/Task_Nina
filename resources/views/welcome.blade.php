@@ -3,7 +3,7 @@
 @section('title', 'Trang chủ')
 
 @section('content')
-    <div style="display: flex; margin-top: 20px;">
+    <div style="display: flex; margin-top: 70px;">
         <div style="height: 200px; background-color: royalblue; border-radius: 10px; color: white; margin: 10px 0; width: 22%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Người dùng</p>
             <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\User::query()->select('id')->get()) }}</p>

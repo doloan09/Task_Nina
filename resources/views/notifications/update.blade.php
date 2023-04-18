@@ -20,7 +20,7 @@
 </style>
 
 @section('content')
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-4" style="margin-top: 70px;">
         <div class="row">
             <div class="col-md-8">
                 <div class="card">

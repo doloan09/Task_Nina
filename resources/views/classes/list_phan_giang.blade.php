@@ -31,7 +31,7 @@
 </style>
 
 @section('content')
-    <div>
+    <div style="margin-top: 70px;">
         <p style="color: #707070; font-size: 25px; ">Danh sách phân giảng</p>
         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
             <div class="dropdown" style="margin-right: 10px;">

@@ -51,7 +51,7 @@
 
     {{--  admin  --}}
     @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
-        <div>
+        <div style="margin-top: 70px;">
             <p style="color: #707070; font-size: 25px;">Quản lý thông báo</p>
             <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
                 <div class="dropdown">
@@ -163,7 +163,7 @@
 
     {{--  teacher --}}
     @if(\Illuminate\Support\Facades\Auth::user()->hasRole('teacher'))
-        <div style="">
+        <div style="margin-top: 70px;">
             <p style="font-size: 25px; color: #707070; ">Danh sách thông báo</p>
             <div>
                 <div style="margin-left: 40px;">
