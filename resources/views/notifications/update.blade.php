@@ -2,6 +2,23 @@
 
 @section('title', 'Quản lý thông báo')
 
+<style>
+    #container {
+        width: 1000px;
+        margin: 20px auto;
+    }
+    .ck-editor__editable[role="textbox"] {
+        /* editing area */
+        min-height: 500px;
+    }
+
+    .ck-content .image {
+        /* block images */
+        max-width: 80%;
+        margin: 20px auto;
+    }
+</style>
+
 @section('content')
     <div class="container-fluid py-4">
         <div class="row">
@@ -25,7 +42,11 @@
                                 <div class="">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Nội dung thông báo</label>
-                                        <textarea rows="25" id="content" name="content" class="form-control" type="text" placeholder="Nhập vào nội dung thông báo ... " required>{{ $notification->content }}</textarea>
+                                        <div id="content-noti">
+                                            <div id="children">
+                                                {!! $notification->content !!}
+                                            </div>
+                                        </div>
                                         <div style="margin-top: 5px; " id="div_err_content">
 
                                         </div>
@@ -44,6 +65,21 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/super-build/ckeditor.js"></script>
+    <script>
+        let editor;
+
+        ClassicEditor
+            .create( document.querySelector( '#content-noti'))
+            .then( newEditor => {
+                editor = newEditor;
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+
     <script type="module">
 
         $("#update-notification").submit(function (e) {
@@ -52,7 +88,7 @@
             var formData = new FormData();
 
             formData.append('title', $("#title").val());
-            formData.append('content', $("#content").val());
+            formData.append('content', editor.getData());
 
             $.ajax({
                 url: '{{ env('URL_API') }}' + 'notifications/update/' + $('#id_noti').val(),

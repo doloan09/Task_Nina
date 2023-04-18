@@ -12,9 +12,9 @@ class SubjectRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name_subject'      => ['required', 'unique:subjects'],
-            'code_subject'      => ['required', 'unique:subjects'],
-            'number_of_credits' => ['required', 'numeric'],
+            'name_subject'      => ['required', 'unique:subjects,name_subject,'.$this->route('id') ?? 0],
+            'code_subject'      => ['required', 'unique:subjects,code_subject,'.$this->route('id') ?? 0],
+            'number_of_credits' => ['required', 'numeric', 'gt:0'],
         ];
     }
 
@@ -30,6 +30,7 @@ class SubjectRequest extends BaseRequest
             'code_subject.unique'      => 'Mã môn học phải là duy nhất!',
             'number_of_credits.required' => 'Số tín chỉ không đúng định dạng!',
             'number_of_credits.numeric' => 'Số tín chỉ không đúng định dạng!',
+            'number_of_credits.gt' => 'Số tín chỉ phải lớn hơn 0!',
         ];
     }
 }

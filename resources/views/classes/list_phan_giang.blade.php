@@ -34,6 +34,17 @@
     <div>
         <p style="color: #707070; font-size: 25px; ">Danh sách phân giảng</p>
         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
+            <div class="dropdown" style="margin-right: 10px;">
+                <button class="dropbtn">Bộ lọc</button>
+                <div class="dropdown-content" style="padding: 30px 20px; margin-left: -50px;">
+                    <div>
+                        <div style="margin-right: 10px;">Kỳ học:</div>
+                        <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
             @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
                 <div class="dropdown">
                     <button class="dropbtn">Thao tác</button>
@@ -46,6 +57,7 @@
         <table class="table table-bordered" id="class-users-table">
             <thead>
             <tr>
+                <th>Kỳ học</th>
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
                 <th>Giảng viên</th>
@@ -110,11 +122,52 @@
 
         getClass();
         getUser();
+        getSemester();
 
         $('#phan_giang_btn').on('click', function (){
             getClass();
             getUser();
         });
+
+        $('#filter_semester').on('change', function() {
+            let semester = document.getElementById('filter_semester').value;
+            getData(semester);
+        });
+
+        function getData(semester = '') {
+            tableClassUser
+                .columns([0])
+                .search(semester)
+                .draw();
+        }
+
+        function getSemester(){
+            $.ajax({
+                url: '{{ route('v1.semesters.index') }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "GET",
+                success: function (data) {
+                    let list = data.data;
+                    let str = '';
+                    let str2 = '<option value="">- Tất cả -</option>';
+                    for (let item in list){
+                        str += '<option value="' + list[item]['id'] + '">' + list[item]['name_semester'] + '_' + list[item]['year_semester'] + '</option>'
+                    }
+
+                    str2 += str;
+                    $('#id_semester').html(str);
+                    $('#filter_semester').html(str2);
+                },
+                error: function (err) {
+                    toastr.error(err.statusText);
+                    console.log(err);
+                },
+            });
+        }
 
         function setValuePhanGiang(id, id_class, id_user){
             $('#id_class_user_pg').val(id);
@@ -178,6 +231,7 @@
             processing: true,
             serverSide: true,
             "bInfo" : false,
+            order: [[0, 'desc']],
             language: {
                 paginate: {
                     next: '>',
@@ -191,6 +245,7 @@
                 },
             },
             columns: [
+                {data: 'name_semester', name: 'id_semester'},
                 {data: 'name_class', name: 'name_class'},
                 {data: 'code_class', name: 'code_class'},
                 {data: 'name', name: 'name'},

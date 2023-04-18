@@ -31,6 +31,22 @@
 
 </style>
 
+<style>
+    #container {
+        width: 1000px;
+        margin: 20px auto;
+    }
+    .ck-editor__editable[role="textbox"] {
+        /* editing area */
+        min-height: 200px;
+    }
+    .ck-content .image {
+        /* block images */
+        max-width: 80%;
+        margin: 20px auto;
+    }
+</style>
+
 @section('content')
 
     {{--  admin  --}}
@@ -81,7 +97,9 @@
                                 <div class="">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Nội dung thông báo</label>
-                                        <textarea rows="25" id="content" name="content" class="form-control" type="text" placeholder="Nhập vào nội dung thông báo ... " required></textarea>
+                                        <div id="content_noti">
+
+                                        </div>
                                         <div style="margin-top: 5px; " id="div_err_content">
 
                                         </div>
@@ -156,8 +174,22 @@
 @stop
 
 @push('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/super-build/ckeditor.js"></script>
     <script>
+        let editor;
 
+        ClassicEditor
+            .create( document.querySelector( '#content_noti'))
+            .then( newEditor => {
+                editor = newEditor;
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+
+    <script>
         showNoti();
         function showNoti(){
             $.ajax({
@@ -170,7 +202,6 @@
                 method: "GET",
                 success: function (data) {
                     let list = data.data;
-                    console.log(list);
                     let str = '';
                     for (let item in list){
                         let url = '{{ env('APP_URL') }}' + 'notifications/' + list[item]['id_notification'];
@@ -199,6 +230,7 @@
                 processing: true,
                 serverSide: true,
                 "bInfo" : false,
+                order: [[0, 'desc']],
                 language: {
                     paginate: {
                         next: '>',
@@ -231,7 +263,7 @@
             var formData = new FormData();
 
             formData.append('title', $("#title").val());
-            formData.append('content', $("#content").val());
+            formData.append('content', editor.getData());
 
             $.ajax({
                 url: '{{ route('v1.notifications.store') }}',

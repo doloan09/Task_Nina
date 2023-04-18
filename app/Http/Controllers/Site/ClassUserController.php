@@ -32,11 +32,14 @@ class ClassUserController extends Controller
 
             if (Auth::user()->hasRole('admin')) {
                 return Datatables::of($list)
+                    ->editColumn('name_semester', function ($item) {
+                        return '<p>' . $item->name_semester . '_' . $item->year_semester . '</p>';
+                    })
                     ->editColumn('action', function ($item) {
                         return '<button onclick="setValuePhanGiang(' . $item->id . ', ' . $item->id_class . ', ' . $item->id_user . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#PhanGiang" style="margin: 0px 20px;">Sửa</button>
                                 <button onclick="deleteClassUser(' . $item->id_class . ')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['name_semester', 'action'])
                     ->make(true);
             }else{
                 return Datatables::of($list)

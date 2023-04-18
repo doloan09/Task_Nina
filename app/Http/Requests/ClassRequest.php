@@ -12,8 +12,8 @@ class ClassRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name_class'  => ['required', 'unique:classes'],
-            'code_class'  => ['required', 'unique:classes'],
+            'name_class'  => ['required', 'unique:classes,name_class,'.$this->route('id') ?? 0],
+            'code_class'  => ['required', 'unique:classes,code_class,'.$this->route('id') ?? 0],
             'id_subject'  => ['required'],
             'id_semester' => ['required'],
         ];

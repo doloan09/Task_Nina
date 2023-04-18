@@ -227,6 +227,7 @@
             processing: true,
             serverSide: true,
             "bInfo" : false,
+            order: [[4, 'desc']],
             language: {
                 paginate: {
                     next: '>',

@@ -18,7 +18,8 @@ class ClassUserRepository extends BaseRepository implements ClassUserRepositoryI
     {
         $list = $this->model->join('classes', 'classes.id', '=', 'class_users.id_class')
             ->join('users', 'users.id', '=', 'class_users.id_user')
-            ->select('class_users.*', 'users.name', 'users.code_user', 'classes.name_class', 'classes.code_class');
+            ->join('semesters', 'semesters.id', '=', 'classes.id_semester')
+            ->select('class_users.*', 'users.name', 'users.code_user', 'classes.name_class', 'classes.code_class', 'classes.id_semester', 'semesters.name_semester', 'semesters.year_semester');
 
         if (Auth::user()->hasRole('teacher')){
             $list = $list->where('class_users.id_user', Auth::id());

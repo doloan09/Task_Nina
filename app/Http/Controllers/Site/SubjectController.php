@@ -101,7 +101,7 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return FailedCollection|SuccessCollection|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SubjectRequest $request, $id)
     {
         try {
             $data = $request->all();
