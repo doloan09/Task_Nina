@@ -129,7 +129,9 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success('Cập nhật tài khoản thành công!', 'Success');
-                        window.location = "{{ route('users.list') }}";
+                        setTimeout(function () {
+                            window.location = "{{ route('users.list') }}";
+                        }, 1000);
                     }
                 },
                 error: function (err) {

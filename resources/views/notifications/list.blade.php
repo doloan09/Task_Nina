@@ -193,6 +193,9 @@
     </script>
 
     <script>
+        $('#notifications-table').removeClass('table-bordered');
+        $('#notifications-table').addClass('table-striped table-hover');
+
         showNoti();
         function showNoti(){
             $.ajax({
@@ -282,7 +285,9 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success('Thêm mới thông báo thành công!', 'Success');
-                        window.location = "{{ route('notifications.list') }}";
+                        setTimeout(function (){
+                            window.location.reload();
+                        }, 1000);
                     }
                 },
                 error: function (err) {
@@ -323,7 +328,9 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success('Gửi thông báo thành công!', 'Success');
-                        {{--window.location = "{{ route('notifications.list') }}";--}}
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
                     }else {
                         toastr.error('Thông báo này đã được gửi! Bạn không thể gửi lần 2!');
                     }
@@ -359,7 +366,10 @@
                         if (data.response.code === 500){
                             toastr.error('Bạn không thể xóa! Thông báo này đã được gửi!', 'Error');
                         }else{
-                            window.location = "{{ route('notifications.list') }}";
+                            toastr.success('Xóa bản ghi thành công!');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         }
                     },
                     error: function (err) {

@@ -124,6 +124,9 @@
         getUser();
         getSemester();
 
+        $('#class-users-table').removeClass('table-bordered');
+        $('#class-users-table').addClass('table-striped table-hover');
+
         $('#phan_giang_btn').on('click', function (){
             getClass();
             getUser();
@@ -290,7 +293,9 @@
                     console.log(data);
                     if (data.response.code === 200) {
                         toastr.success(noti, 'Success');
-                        window.location = "{{ route('class-user.list') }}";
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
                     }
                     else if (data.response.code === 500){
                         $("#div_err_form").html(`<p style="color: red; font-size: small;">* Lớp học phần : `+ $('#id_class_pg option:selected').text() +` đã được phân giảng rồi! Nếu muốn thay đổi vui lòng nhấn sửa phía dưới danh sách!</p>`);
@@ -325,7 +330,10 @@
                     },
                     method: "DELETE",
                     success: function (data) {
-                        window.location = "{{ route('classes.list') }}";
+                        toastr.success('Xóa bản ghi thành công!');
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
                     },
                     error: function (err) {
                         alert('error');

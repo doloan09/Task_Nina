@@ -2,10 +2,8 @@
 
 namespace App\Repositories\Class_HP;
 
-use App\Models\Class_HP;
 use App\Models\ClassUser;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Auth;
 
 class ClassRepository extends BaseRepository implements ClassRepositoryInterface
 {

@@ -108,6 +108,9 @@
 
 @push('scripts')
     <script>
+        $('#subject-table').removeClass('table-bordered');
+        $('#subject-table').addClass('table-striped table-hover');
+
         function setValue(id, name, code, number){
             $('#id_subject').val(id);
             $('#name_subject').val(name);
@@ -154,8 +157,10 @@
             formData.append('number_of_credits', $("#number_of_credits").val());
 
             let url = '{{ route('v1.subjects.store') }}';
+            let noti = 'Thêm mới môn học thành công!';
             if ($('#id_subject').val()){
                 url = '{{ env('URL_API') }}' + 'subjects/update/' + $('#id_subject').val();
+                noti = 'Cập nhật môn học thành công!';
             }
 
             $.ajax({
@@ -170,8 +175,18 @@
                 data: formData,
                 success: function (data) {
                     if (data.response.code === 200) {
-                        toastr.success('Thêm mới môn học thành công!', 'Success');
-                        window.location = "{{ route('subjects.list') }}";
+                        toastr.success(noti, 'Success');
+
+                        if ($('#id_subject').val() === '') {
+                            $("#name_subject").val('');
+                            $("#code_subject").val('');
+                            $("#number_of_credits").val('');
+                        }else {
+                            $('#id_subject').val('');
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 1000);
+                        }
                     }
                 },
                 error: function (err) {
@@ -208,11 +223,14 @@
                         if (data.response.code === 500){
                             toastr.error('Bạn không thể xóa môn học này!', 'Error');
                         }else {
-                            window.location = "{{ route('subjects.list') }}";
+                            toastr.success('Xóa bản ghi thành công!');
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 1000);
                         }
                     },
                     error: function (err) {
-                        alert('error');
+                        toastr.error(err.statusText);
                         console.log(err);
                     }
                 });

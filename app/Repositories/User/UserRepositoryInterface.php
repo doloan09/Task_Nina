@@ -15,4 +15,6 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function topStudent($request);
 
+    public function getInfo($request);
+
 }

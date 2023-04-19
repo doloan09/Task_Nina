@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum'])
                 Route::post('/update/{id}', [UserController::class, 'update'])->name('updated');
                 Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
                 Route::get('/top', [UserController::class, 'topSV'])->name('top'); // danh sach user
+                Route::get('/point-info', [UserController::class, 'point'])->name('point_info'); // danh sach user
             });
 
         Route::name('subjects.')

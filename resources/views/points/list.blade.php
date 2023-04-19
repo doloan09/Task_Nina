@@ -290,6 +290,9 @@
             $('#filter_class').select2();
         });
 
+        $('#points-table').removeClass('table-bordered');
+        $('#points-table').addClass('table-striped table-hover');
+
         $('#btn').on('click', function() {
             $('#id_point').val('');
             $('#score_component').val('');
@@ -397,6 +400,31 @@
             }else {
                 $('#score_final').val(0);
             }
+        }
+
+        getPointInfo();
+        function getPointInfo(){
+            $.ajax({
+                url: '{{ env('URL_API') }}' + 'users/point-info?id_user=' + '{{ \Illuminate\Support\Facades\Auth::id() }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "GET",
+                success: function (data) {
+                    if (data.response.code === 200){
+                        let list = data.data;
+                        if (list.length > 0){
+
+                        }
+                    }
+                },
+                error: function (err) {
+                    toastr.error(err.statusText);
+                    console.log(err);
+                },
+            });
         }
 
         function getClass(id = ''){
@@ -591,7 +619,18 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success(noti, 'Success');
-                        window.location = "{{ route('points.list') }}";
+                        if ($('#id_point').val() === ''){
+                            $("#score_component").val('');
+                            $("#score_test").val('');
+                            $("#score_final").val('');
+                            $("#id_user").val('');
+                            $("#id_class").val('');
+                        }else {
+                            $('#id_point').val('');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
                     }
                     if (data.response.code === 500){
                         let errList = data.error;
@@ -628,7 +667,9 @@
                 success: function (data) {
                     if (data.status === 200) {
                         toastr.success('Import thành công!', 'Success');
-                        window.location = "{{ route('points.list') }}";
+                        setTimeout(function (){
+                            window.location.reload();
+                        }, 1000);
                     }
                     else if (data.status === 404){
                         toastr.error('Vui lòng chọn file trước khi import!');
@@ -694,7 +735,10 @@
                     },
                     method: "DELETE",
                     success: function (data) {
-                        window.location = "{{ route('points.list') }}";
+                        toastr.success('Xóa bản ghi thành công!');
+                        setTimeout(function (){
+                            window.location.reload();
+                        }, 1000);
                     },
                     error: function (err) {
                         alert('error');

@@ -102,7 +102,9 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success('Cập nhật thông báo thành công!', 'Success');
-                        window.location = "{{ route('notifications.list') }}";
+                        setTimeout(function () {
+                            window.location = "{{ route('notifications.list') }}";
+                        }, 1000);
                     }
                 },
                 error: function (err) {

@@ -4,19 +4,19 @@
 
 @section('content')
     <div style="display: flex; margin-top: 70px;">
-        <div style="height: 200px; background-color: royalblue; border-radius: 10px; color: white; margin: 10px 0; width: 22%;">
+        <div style="height: 200px; background-color: royalblue; border-radius: 10px; color: white; margin: 10px 0; width: 24%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Người dùng</p>
             <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\User::query()->select('id')->get()) }}</p>
         </div>
-        <div style="height: 200px; background-color: #eea236; border-radius: 10px; color: white; margin: 10px 20px; width: 22%;">
+        <div style="height: 200px; background-color: #eea236; border-radius: 10px; color: white; margin: 10px 20px; width: 24%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Lớp học phần</p>
             <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\Class_HP::query()->select('id')->get()) }}</p>
         </div>
-        <div style="height: 200px; background-color: #b44593; border-radius: 10px; color: white; margin:10px 20px 10px 0; width: 22%;">
+        <div style="height: 200px; background-color: #b44593; border-radius: 10px; color: white; margin:10px 20px 10px 0; width: 24%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Môn học</p>
             <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\Subject::query()->select('id')->get()) }}</p>
         </div>
-        <div style="height: 200px; background-color: forestgreen; border-radius: 10px; color: white; margin: 10px 0; width: 22%;">
+        <div style="height: 200px; background-color: forestgreen; border-radius: 10px; color: white; margin: 10px 0; width: 24%;">
             <p class="text-center" style="padding-top: 15px; font-size: 20px; ">Thông báo</p>
             <p class="text-center" style="font-size: 35px; padding-top: 30px;">{{ count(\App\Models\Notification::query()->select('id')->get()) }}</p>
         </div>
@@ -68,6 +68,9 @@
 
 @push('scripts')
     <script>
+        $('#users-top-table').removeClass('table-bordered');
+        $('#users-top-table').addClass('table-striped table-hover');
+
         showNoti();
         function showNoti(){
             $.ajax({

@@ -99,6 +99,9 @@
 @push('scripts')
     <script>
 
+        $('#semesters-table').removeClass('table-bordered');
+        $('#semesters-table').addClass('table-striped table-hover');
+
         function setValue(id, name, year){
             $('#id_semester').val(id);
             $('#name_semester').val(name);
@@ -170,7 +173,16 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success(noti, 'Success');
-                        window.location = "{{ route('semesters.list') }}";
+
+                        if ($('#id_semester').val() === '') {
+                            $("#name_semester").val('');
+                            $("#year_semester").val('');
+                        }else {
+                            $('#id_semester').val('');
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 1000);
+                        }
                     }
                 },
                 error: function (err) {
@@ -204,7 +216,10 @@
                         if (data.response.code === 500){
                             toastr.error('Bạn không thể xóa kỳ học này!', 'Error');
                         }else {
-                            window.location = "{{ route('semesters.list') }}";
+                            toastr.success('Xóa bản ghi thành công!');
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 1000);
                         }
                     },
                     error: function (err) {

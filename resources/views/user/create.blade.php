@@ -113,10 +113,6 @@
 
 @push('scripts')
     <script type="module">
-        // toastr.success('Thêm mới tài khoản thành công!', 'Success');
-        // toastr.options.positionClass = 'toast-bottom-right';
-        // toastr.options.closeButton = true;
-
         $("#create-user").submit(function (e) {
             e.preventDefault();
 
@@ -145,7 +141,9 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success('Thêm mới tài khoản thành công!', 'Success');
-                        window.location = "{{ route('users.list') }}";
+                        setTimeout(function () {
+                            window.location = "{{ route('users.list') }}";
+                        }, 1000);
                     }
                 },
                 error: function (err) {
@@ -166,13 +164,5 @@
             return true;
         });
 
-        function toastSuccess(){
-            $.toast({
-                heading: 'Success',
-                text: 'And these were just the basic demos! Scroll down to check further details on how to customize the output.',
-                showHideTransition: 'slide',
-                icon: 'success'
-            });
-        }
     </script>
 @endpush

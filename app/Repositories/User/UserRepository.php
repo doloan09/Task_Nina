@@ -57,4 +57,15 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $list;
     }
+
+    public function getInfo($request)
+    {
+        $list = $this->model->join('points', 'points.id_user', '=', 'users.id')
+            ->select('users.id', DB::raw('COUNT(points.id_user) as sumClass'), DB::raw('round(AVG(score_final), 1) as diemTB'))
+            ->where('users.id', $request['id_user'])
+            ->groupBy('users.id')
+            ->get();
+
+        return $list;
+    }
 }

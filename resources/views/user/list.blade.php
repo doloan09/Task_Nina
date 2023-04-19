@@ -79,6 +79,9 @@
 
 @push('scripts')
     <script>
+        $('#users-table').removeClass('table-bordered');
+        $('#users-table').addClass('table-striped table-hover');
+
         $('#filter_role').on('change', function() {
             let role = document.getElementById('filter_role').value;
             console.log(role);
@@ -135,7 +138,7 @@
         }
 
         function deleteUser(id){
-            if (confirm('Ban co muon xoa khong?') === true) {
+            if (confirm('Bạn có muốn xóa không?') === true) {
                 $.ajax({
                     url: '{{ env('URL_API') }}' + `users/` + id,
                     headers: {
@@ -144,12 +147,13 @@
                     },
                     method: "DELETE",
                     success: function (data) {
-                        // console.log(data);
                         if (data.response.code === 500){
                             toastr.error('Bạn không thể xóa người dùng này! Có nhiều dữ liệu ràng buộc!', 'Error');
                         }else {
                             toastr.success('Xóa người dùng thành công!', 'Success');
-                            window.location = "{{ route('users.list') }}";
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         }
                     },
                     error: function (err) {

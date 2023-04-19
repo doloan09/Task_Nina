@@ -62,6 +62,17 @@ class UserController extends Controller
         }
     }
 
+    public function point(Request $request)
+    {
+        try {
+            $info = $this->userRepo->getInfo($request);
+
+            return new SuccessCollection($info);
+        }catch (\Exception $exception){
+            return new FailedCollection(collect([]));
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

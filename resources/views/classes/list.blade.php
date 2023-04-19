@@ -185,6 +185,9 @@
         getSubject();
         getClass_DKHP();
 
+        $('#classes-table').removeClass('table-bordered');
+        $('#classes-table').addClass('table-striped table-hover');
+
         $('#btn').on('click', function (){
             getSubject();
             getSemester();
@@ -363,7 +366,16 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success(noti, 'Success');
-                        window.location = "{{ route('classes.list') }}";
+                        if ($('#id_class').val() === ''){
+                            $("#name_class").val('');
+                            $("#code_class").val('');
+                            $("#id_subject").val('');
+                        }else {
+                            $('#id_class').val('');
+                            setTimeout(function (){
+                                window.location.reload();
+                            }, 1000);
+                        }
                     }
                 },
                 error: function (err) {
@@ -397,7 +409,6 @@
             formData.append('id_class', $("#id_class_DKHP").val());
             formData.append('id_user', '{{ \Illuminate\Support\Facades\Auth::id() }}');
 
-            console.log();
             $.ajax({
                 url: '{{ route('v1.class-user.store') }}',
                 processData: false,
@@ -411,7 +422,6 @@
                 success: function (data) {
                     if (data.response.code === 200) {
                         toastr.success('Đăng ký môn học thành công!', 'Success');
-                        window.location = "{{ route('classes.list') }}";
                     }else if (data.response.code === 500){
                         toastr.error('Môn học: ' + $("#id_class_DKHP :selected").text() + ' đã được đăng ký rồi!');
                     }
@@ -442,7 +452,10 @@
                         if (data.response.code === 500){
                             toastr.error('Bạn không thể xóa môn học này!', 'Error');
                         }else {
-                            window.location = "{{ route('classes.list') }}";
+                            toastr.success('Xóa bản ghi thành công!');
+                            setTimeout(function (){
+                                window.location.reload();
+                            }, 1000);
                         }
                     },
                     error: function (err) {
@@ -466,11 +479,14 @@
                         if (data.response.code === 500){
                             toastr.error('Bạn không thể hủy đăng ký học phần này!', 'Error');
                         }else {
-                            window.location = "{{ route('classes.list') }}";
+                            toastr.success('Xóa bản ghi thành công!');
+                            setTimeout(function (){
+                                window.location.reload();
+                            }, 1000);
                         }
                     },
                     error: function (err) {
-                        alert('error');
+                        toastr.error(err.statusText);
                         console.log(err);
                     }
                 });
