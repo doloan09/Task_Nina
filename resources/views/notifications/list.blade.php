@@ -162,7 +162,7 @@
     @endif
 
     {{--  teacher --}}
-    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('teacher'))
+    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('teacher') || \Illuminate\Support\Facades\Auth::user()->hasRole('student'))
         <div style="margin-top: 70px;">
             <p style="font-size: 25px; color: #707070; ">Danh sách thông báo</p>
             <div>

@@ -27,7 +27,7 @@
         <table class="table table-bordered" id="users-top-table">
             <thead>
             <tr>
-                <th>Id</th>
+                <th>Id User</th>
                 <th>Avatar</th>
                 <th>Họ tên</th>
                 <th>MSV / MNV</th>

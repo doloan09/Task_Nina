@@ -28,10 +28,11 @@ Route::get('/register', [AuthController::class, 'viewRegister'])->name('register
 /// forgot password
 Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotPass'])->middleware('guest')->name('password.request'); // view forgot pass
 
-Route::middleware('admin')->group(function (){
-    Route::get('/', [AuthController::class, 'home'])->name('home');
+Route::middleware('login')->group(function (){
+    Route::middleware('role-admin')->get('/', [AuthController::class, 'home'])->name('home');
+    Route::middleware('role-admin')->get('/home', [AuthController::class, 'home'])->name('home');
 
-    Route::prefix('users')
+    Route::middleware('role-admin')->prefix('users')
         ->group(function (){
             Route::get('/', [UserController::class, 'list'])->name('users.list'); // view danh sach user
             Route::get('/create', [UserController::class, 'create'])->name('users.create'); // view create user
@@ -48,7 +49,7 @@ Route::middleware('admin')->group(function (){
 
         });
 
-    Route::prefix('semesters')
+    Route::middleware('role-admin')->prefix('semesters')
         ->group(function (){
             Route::get('/', [SemesterController::class, 'list'])->name('semesters.list'); // view danh sach user
             Route::get('/create', [SemesterController::class, 'create'])->name('semesters.create'); // view create user
@@ -56,7 +57,7 @@ Route::middleware('admin')->group(function (){
 
         });
 
-    Route::prefix('subjects')
+    Route::middleware('role-admin')->prefix('subjects')
         ->group(function (){
             Route::get('/', [SubjectController::class, 'list'])->name('subjects.list'); // view danh sach user
             Route::get('/create', [SubjectController::class, 'create'])->name('subjects.create'); // view create user
@@ -64,7 +65,7 @@ Route::middleware('admin')->group(function (){
 
         });
 
-    Route::prefix('classes')
+    Route::middleware('role-admin-student')->prefix('classes')
         ->group(function (){
             Route::get('/', [ClassHPController::class, 'list'])->name('classes.list'); // view danh sach user
             Route::get('/create', [ClassHPController::class, 'create'])->name('classes.create'); // view create user
@@ -72,11 +73,12 @@ Route::middleware('admin')->group(function (){
 
         });
 
-    Route::prefix('class-user')
+    Route::middleware('role-admin-teacher')->prefix('class-user')
         ->group(function (){
             Route::get('/', [ClassUserController::class, 'list'])->name('class-user.list'); // view danh sach user
 
         });
+
     Route::prefix('points')
         ->group(function (){
             Route::get('/', [PointController::class, 'list'])->name('points.list'); // view danh sach user

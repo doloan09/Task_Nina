@@ -39,25 +39,36 @@
             <div class="dropdown" style="margin-right: 10px;">
                 <button class="dropbtn">Bộ lọc</button>
                 <div class="dropdown-content" style="padding: 30px 20px;">
-                    <span style="margin-right: 10px;">Lớp học:</span>
-                    <select id="filter_class" class="focus-visible: none" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; width: 150px; margin-top: 10px; padding: 5px;">
+                    <div>
+                        <div style="margin-right: 10px;">Kỳ học:</div>
+                        <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
 
-                    </select>
+                        </select>
+                    </div>
+                    <div>
+                        <div style="margin-right: 10px; margin-top: 20px;">Lớp học:</div>
+                        <select id="filter_class" class="focus-visible: none" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; width: 150px; margin-top: 10px; padding: 5px; float: left;">
+
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="dropdown">
-                <button class="dropbtn">Thao tác</button>
-                <div class="dropdown-content">
-                    <p data-toggle="modal" data-target="#createPoint">Thêm mới</p>
-                    <p data-toggle="modal" data-target="#importPoint">Import</p>
-                    <p data-toggle="modal" data-target="#exportPoint">Export</p>
+            @if(\Illuminate\Support\Facades\Auth::user()->hasAnyRole(['admin', 'teacher']))
+                <div class="dropdown">
+                    <button class="dropbtn">Thao tác</button>
+                    <div class="dropdown-content">
+                        <p data-toggle="modal" data-target="#createPoint">Thêm mới</p>
+                        <p data-toggle="modal" data-target="#importPoint">Import</p>
+                        <p data-toggle="modal" data-target="#exportPoint">Export</p>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
         <table class="table table-bordered" id="points-table">
             <thead>
             <tr>
                 <th>Id</th>
+                <th style="width: 150px;">Kỳ học</th>
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
                 <th>Tên sinh viên</th>
@@ -273,6 +284,7 @@
 @push('scripts')
     <script>
         getClass();
+        getSemester();
 
         $(document).ready(function() {
             $('#filter_class').select2();
@@ -311,6 +323,11 @@
         $('#filter_class').on('change', function() {
             let id_class = $('#filter_class').val();
             getData(id_class);
+        });
+
+        $('#filter_semester').on('change', function() {
+            let semester = document.getElementById('filter_semester').value;
+            getDataBySemester(semester);
         });
 
         $('#id_class_export').on('change', function() {
@@ -357,8 +374,15 @@
 
         function getData(id_class = '') {
             tablePoint
-                .columns([2])
+                .columns([3])
                 .search(id_class)
+                .draw();
+        }
+
+        function getDataBySemester(id_semester = '') {
+            tablePoint
+                .columns([1])
+                .search(id_semester)
                 .draw();
         }
 
@@ -435,6 +459,34 @@
             });
         }
 
+        function getSemester(){
+            $.ajax({
+                url: '{{ route('v1.semesters.index') }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "GET",
+                success: function (data) {
+                    let list = data.data;
+                    let str = '';
+                    let str2 = '<option value="">---</option>';
+                    for (let item in list){
+                        str += '<option value="' + list[item]['id'] + '">' + list[item]['name_semester'] + '_' + list[item]['year_semester'] + '</option>'
+                    }
+
+                    str2 += str;
+                    $('#id_semester').html(str);
+                    $('#filter_semester').html(str2);
+                },
+                error: function (err) {
+                    toastr.error(err.statusText);
+                    console.log(err);
+                },
+            });
+        }
+
         function checkPoint(point, id_input){
             if (point < 0 || point > 10){
                 $("#div_err_" + id_input).html(`<p style="color: red; font-size: small;">* Điểm không hợp lệ!</p>`);
@@ -463,6 +515,7 @@
                 },
                 columns: [
                     {data: 'id', name: 'id'},
+                    {data: 'name_semester', name: 'id_semester'},
                     {data: 'name_class', name: 'id_class'},
                     {data: 'code_class', name: 'id_class'},
                     {data: 'name_user', name: 'id_user'},

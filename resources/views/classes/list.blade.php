@@ -32,7 +32,11 @@
 
 @section('content')
     <div style="margin-top: 70px;">
-        <p style="color: #707070; font-size: 25px;">Quản lý lớp học phần</p>
+        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+            <p style="color: #707070; font-size: 25px;">Quản lý lớp học phần</p>
+        @else
+            <p style="color: #707070; font-size: 25px;">Danh sách lớp học phần</p>
+        @endif
         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
             <div class="dropdown" style="margin-right: 10px;">
                 <button class="dropbtn">Bộ lọc</button>
@@ -54,7 +58,11 @@
             <div class="dropdown">
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content" style="min-width: 120px;">
-                    <p data-toggle="modal" data-target="#createClass">Thêm mới</p>
+                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                        <p data-toggle="modal" data-target="#createClass">Thêm mới</p>
+                    @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('student'))
+                        <p data-toggle="modal" data-target="#DK_HP">Đăng ký</p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -65,6 +73,7 @@
                 <th>Môn học</th>
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
+                <th>Số tín chỉ</th>
                 <th>Kỳ học</th>
                 <th style="width: 10%;">Action</th>
             </tr>
@@ -134,6 +143,39 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal dang ky hoc phan -->
+    <div class="modal fade" id="DK_HP" tabindex="-1" role="dialog" aria-labelledby="DK_HP" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; justify-content: center">
+                    <h3 class="modal-title" id="exampleModalLabel">Đăng ký lớp học phần</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="" id="dkhp-form" enctype="multipart/form-data" style="margin: 0px 20px;">
+                        @csrf
+                        <div class="row">
+                            <div class="" style="padding-left: 0;">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Lớp học phần</label>
+                                    <select style="width: 100%; padding: 6px;" id="id_class_DKHP">
+
+                                    </select>
+                                    <div style="margin-top: 5px; " id="div_err_id_subject">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="dkhp-btn">Đăng ký</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -141,6 +183,7 @@
 
         getSemester();
         getSubject();
+        getClass_DKHP();
 
         $('#btn').on('click', function (){
             getSubject();
@@ -223,6 +266,31 @@
             });
         }
 
+        function getClass_DKHP(){
+            $.ajax({
+                url: '{{ env('URL_API') }}' + 'classes?dkph=1&id_user=' + '{{ \Illuminate\Support\Facades\Auth::id() }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "GET",
+                success: function (data) {
+                    let list = data.data;
+                    let str = '';
+                    for (let item in list){
+                        str += '<option value="' + list[item]['id'] + '">' + list[item]['name_class'] + '</option>'
+                    }
+
+                    $('#id_class_DKHP').html(str);
+                },
+                error: function (err) {
+                    toastr.error(err.statusText);
+                    console.log(err);
+                },
+            });
+        }
+
         var tableClass = $('#classes-table').DataTable({
             processing: true,
             serverSide: true,
@@ -235,7 +303,7 @@
                 }
             },
             ajax: {
-                url: '{{ env('URL_API') }}' + 'classes?id_semester=',
+                url: '{{ env('URL_API') }}' + 'classes?id_user=' + '{{ \Illuminate\Support\Facades\Auth::user()->hasRole('student') ? \Illuminate\Support\Facades\Auth::id() : "" }}',
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 },
@@ -245,6 +313,7 @@
                 {data: 'name_subject', name: 'id_subject'},
                 {data: 'name_class', name: 'name_class'},
                 {data: 'code_class', name: 'code_class'},
+                {data: 'number_of_credits', name: 'number_of_credits'},
                 {data: 'name_semester', name: 'id_semester'},
                 {data: 'action', name: '', orderable: false, searchable: false},
             ]
@@ -320,6 +389,46 @@
             return true;
         });
 
+        $("#dkhp-form").submit(function (e) {
+            e.preventDefault();
+
+            var formData = new FormData();
+
+            formData.append('id_class', $("#id_class_DKHP").val());
+            formData.append('id_user', '{{ \Illuminate\Support\Facades\Auth::id() }}');
+
+            console.log();
+            $.ajax({
+                url: '{{ route('v1.class-user.store') }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    if (data.response.code === 200) {
+                        toastr.success('Đăng ký môn học thành công!', 'Success');
+                        window.location = "{{ route('classes.list') }}";
+                    }else if (data.response.code === 500){
+                        toastr.error('Môn học: ' + $("#id_class_DKHP :selected").text() + ' đã được đăng ký rồi!');
+                    }
+                },
+                error: function (err) {
+                    if (err.status === 422) {
+                        toastr.error('Thiếu tham số đầu vào! Vui lòng kiểm tra lại!');
+                        console.log(err);
+                    }else if (err.status === 500){
+                        toastr.error(err.statusText);
+                        console.log(err);
+                    }
+                },
+            });
+            return true;
+        });
+
         function deleteClass(id){
             if (confirm('Ban co muon xoa khong?') === true) {
                 $.ajax({
@@ -344,5 +453,28 @@
             }
         }
 
+        function deleteDK_HP(id){
+            if (confirm('Ban co muon xoa khong?') === true) {
+                $.ajax({
+                    url: '{{ env('URL_API') }}' + `class-user/` + id,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ @csrf_token() }}',
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    },
+                    method: "DELETE",
+                    success: function (data) {
+                        if (data.response.code === 500){
+                            toastr.error('Bạn không thể hủy đăng ký học phần này!', 'Error');
+                        }else {
+                            window.location = "{{ route('classes.list') }}";
+                        }
+                    },
+                    error: function (err) {
+                        alert('error');
+                        console.log(err);
+                    }
+                });
+            }
+        }
     </script>
 @endpush
