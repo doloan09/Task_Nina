@@ -30,7 +30,7 @@ class ClassUserRepository extends BaseRepository implements ClassUserRepositoryI
 
     public function phanGiang($request)
     {
-        $item = ClassUser::query()->where('id_class', $request['id_class'])->first();
+        $item = ClassUser::query()->where('id_class', $request['id_class'])->where('id_user', $request['id_user'])->first();
 
         if ($item){
             return false;

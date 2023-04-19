@@ -13,6 +13,7 @@ use App\Models\Point;
 use App\Models\User;
 use App\Repositories\Point\PointRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -35,17 +36,35 @@ class PointController extends Controller
         try {
             $list = $this->pointRepo->getAllPoint($request);
 
-            return Datatables::of($list)
-                ->editColumn('code_class', function ($item) {
-                    return $item->code_class;
-                })
-                ->editColumn('action', function ($item) {
+            if (Auth::user()->hasRole('student')){
+                return Datatables::of($list)
+                    ->editColumn('name_semester', function ($item) {
+                        return $item->name_semester . '_' . $item->year_semester;
+                    })
+                    ->editColumn('code_class', function ($item) {
+                        return $item->code_class;
+                    })
+                    ->editColumn('action', function ($item) {
+                        return '';
+                    })
+                    ->rawColumns(['name_semester', 'code_class', 'action'])
+                    ->make(true);
+            }else {
+                return Datatables::of($list)
+                    ->editColumn('name_semester', function ($item) {
+                        return $item->name_semester . '_' . $item->year_semester;
+                    })
+                    ->editColumn('code_class', function ($item) {
+                        return $item->code_class;
+                    })
+                    ->editColumn('action', function ($item) {
 
-                    return '<button onclick="update('. $item->id .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="margin: 0px 20px;">Sửa</button>
-                            <button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
-                })
-                ->rawColumns(['code_class', 'action'])
-                ->make(true);
+                        return '<button onclick="update(' . $item->id . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createPoint" style="margin: 0px 20px;">Sửa</button>
+                            <button onclick="deleteClass(' . $item->id . ')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
+                    })
+                    ->rawColumns(['name_semester', 'code_class', 'action'])
+                    ->make(true);
+            }
         }catch (\Exception $e){
             return new FailedCollection($e);
         }

@@ -7,4 +7,6 @@ use App\Repositories\RepositoryInterface;
 interface ClassRepositoryInterface extends RepositoryInterface
 {
     public function getAllClass($request);
+
+    public function getClassDKHP($request);
 }

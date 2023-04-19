@@ -20,7 +20,7 @@ class AuthMiddleware
         if (!Auth::user()){
             return redirect()->route('login.request');
         }
-        else if (!Auth::user()->hasRole('admin') && !Auth::user()->hasRole('teacher')){
+        else if (!Auth::user()->hasRole('admin') && !Auth::user()->hasRole('teacher') && !Auth::user()->hasRole('student')){
             return abort(403);
         }
 

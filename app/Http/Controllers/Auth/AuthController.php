@@ -18,19 +18,21 @@ class AuthController extends Controller
      * @return Application|Factory|View|RedirectResponse
      */
     public function home(){
-        if (Auth::user()->hasRole('teacher')){
-            return redirect()->route('class-user.list');
-        }else{
-            return view('welcome');
-        }
+        return view('welcome');
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
     public function viewLogin(){
         if (Auth::user()){
-            return redirect()->route('home');
+            if (Auth::user()->hasRole('teacher')){
+                return redirect()->route('class-user.list');
+            }else if (Auth::user()->hasRole('student')){
+                return redirect()->route('notifications.list');
+            }else{
+                return redirect()->route('home');
+            }
         }
         return view('auth.login');
     }

@@ -18,7 +18,8 @@ class PointRepository extends BaseRepository implements PointRepositoryInterface
     {
         $list = $this->model->join('users', 'points.id_user', '=', 'users.id')
             ->join('classes', 'classes.id', '=', 'points.id_class')
-            ->select('points.*', 'users.name as name_user', 'users.code_user', 'classes.name_class', 'classes.code_class');
+            ->join('semesters', 'semesters.id', '=', 'classes.id_semester')
+            ->select('points.*', 'users.name as name_user', 'users.code_user', 'classes.name_class', 'classes.code_class', 'classes.id_semester', 'semesters.name_semester', 'semesters.year_semester');
 
         if ($request['id_user']) $list = $list->where('id_user', $request['id_user']);
         if ($request['id_class']) $list = $list->where('id_class', $request['id_class']);
@@ -30,6 +31,9 @@ class PointRepository extends BaseRepository implements PointRepositoryInterface
             }
 
             $list = $list->whereIn('points.id_class', $list_class);
+        }
+        if (Auth::user()->hasRole('student')){
+            $list = $list->where('id_user', Auth::id());
         }
 
         return $list->get();

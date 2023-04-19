@@ -33,7 +33,7 @@ class NotificationController extends Controller
 
             return Datatables::of($list)
                 ->editColumn('content', function ($item) {
-                    return '<p style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; width: 500px;">' . $item->content . '</p>';
+                    return '<div style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; width: 500px;">' . $item->content . '</div>';
                 })
                 ->editColumn('action', function ($item) {
 

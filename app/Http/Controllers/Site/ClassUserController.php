@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassUserRequest;
 use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
+use App\Models\Point;
 use App\Repositories\Class_User\ClassUserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,11 +44,14 @@ class ClassUserController extends Controller
                     ->make(true);
             }else{
                 return Datatables::of($list)
+                    ->editColumn('name_semester', function ($item) {
+                        return '<p>' . $item->name_semester . '_' . $item->year_semester . '</p>';
+                    })
                     ->editColumn('action', function ($item) {
                         return '<button class="btn btn-xs btn-warning" style="margin: 0px 20px;" disabled="disabled">Sửa</button>
                                 <button class="btn btn-xs btn-danger btn-delete" disabled="disabled">Xóa</button>';
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['name_semester', 'action'])
                     ->make(true);
             }
         }catch (\Exception $e){
@@ -138,9 +142,14 @@ class ClassUserController extends Controller
     {
         try {
             $item = $this->classUserRepo->find($id);
-            $this->classUserRepo->delete($id);
+            $check = Point::query()->where('id_user', $item->id_user)->where('id_class', $item->id_class)->first();
+            if ($check){
+                return new FailedCollection(collect([]));
+            }else {
+                $this->classUserRepo->delete($id);
 
-            return new SuccessCollection($item);
+                return new SuccessCollection($item);
+            }
         }catch (\Exception $e){
             return new FailedCollection(collect([$e]));
         }

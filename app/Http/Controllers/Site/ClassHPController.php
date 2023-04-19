@@ -8,6 +8,7 @@ use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
 use App\Repositories\Class_HP\ClassRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class ClassHPController extends Controller
@@ -27,20 +28,37 @@ class ClassHPController extends Controller
     public function index(Request $request)
     {
         try {
-            $list = $this->classRepo->getAllClass($request);
+            if ($request->query('dkph')){
+                $list = $this->classRepo->getClassDKHP($request);
+            }else {
+                $list = $this->classRepo->getAllClass($request);
+            }
 
-            return Datatables::of($list)
-                ->editColumn('name_semester', function ($item) {
-                    return $item->name_semester . '_' . $item->year_semester;
-                })
-                ->editColumn('action', function ($item) {
-                    $name = "'" . $item->name_class . "'";
-                    $code = "'" . $item->code_class . "'";
+            if (Auth::user()->hasRole('admin')) {
+                return Datatables::of($list)
+                    ->editColumn('name_semester', function ($item) {
+                        return $item->name_semester . '_' . $item->year_semester;
+                    })
+                    ->editColumn('action', function ($item) {
+                        $name = "'" . $item->name_class . "'";
+                        $code = "'" . $item->code_class . "'";
 
-                    return '<button onclick="setValue('. $item->id .', '. $name .', '. $code .', '. $item->id_subject .', '. $item->id_semester .')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 20px;">Sửa</button><button onclick="deleteClass('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
-                })
-                ->rawColumns(['name_semester', 'action'])
-                ->make(true);
+                        return '<button onclick="setValue(' . $item->id . ', ' . $name . ', ' . $code . ', ' . $item->id_subject . ', ' . $item->id_semester . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 20px;">Sửa</button><button onclick="deleteClass(' . $item->id . ')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
+                    })
+                    ->rawColumns(['name_semester', 'action'])
+                    ->make(true);
+            }else{
+                return Datatables::of($list)
+                    ->editColumn('name_semester', function ($item) {
+                        return $item->name_semester . '_' . $item->year_semester;
+                    })
+                    ->editColumn('action', function ($item) {
+
+                        return '<button onclick="deleteDK_HP(' . $item->id_class_user . ')" class="btn btn-xs btn-danger btn-delete">Hủy ĐK</button>';
+                    })
+                    ->rawColumns(['name_semester', 'action'])
+                    ->make(true);
+            }
         }catch (\Exception $e){
             return new FailedCollection(collect([$e]));
         }
