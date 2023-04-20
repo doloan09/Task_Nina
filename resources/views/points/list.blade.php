@@ -575,7 +575,7 @@
                     {data: 'action', name: '', orderable: false, searchable: false},
                 ],
                 "columnDefs": [
-                    { className: "my_class", "targets": [ 0, 4, 5, 6, 7 ] }
+                    { className: "my_class", "targets": [ 0, 4, 5, 6, 7, 8 ] }
                 ]
             });
         }

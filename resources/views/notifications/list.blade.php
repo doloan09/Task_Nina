@@ -261,7 +261,7 @@
                     { data: 'action', name: '', orderable: false, searchable: false},
                 ],
                 "columnDefs": [
-                    { className: "my_class", "targets": [ 0 ] }
+                    { className: "my_class", "targets": [ 0, 3 ] }
                 ]
             });
         });

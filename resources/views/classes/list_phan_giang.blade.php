@@ -271,6 +271,9 @@
                     {data: 'code_class', name: 'code_class'},
                     {data: 'name', name: 'name'},
                     {data: 'action', name: '', orderable: false, searchable: false},
+                ],
+                "columnDefs": [
+                    { className: "my_class", "targets": [ 1, 3 ] }
                 ]
             });
         }
