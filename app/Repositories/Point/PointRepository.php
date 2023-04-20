@@ -21,8 +21,10 @@ class PointRepository extends BaseRepository implements PointRepositoryInterface
             ->join('semesters', 'semesters.id', '=', 'classes.id_semester')
             ->select('points.*', 'users.name as name_user', 'users.code_user', 'classes.name_class', 'classes.code_class', 'classes.id_semester', 'semesters.name_semester', 'semesters.year_semester');
 
-        if ($request['id_user']) $list = $list->where('id_user', $request['id_user']);
-        if ($request['id_class']) $list = $list->where('id_class', $request['id_class']);
+        if ($request['id_user']) $list = $list->where('points.id_user', $request['id_user']);
+        if ($request['id_class']) $list = $list->where('points.id_class', $request['id_class']);
+        if ($request['id_semester']) $list = $list->where('semesters.id', $request['id_semester']);
+
         if (Auth::user()->hasRole('teacher')){
             $classes = ClassUser::query()->where('id_user', Auth::id())->select('id_class')->get();
             $list_class = [];

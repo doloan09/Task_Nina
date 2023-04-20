@@ -28,6 +28,10 @@
         margin-top: 20px;
     }
 
+    #classes-table tbody tr td{
+        padding: 15px 0;
+    }
+
 </style>
 
 @section('content')
@@ -70,11 +74,11 @@
             <thead>
             <tr>
                 <th style="width: 20px;">Id</th>
-                <th>Môn học</th>
+{{--                <th>Môn học</th>--}}
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
                 <th>Số tín chỉ</th>
-                <th>Kỳ học</th>
+{{--                <th>Kỳ học</th>--}}
                 <th style="width: 10%;">Action</th>
             </tr>
             </thead>
@@ -184,6 +188,7 @@
         getSemester();
         getSubject();
         getClass_DKHP();
+        create_table('');
 
         $('#classes-table').removeClass('table-bordered');
         $('#classes-table').addClass('table-striped table-hover');
@@ -194,12 +199,12 @@
         });
 
         $('#filter_semester').on('change', function() {
-            let semester = document.getElementById('filter_semester').value;
-            getData(semester);
+            let semester = $('#filter_semester').val();
+            getDataBySemester(semester);
         });
 
         $('#filter_subject').on('change', function() {
-            let subject = document.getElementById('filter_subject').value;
+            let subject = $('#filter_subject').val();
             getDataBySubject(subject);
         });
 
@@ -253,7 +258,8 @@
                 success: function (data) {
                     let list = data.data;
                     let str = '';
-                    let str2 = '<option value="">- Tất cả -</option>';
+                    let str2 = '<option value="">-- Tất cả --</option>';
+                    list = list.reverse();
                     for (let item in list){
                         str += '<option value="' + list[item]['id'] + '">' + list[item]['name_semester'] + '_' + list[item]['year_semester'] + '</option>'
                     }
@@ -294,46 +300,63 @@
             });
         }
 
-        var tableClass = $('#classes-table').DataTable({
-            processing: true,
-            serverSide: true,
-            "bInfo" : false,
-            order: [[4, 'desc']],
-            language: {
-                paginate: {
-                    next: '>',
-                    previous: '<'
-                }
-            },
-            ajax: {
-                url: '{{ env('URL_API') }}' + 'classes?id_user=' + '{{ \Illuminate\Support\Facades\Auth::user()->hasRole('student') ? \Illuminate\Support\Facades\Auth::id() : "" }}',
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token"),
-                },
-            },
-            columns: [
-                {data: 'id', name: 'id'},
-                {data: 'name_subject', name: 'id_subject'},
-                {data: 'name_class', name: 'name_class'},
-                {data: 'code_class', name: 'code_class'},
-                {data: 'number_of_credits', name: 'number_of_credits'},
-                {data: 'name_semester', name: 'id_semester'},
-                {data: 'action', name: '', orderable: false, searchable: false},
-            ]
-        });
+        function create_table(url = '') {
+            let url_main;
+            if (url){
+                url_main = url;
+            }else {
+                url_main = '{{ env('URL_API') }}' + 'classes?id_user=' + '{{ \Illuminate\Support\Facades\Auth::user()->hasRole('student') ? \Illuminate\Support\Facades\Auth::id() : "" }}';
+            }
 
-        function getData(semester = '') {
-            tableClass
-                .columns([4])
-                .search(semester)
-                .draw();
+            $('#classes-table').DataTable({
+                processing: true,
+                serverSide: true,
+                "bInfo": false,
+                order: [[0, 'desc']],
+                language: {
+                    paginate: {
+                        next: '>',
+                        previous: '<'
+                    }
+                },
+                ajax: {
+                    url: url_main,
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    },
+                },
+                columns: [
+                    {data: 'id', name: 'id'},
+                    // {data: 'name_subject', name: 'id_subject'},
+                    {data: 'name_class', name: 'name_class'},
+                    {data: 'code_class', name: 'code_class'},
+                    {data: 'number_of_credits', name: 'number_of_credits'},
+                    // {data: 'name_semester', name: 'semester'},
+                    {data: 'action', name: '', orderable: false, searchable: false},
+                ]
+            });
+        }
+
+        function getDataBySemester(semester = '') {
+            if ( $.fn.DataTable.isDataTable('#classes-table') ) {
+                $('#classes-table').DataTable().destroy();
+            }
+
+            $('#classes-table tbody').empty();
+
+            let url = '{{ env('URL_API') }}' + 'classes?id_semester=' + semester + '&id_subject=' + $("#filter_subject").val();
+            create_table(url);
         }
 
         function getDataBySubject(subject = '') {
-            tableClass
-                .columns([1])
-                .search(subject)
-                .draw();
+            if ( $.fn.DataTable.isDataTable('#classes-table') ) {
+                $('#classes-table').DataTable().destroy();
+            }
+
+            $('#classes-table tbody').empty();
+
+            let url = '{{ env('URL_API') }}' + 'classes?id_subject=' + subject + '&id_semester=' + $("#filter_semester").val();
+            create_table(url);
         }
 
         $("#create-class").submit(function (e) {

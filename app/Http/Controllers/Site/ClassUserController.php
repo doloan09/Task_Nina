@@ -33,8 +33,8 @@ class ClassUserController extends Controller
 
             if (Auth::user()->hasRole('admin')) {
                 return Datatables::of($list)
-                    ->editColumn('name_semester', function ($item) {
-                        return '<p>' . $item->name_semester . '_' . $item->year_semester . '</p>';
+                    ->editColumn('name_class', function ($item) {
+                        return $item->name_class;
                     })
                     ->editColumn('action', function ($item) {
                         return '<button onclick="setValuePhanGiang(' . $item->id . ', ' . $item->id_class . ', ' . $item->id_user . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#PhanGiang" style="margin: 0px 20px;">Sửa</button>

@@ -28,6 +28,10 @@
         margin-top: 20px;
     }
 
+    #class-users-table tbody tr td{
+        padding: 15px 0;
+    }
+
 </style>
 
 @section('content')
@@ -57,7 +61,7 @@
         <table class="table table-bordered" id="class-users-table">
             <thead>
             <tr>
-                <th>Kỳ học</th>
+{{--                <th>Kỳ học</th>--}}
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
                 <th>Giảng viên</th>
@@ -123,6 +127,7 @@
         getClass();
         getUser();
         getSemester();
+        create_table();
 
         $('#class-users-table').removeClass('table-bordered');
         $('#class-users-table').addClass('table-striped table-hover');
@@ -138,10 +143,14 @@
         });
 
         function getData(semester = '') {
-            tableClassUser
-                .columns([0])
-                .search(semester)
-                .draw();
+            if ( $.fn.DataTable.isDataTable('#class-users-table') ) {
+                $('#class-users-table').DataTable().destroy();
+            }
+
+            $('#class-users-table tbody').empty();
+
+            let url = '{{ env('URL_API') }}' + 'class-user?id_semester=' + semester;
+            create_table(url);
         }
 
         function getSemester(){
@@ -157,6 +166,7 @@
                     let list = data.data;
                     let str = '';
                     let str2 = '<option value="">- Tất cả -</option>';
+                    list = list.reverse();
                     for (let item in list){
                         str += '<option value="' + list[item]['id'] + '">' + list[item]['name_semester'] + '_' + list[item]['year_semester'] + '</option>'
                     }
@@ -230,31 +240,40 @@
             });
         }
 
-        var tableClassUser = $('#class-users-table').DataTable({
-            processing: true,
-            serverSide: true,
-            "bInfo" : false,
-            order: [[0, 'desc']],
-            language: {
-                paginate: {
-                    next: '>',
-                    previous: '<'
-                }
-            },
-            ajax: {
-                url: '{{ env('URL_API') }}' + 'class-user',
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token"),
+        function create_table(url = '') {
+            let url_main;
+            if (url){
+                url_main = url;
+            }else {
+                url_main = '{{ env('URL_API') }}' + 'class-user';
+            }
+
+            $('#class-users-table').DataTable({
+                processing: true,
+                serverSide: true,
+                "bInfo": false,
+                order: [[0, 'desc']],
+                language: {
+                    paginate: {
+                        next: '>',
+                        previous: '<'
+                    }
                 },
-            },
-            columns: [
-                {data: 'name_semester', name: 'id_semester'},
-                {data: 'name_class', name: 'name_class'},
-                {data: 'code_class', name: 'code_class'},
-                {data: 'name', name: 'name'},
-                {data: 'action', name: '', orderable: false, searchable: false},
-            ]
-        });
+                ajax: {
+                    url: url_main,
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    },
+                },
+                columns: [
+                    // {data: 'name_semester', name: 'id_semester'},
+                    {data: 'name_class', name: 'id'},
+                    {data: 'code_class', name: 'code_class'},
+                    {data: 'name', name: 'name'},
+                    {data: 'action', name: '', orderable: false, searchable: false},
+                ]
+            });
+        }
 
         $("#phan-giang-form").submit(function (e) {
             e.preventDefault();

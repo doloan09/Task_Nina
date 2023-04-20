@@ -28,6 +28,10 @@
         margin-top: 20px;
     }
 
+    #points-table tbody tr td{
+        padding: 15px 0;
+    }
+
 </style>
 @section('content')
     <div style="margin-top: 70px;">
@@ -68,7 +72,7 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th style="width: 150px;">Kỳ học</th>
+{{--                <th style="width: 150px;">Kỳ học</th>--}}
                 <th>Tên lớp học phần</th>
                 <th>Mã lớp học phần</th>
                 <th>Tên sinh viên</th>
@@ -285,6 +289,7 @@
     <script>
         getClass();
         getSemester();
+        create_table();
 
         $(document).ready(function() {
             $('#filter_class').select2();
@@ -329,7 +334,7 @@
         });
 
         $('#filter_semester').on('change', function() {
-            let semester = document.getElementById('filter_semester').value;
+            let semester = $('#filter_semester').val();
             getDataBySemester(semester);
         });
 
@@ -376,17 +381,25 @@
         });
 
         function getData(id_class = '') {
-            tablePoint
-                .columns([3])
-                .search(id_class)
-                .draw();
+            if ( $.fn.DataTable.isDataTable('#points-table') ) {
+                $('#points-table').DataTable().destroy();
+            }
+
+            $('#points-table tbody').empty();
+
+            let url = '{{ env('URL_API') }}' + 'points?id_class=' + id_class + '&id_semester=' + $("#filter_semester").val();
+            create_table(url);
         }
 
         function getDataBySemester(id_semester = '') {
-            tablePoint
-                .columns([1])
-                .search(id_semester)
-                .draw();
+            if ( $.fn.DataTable.isDataTable('#points-table') ) {
+                $('#points-table').DataTable().destroy();
+            }
+
+            $('#points-table tbody').empty();
+
+            let url = '{{ env('URL_API') }}' + 'points?id_class=' + $('#filter_class').val() + '&id_semester=' + id_semester;
+            create_table(url);
         }
 
         function setPointFinal(){
@@ -524,10 +537,18 @@
             }
         }
 
-        var tablePoint = $('#points-table').DataTable({
+        function create_table(url = '') {
+            let url_main;
+            if (url){
+                url_main = url;
+            }else {
+                url_main = '{{ env('URL_API') }}' + 'points';
+            }
+
+            var tablePoint = $('#points-table').DataTable({
                 processing: true,
                 serverSide: true,
-                "bInfo" : false,
+                "bInfo": false,
                 order: [[1, 'desc']],
                 language: {
                     paginate: {
@@ -536,14 +557,14 @@
                     }
                 },
                 ajax: {
-                    url: '{{ env('URL_API') }}' + 'points',
+                    url: url_main,
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
                     },
                 },
                 columns: [
                     {data: 'id', name: 'id'},
-                    {data: 'name_semester', name: 'id_semester'},
+                    // {data: 'name_semester', name: 'id_semester'},
                     {data: 'name_class', name: 'id_class'},
                     {data: 'code_class', name: 'id_class'},
                     {data: 'name_user', name: 'id_user'},
@@ -554,6 +575,7 @@
                     {data: 'action', name: '', orderable: false, searchable: false},
                 ],
             });
+        }
 
         function setValue(id_point, score_component, score_test, score_final, id_user, id_class){
             $('#id_point').val(id_point);

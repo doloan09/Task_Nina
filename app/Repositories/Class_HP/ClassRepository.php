@@ -24,12 +24,17 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
             $list = $list->join('class_users', 'class_users.id_class', '=', 'classes.id')
                 ->select('classes.*', 'subjects.name_subject', 'subjects.number_of_credits', 'semesters.name_semester', 'semesters.year_semester', 'class_users.id as id_class_user')
                 ->where('class_users.id_user', $request['id_user']);
+
+            if ($request['id_semester']) $list .= $list->where('id_semester', $request['id_semester']);
+            if ($request['id_subject'])  $list .= $list->where('id_subject', $request['id_subject']);
+
+            return $list->get();
         }
 
-        if ($request['id_semester']) $list = $list_role->where('id_semester', $request['id_semester']);
-        if ($request['id_subject'])  $list = $list_role->where('id_subject', $request['id_subject']);
+        if ($request['id_semester']) $list_role = $list_role->where('id_semester', $request['id_semester']);
+        if ($request['id_subject'])  $list_role = $list_role->where('id_subject', $request['id_subject']);
 
-        return $list->get();
+        return $list_role->get();
     }
 
     public function getClassDKHP($request)

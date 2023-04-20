@@ -28,6 +28,13 @@
         margin-top: 20px;
     }
 
+    #semesters-table tbody tr td{
+        padding: 15px 0;
+        text-align: center;
+    }
+    #semesters-table thead tr th{
+        text-align: center;
+    }
 </style>
 
 @section('content')

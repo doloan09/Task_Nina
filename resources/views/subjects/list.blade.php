@@ -29,6 +29,10 @@
         margin-top: 20px;
     }
 
+    #subject-table tbody tr td{
+        padding: 15px 0;
+    }
+
 </style>
 
 @section('content')

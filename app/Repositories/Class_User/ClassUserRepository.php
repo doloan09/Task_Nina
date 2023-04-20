@@ -25,6 +25,8 @@ class ClassUserRepository extends BaseRepository implements ClassUserRepositoryI
             $list = $list->where('class_users.id_user', Auth::id());
         }
 
+        if ($request['id_semester']) $list = $list->where('classes.id_semester', $request['id_semester']);
+
         return $list->get();
     }
 
