@@ -3,6 +3,7 @@
 namespace App\Repositories\Class_User;
 
 use App\Models\ClassUser;
+use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,8 @@ class ClassUserRepository extends BaseRepository implements ClassUserRepositoryI
 
     public function getAllClassUser($request)
     {
+        $list_user = User::role('teacher')->pluck('id');
+
         $list = $this->model->join('classes', 'classes.id', '=', 'class_users.id_class')
             ->join('users', 'users.id', '=', 'class_users.id_user')
             ->join('semesters', 'semesters.id', '=', 'classes.id_semester')
@@ -23,6 +26,8 @@ class ClassUserRepository extends BaseRepository implements ClassUserRepositoryI
 
         if (Auth::user()->hasRole('teacher')){
             $list = $list->where('class_users.id_user', Auth::id());
+        }else {
+            $list = $list->whereIn('class_users.id_user', $list_user);
         }
 
         if ($request['id_semester']) $list = $list->where('classes.id_semester', $request['id_semester']);
