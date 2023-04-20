@@ -43,7 +43,9 @@ class ClassHPController extends Controller
                         $name = "'" . $item->name_class . "'";
                         $code = "'" . $item->code_class . "'";
 
-                        return '<button onclick="setValue(' . $item->id . ', ' . $name . ', ' . $code . ', ' . $item->id_subject . ', ' . $item->id_semester . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 20px;">Sửa</button><button onclick="deleteClass(' . $item->id . ')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
+                        return '<a href="' . route('classes.show', ['id' => $item->id, 'name_class' => $item->name_class]) . '" class="btn btn-xs btn-info">Xem</a>
+                                <button onclick="setValue(' . $item->id . ', ' . $name . ', ' . $code . ', ' . $item->id_subject . ', ' . $item->id_semester . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 20px;">Sửa</button>
+                                <button onclick="deleteClass(' . $item->id . ')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                     })
                     ->rawColumns(['name_semester', 'action'])
                     ->make(true);
@@ -97,11 +99,21 @@ class ClassHPController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return FailedCollection|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        try {
+            $list = $this->classRepo->getAllUserInClass($id);
+            return Datatables::of($list)
+                ->editColumn('action', function ($item) {
+                    return '<button onclick="deleteDK_HP(' . $item->id_class_user . ')" class="btn btn-xs btn-danger btn-delete" style="margin-left: 20px;">Xóa</button>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }catch (\Exception $e){
+            return new FailedCollection(collect([$e]));
+        }
     }
 
     /**
@@ -159,6 +171,10 @@ class ClassHPController extends Controller
      */
     public function list(){
         return $this->classRepo->viewList('classes.list');
+    }
+
+    public function view_show(){
+        return $this->classRepo->viewList('classes.list_user_class');
     }
 
 }

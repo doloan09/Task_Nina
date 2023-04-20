@@ -79,7 +79,7 @@
                 <th>Mã lớp học phần</th>
                 <th>Số tín chỉ</th>
 {{--                <th>Kỳ học</th>--}}
-                <th style="width: 10%;">Action</th>
+                <th style="width: 15%;">Action</th>
             </tr>
             </thead>
         </table>
@@ -333,6 +333,9 @@
                     {data: 'number_of_credits', name: 'number_of_credits'},
                     // {data: 'name_semester', name: 'semester'},
                     {data: 'action', name: '', orderable: false, searchable: false},
+                ],
+                "columnDefs": [
+                    { className: "my_class", "targets": [ 0, 3 ] }
                 ]
             });
         }

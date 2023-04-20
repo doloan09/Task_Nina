@@ -123,6 +123,9 @@
                 {data: 'sex', name: 'sex'},
                 {data: 'name_role', name: 'name_role'},
                 {data: 'action', name: '', orderable: false, searchable: false},
+            ],
+            "columnDefs": [
+                { className: "my_class", "targets": [ 0, 3, 5, 6, 8 ] }
             ]
         });
 

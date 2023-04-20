@@ -545,7 +545,7 @@
                 url_main = '{{ env('URL_API') }}' + 'points';
             }
 
-            var tablePoint = $('#points-table').DataTable({
+            $('#points-table').DataTable({
                 processing: true,
                 serverSide: true,
                 "bInfo": false,
@@ -574,6 +574,9 @@
                     {data: 'score_final', name: 'score_final'},
                     {data: 'action', name: '', orderable: false, searchable: false},
                 ],
+                "columnDefs": [
+                    { className: "my_class", "targets": [ 0, 4, 5, 6, 7 ] }
+                ]
             });
         }
 

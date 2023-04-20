@@ -81,6 +81,11 @@
             display: block;
         }
 
+        /* class css datatable */
+        .my_class{
+            text-align: center;
+        }
+
     </style>
 
 </head>

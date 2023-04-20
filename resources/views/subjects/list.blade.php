@@ -147,6 +147,9 @@
                     {data: 'code_subject', name: 'code_subject'},
                     {data: 'number_of_credits', name: 'number_of_credits'},
                     {data: 'action', name: '', orderable: false, searchable: false},
+                ],
+                "columnDefs": [
+                    { className: "my_class", "targets": [ 0, 3 ] }
                 ]
             });
         });

@@ -45,4 +45,15 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
 
         return $list_class_dkhp;
     }
+
+    public function getAllUserInClass($id)
+    {
+        $list = $this->model->join('class_users', 'class_users.id_class', '=', 'classes.id')
+            ->join('users', 'users.id', '=', 'class_users.id_user')
+            ->select('users.*', 'class_users.id as id_class_user')
+            ->where('class_users.id_class', $id)
+            ->get();
+
+        return $list;
+    }
 }

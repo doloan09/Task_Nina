@@ -37,7 +37,7 @@ class NotificationController extends Controller
                 })
                 ->editColumn('action', function ($item) {
 
-                    return '<button onclick="setValueNoti('. $item->id .', ' . "'" . $item->title . "'" .')" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#sendNotification" style="margin-right: 10px;">Gửi</button>
+                    return '<button onclick="setValueNoti('. $item->id .', ' . "'" . $item->title . "'" .')" class="btn btn-xs btn-info" data-toggle="modal" data-target="#sendNotification" style="margin-right: 10px; padding: 2px 8px;">Gửi</button>
                             <a href="'. route('notifications.show', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="">Xem</a>
                             <a href="'. route('notifications.edit', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Sửa</a>
                             <button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';

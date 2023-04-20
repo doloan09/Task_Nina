@@ -131,6 +131,9 @@
                 "searching": false,
                 "paging": false,
                 "bInfo" : false,
+                "columnDefs": [
+                    { className: "my_class", "targets": [ 0, 3, 5, 6, 7 ] }
+                ]
             });
         });
 
