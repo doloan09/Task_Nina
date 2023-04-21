@@ -44,7 +44,7 @@ class ClassHPController extends Controller
                         $code = "'" . $item->code_class . "'";
 
                         return '<a href="' . route('classes.show', ['id' => $item->id, 'name_class' => $item->name_class]) . '" class="btn btn-xs btn-info">Xem</a>
-                                <button onclick="setValue(' . $item->id . ', ' . $name . ', ' . $code . ', ' . $item->id_subject . ', ' . $item->id_semester . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 20px;">Sửa</button>
+                                <button onclick="setValue(' . $item->id . ', ' . $name . ', ' . $code . ', ' . $item->id_subject . ', ' . $item->id_semester . ')" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#createClass" style="margin: 0px 10px;">Sửa</button>
                                 <button onclick="deleteClass(' . $item->id . ')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                     })
                     ->rawColumns(['name_semester', 'action'])

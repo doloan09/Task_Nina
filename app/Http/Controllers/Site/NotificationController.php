@@ -32,17 +32,19 @@ class NotificationController extends Controller
             $list = $this->notiRepo->getAll();
 
             return Datatables::of($list)
+                ->editColumn('title', function ($item) {
+                    return '<a href="'. route('notifications.show', ['id' => $item->id]) .'">' . $item->title . '</a>';
+                })
                 ->editColumn('content', function ($item) {
                     return '<div style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; width: 500px;">' . $item->content . '</div>';
                 })
                 ->editColumn('action', function ($item) {
 
-                    return '<button onclick="setValueNoti('. $item->id .', ' . "'" . $item->title . "'" .')" class="btn btn-xs btn-info" data-toggle="modal" data-target="#sendNotification" style="margin-right: 10px; padding: 2px 8px;">Gửi</button>
-                            <a href="'. route('notifications.show', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="">Xem</a>
+                    return '<button onclick="setValueNoti('. $item->id .', ' . "'" . $item->title . "'" .')" class="btn btn-xs btn-info" data-toggle="modal" data-target="#sendNotification" style="padding: 2px 8px;">Gửi</button>
                             <a href="'. route('notifications.edit', ['id' => $item->id]) .'" class="btn btn-xs btn-warning" style="margin: 0px 10px;">Sửa</a>
                             <button onclick="deleteNoti('. $item->id .')" class="btn btn-xs btn-danger btn-delete">Xóa</button>';
                 })
-                ->rawColumns(['content', 'action'])
+                ->rawColumns(['title', 'content', 'action'])
                 ->make(true);
         }catch (\Exception $e){
             return new FailedCollection(collect([$e]));
