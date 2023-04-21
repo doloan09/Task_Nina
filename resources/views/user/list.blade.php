@@ -40,7 +40,7 @@
                 <div class="dropdown-content" style="padding: 30px 20px;">
                     <span style="margin-right: 10px;">Vai trò:</span>
                     <select id="filter_role" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
-                        <option value="">- Tất cả -</option>
+                        <option value="">---</option>
                         <option value="admin">admin</option>
                         <option value="teacher">teacher</option>
                         <option value="student">student</option>

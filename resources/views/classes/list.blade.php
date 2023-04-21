@@ -47,13 +47,13 @@
                 <div class="dropdown-content" style="padding: 30px 20px; margin-left: -50px;">
                     <div>
                         <div style="margin-right: 10px;">Kỳ học:</div>
-                        <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
+                        <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px; width: 200px;">
 
                         </select>
                     </div>
                     <div>
                         <div style="margin-right: 10px; margin-top: 20px;">Môn học:</div>
-                        <select id="filter_subject" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
+                        <select id="filter_subject" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px; width: 200px;">
 
                         </select>
                     </div>
@@ -244,7 +244,7 @@
                 success: function (data) {
                     let list = data.data;
                     let str = '';
-                    let str2 = '<option value="">--Tất cả--</option>';
+                    let str2 = '<option value="">---</option>';
                     for (let item in list){
                         str += '<option value="' + list[item]['id'] + '">' + list[item]['name_subject'] + '</option>'
                     }
@@ -272,7 +272,7 @@
                 success: function (data) {
                     let list = data.data;
                     let str = '';
-                    let str2 = '<option value="">-- Tất cả --</option>';
+                    let str2 = '<option value="">---</option>';
                     list = list.reverse();
                     for (let item in list){
                         str += '<option value="' + list[item]['id'] + '">' + list[item]['name_semester'] + '_' + list[item]['year_semester'] + '</option>'

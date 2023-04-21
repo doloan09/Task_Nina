@@ -170,7 +170,7 @@
                 success: function (data) {
                     let list = data.data;
                     let str = '';
-                    let str2 = '<option value="">- Tất cả -</option>';
+                    let str2 = '<option value="">---</option>';
                     list = list.reverse();
                     for (let item in list){
                         str += '<option value="' + list[item]['id'] + '">' + list[item]['name_semester'] + '_' + list[item]['year_semester'] + '</option>'
