@@ -63,7 +63,7 @@
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content" style="min-width: 120px;">
                     @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
-                        <p data-toggle="modal" data-target="#createClass">Thêm mới</p>
+                        <p data-toggle="modal" data-target="#createClass" onclick="setValueDefaul()">Thêm mới</p>
                     @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('student'))
                         <p data-toggle="modal" data-target="#DK_HP">Đăng ký</p>
                     @endif
@@ -207,6 +207,20 @@
             let subject = $('#filter_subject').val();
             getDataBySubject(subject);
         });
+
+        function setValueDefaul(){
+            $('#id_class').val('');
+            $('#name_class').val('');
+            $('#code_class').val('');
+            $('#id_subject').val($('#id_subject :first').val());
+            $('#id_semester').val($('#id_semester :first').val());
+            setErrDefaul();
+        }
+
+        function setErrDefaul(){
+            $('#div_err_name_class').val('');
+            $('#div_err_code_class').val('');
+        }
 
         function setValue(id, name, code, id_subject, id_semester){
             $('#id_class').val(id);
@@ -393,9 +407,7 @@
                     if (data.response.code === 200) {
                         toastr.success(noti, 'Success');
                         if ($('#id_class').val() === ''){
-                            $("#name_class").val('');
-                            $("#code_class").val('');
-                            $("#id_subject").val('');
+                            setValueDefaul();
                         }else {
                             $('#id_class').val('');
                             setTimeout(function (){

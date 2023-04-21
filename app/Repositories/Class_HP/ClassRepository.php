@@ -3,6 +3,7 @@
 namespace App\Repositories\Class_HP;
 
 use App\Models\ClassUser;
+use App\Models\User;
 use App\Repositories\BaseRepository;
 
 class ClassRepository extends BaseRepository implements ClassRepositoryInterface
@@ -48,10 +49,13 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
 
     public function getAllUserInClass($id)
     {
+        $id_teaacher = User::role('teacher')->pluck('id');
+
         $list = $this->model->join('class_users', 'class_users.id_class', '=', 'classes.id')
             ->join('users', 'users.id', '=', 'class_users.id_user')
             ->select('users.*', 'class_users.id as id_class_user')
             ->where('class_users.id_class', $id)
+            ->whereNotIn('class_users.id_user', $id_teaacher)
             ->get();
 
         return $list;

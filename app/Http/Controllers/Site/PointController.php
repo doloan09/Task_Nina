@@ -9,6 +9,7 @@ use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
 use App\Imports\PointImport;
 use App\Models\Class_HP;
+use App\Models\ClassUser;
 use App\Models\Point;
 use App\Models\User;
 use App\Repositories\Point\PointRepositoryInterface;
@@ -105,8 +106,15 @@ class PointController extends Controller
             }
 
             $item = Point::query()->where('id_user', $request->get('id_user'))->where('id_class', $request->get('id_class'))->first();
+            $check = ClassUser::query()->where('id_user', $request->get('id_user'))->where('id_class', $request->get('id_class'))->first();
+            $user = User::query()->where('id', $request->get('id_user'))->first();
+            $user = $user->hasRole('student');
+
             if ($item){
                 $error['point_unique'] = 'Đã tồn tại điểm của sinh viên với môn học';
+            }
+            if (!$check || !$user){
+                $error['user_not_class'] = 'Không tồn tại thông tin sinh viên trong lớp học này!';
             }
 
             if (count($error)){

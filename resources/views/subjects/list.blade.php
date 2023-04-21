@@ -42,7 +42,7 @@
             <div class="dropdown">
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content">
-                    <p data-toggle="modal" data-target="#createSubject">Thêm mới</p>
+                    <p data-toggle="modal" data-target="#createSubject" onclick="setValueDefaul()">Thêm mới</p>
                 </div>
             </div>
         </div>
@@ -114,6 +114,13 @@
     <script>
         $('#subject-table').removeClass('table-bordered');
         $('#subject-table').addClass('table-striped table-hover');
+
+        function setValueDefaul(){
+            $('#id_subject').val('');
+            $('#name_subject').val('');
+            $('#code_subject').val('');
+            $('#number_of_credits').val('');
+        }
 
         function setValue(id, name, code, number){
             $('#id_subject').val(id);

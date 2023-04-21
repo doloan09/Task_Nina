@@ -44,7 +44,7 @@
             <div class="dropdown">
                 <button class="dropbtn">Thao tác</button>
                 <div class="dropdown-content">
-                    <p data-toggle="modal" data-target="#createSemester">Thêm mới</p>
+                    <p data-toggle="modal" data-target="#createSemester" onclick="setValueDefaul()">Thêm mới</p>
                 </div>
             </div>
         </div>
@@ -108,6 +108,12 @@
 
         $('#semesters-table').removeClass('table-bordered');
         $('#semesters-table').addClass('table-striped table-hover');
+
+        function setValueDefaul(){
+            $('#id_semester').val('');
+            $('#name_semester').val('');
+            $('#year_semester').val('');
+        }
 
         function setValue(id, name, year){
             $('#id_semester').val(id);

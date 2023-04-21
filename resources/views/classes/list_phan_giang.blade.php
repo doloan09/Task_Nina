@@ -133,6 +133,11 @@
         $('#class-users-table').addClass('table-striped table-hover');
 
         $('#phan_giang_btn').on('click', function (){
+            $('#id_user_gv').val('');
+            $('#id_class_pg').prop('disabled', false);
+            $("#create-pg-btn").show();
+            $("#update-pg-btn").hide();
+            setErrDefaul();
             getClass();
             getUser();
         });
@@ -185,10 +190,18 @@
         function setValuePhanGiang(id, id_class, id_user){
             $('#id_class_user_pg').val(id);
             $('#id_class_pg').val(id_class);
+            $('#id_class_pg').prop('disabled', 'disabled');
             $('#id_user_gv').val(id_user);
             $("#create-pg-btn").hide();
             $("#update-pg-btn").show();
+            setErrDefaul();
         };
+
+        function setErrDefaul(){
+            $("#div_err_form").html('');
+            $("#div_err_id_class").html(``);
+            $("#div_err_id_user").html(``);
+        }
 
         function getClass(id = ''){
             $.ajax({

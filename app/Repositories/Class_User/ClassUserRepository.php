@@ -37,9 +37,11 @@ class ClassUserRepository extends BaseRepository implements ClassUserRepositoryI
 
     public function phanGiang($request)
     {
-        $item = ClassUser::query()->where('id_class', $request['id_class'])->where('id_user', $request['id_user'])->first();
+        $id_teachers = User::role('teacher')->pluck('id');
+        $item = ClassUser::query()->where('id_class', $request['id_class'])->where('id_user', $request['id_user'])->first(); // môn học này đã phân giảng cho giáo viên này rồi -> không phân giảng lại lần 2 cho giáo viên này
+        $teacher = ClassUser::query()->where('id_class', $request['id_class'])->whereIn('id_user', $id_teachers)->first(); // lớp này đã được phân giảng cho một giáo viên khác rồi, nếu muốn thay dổi thì cập nhật phía dưới danh sách
 
-        if ($item){
+        if ($item || $teacher){
             return false;
         }
 

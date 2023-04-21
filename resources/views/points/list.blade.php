@@ -37,12 +37,12 @@
     <div style="margin-top: 70px;">
         <p style="color: #707070; font-size: 25px;">Quản lý điểm</p>
         @isset($message)
-            <script> alert('Không thể xuất file! Không tồn tại sinh viên này!'); window.location = "/points";</script>
+            <script> alert('Không thể xuất file! Không tồn tại sinh viên này!'); window.location.reload();</script>
         @endisset
         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right;">
             <div class="dropdown" style="margin-right: 10px;">
                 <button class="dropbtn">Bộ lọc</button>
-                <div class="dropdown-content" style="padding: 30px 20px;">
+                <div class="dropdown-content" style="padding: 30px 20px; margin-left: -50px;">
                     <div>
                         <div style="margin-right: 10px;">Kỳ học:</div>
                         <select id="filter_semester" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
@@ -61,9 +61,9 @@
                 <div class="dropdown">
                     <button class="dropbtn">Thao tác</button>
                     <div class="dropdown-content">
-                        <p data-toggle="modal" data-target="#createPoint">Thêm mới</p>
-                        <p data-toggle="modal" data-target="#importPoint">Import</p>
-                        <p data-toggle="modal" data-target="#exportPoint">Export</p>
+                        <p data-toggle="modal" data-target="#createPoint" onclick="setValueDefaul()">Thêm mới</p>
+                        <p data-toggle="modal" data-target="#importPoint" onclick="setErrImportDefaul()">Import</p>
+                        <p data-toggle="modal" data-target="#exportPoint" onclick="setErrExportDefaul()">Export</p>
                     </div>
                 </div>
             @endif
@@ -215,7 +215,7 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;">Import</button>
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="btn-import">Import</button>
                         </div>
                     </form>
                 </div>
@@ -580,6 +580,34 @@
             });
         }
 
+        function setErrImportDefaul(){
+            $('#message-err').html('');
+            $('#div_err_err').html('');
+            $('#div_err_errData').html('');
+            $('#div_err_id_class_export').html('');
+            $('#div_err_code_user_export').html('');
+        }
+
+        function setErrExportDefaul(){
+            $('#id_class_export').val('');
+            $('#div_err_id_class_export').html('');
+            $('#code_user_export').val('');
+            $('#div_err_code_user_export').html('');
+            $('#name_user_export').val('');
+        }
+
+        function setValueDefaul(){
+            $('#id_point').val('');
+            $('#score_component').val('');
+            $('#score_test').val('');
+            $('#score_final').val('');
+            $('#id_user').val('');
+            $('#code_user').val('');
+            $('#name_user').val('');
+            $('#id_class').val('');
+            $('#div_err_point_unique').html('');
+        };
+
         function setValue(id_point, score_component, score_test, score_final, id_user, id_class){
             $('#id_point').val(id_point);
             $('#score_component').val(score_component);
@@ -645,11 +673,7 @@
                     if (data.response.code === 200) {
                         toastr.success(noti, 'Success');
                         if ($('#id_point').val() === ''){
-                            $("#score_component").val('');
-                            $("#score_test").val('');
-                            $("#score_final").val('');
-                            $("#id_user").val('');
-                            $("#id_class").val('');
+                            setValueDefaul();
                         }else {
                             $('#id_point').val('');
                             setTimeout(function () {
@@ -659,13 +683,11 @@
                     }
                     if (data.response.code === 500){
                         let errList = data.error;
-                        $("#div_err_point_unique").html(`<p style="color: red; font-size: small;">* ` + errList[0]['point_unique'] + `</p>`);
+                        $("#div_err_point_unique").html(`<p style="color: red; font-size: small;">* ` + (errList[0]['point_unique'] ?? errList[0]['user_not_class']) + `</p>`);
                     }
                 },
                 error: function (err) {
-                    if (err.status === 404) {
-                        toastr.error('Vui lòng chonh file trước khi nhaanss import!', 'Error');
-                    }else if (err.status === 500){
+                    if (err.status === 500){
                         toastr.error(err.statusText);
                         console.log(err);
                     }
