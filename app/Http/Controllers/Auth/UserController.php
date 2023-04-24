@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\FailedCollection;
 use App\Http\Resources\SuccessCollection;
+use App\Imports\UsersImport;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -123,6 +125,31 @@ class UserController extends Controller
             return new SuccessCollection($user);
         }catch (\Exception $e){
             return new FailedCollection($e);
+        }
+    }
+
+    public function import(Request $request){
+        $validator = Validator::make($request->all(), [
+            'file' => 'required',
+        ]);
+        if ($validator->fails()) {
+            // Bad Request
+            return response()->json(['err' => $validator->getMessageBag(), 'status' => 404]);
+        }
+        $import = new UsersImport();
+        $import->import($request->file);
+        if (!$import->failures()->isNotEmpty() && count($import->Err) == 0) {
+            return response()->json(['status' => 200]);
+        } else {
+            $errors = [];
+            $errorsData = [];
+            foreach ($import->failures() as $value) { // loi khi validate
+                $errors[] = ['row' => $value->row(), 'err' => $value->errors()];
+            }
+            foreach ($import->Err as $value) {
+                $errorsData[] = ['row' => $value['row'], 'err' => $value['err']];
+            }
+            return response()->json(['status' => 500, 'Err_Message' => 'Dữ liệu đầu vào có lỗi!', 'err' => $errors, 'errData' => $errorsData]);
         }
     }
 

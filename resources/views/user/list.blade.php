@@ -39,7 +39,7 @@
                 <button class="dropbtn">Bộ lọc</button>
                 <div class="dropdown-content" style="padding: 30px 20px;">
                     <span style="margin-right: 10px;">Vai trò:</span>
-                    <select id="filter_role" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px;">
+                    <select id="filter_role" style="border: 1px #ccc solid; border-radius: 5px; background-color: white; margin-top: 10px; padding: 5px; width: 150px;">
                         <option value="">---</option>
                         <option value="admin">admin</option>
                         <option value="teacher">teacher</option>
@@ -52,6 +52,7 @@
                 <div class="dropdown-content">
                     <div style="padding: 10px 12px;">
                         <a href="{{ route('users.create') }}" style="color: black; ">Thêm mới</a>
+                        <p data-toggle="modal" data-target="#importUser" onclick="setErrImportDefaul()" style="margin-top: 15px;">Import</p>
                     </div>
                 </div>
             </div>
@@ -75,6 +76,43 @@
             </thead>
         </table>
     </div>
+
+    <!-- Modal import -->
+    <div class="modal fade" id="importUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; justify-content: center">
+                    <h3 class="modal-title" id="exampleModalLabel">Import thông tin người dùng</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="" id="import-user" enctype="multipart/form-data" style="margin: 0px 20px;">
+                        @csrf
+                        <div class="row">
+                            <div class="" style="padding-right: 0;">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Chọn file</label>
+                                    <input type="file" name="file" id="input-import">
+                                </div>
+                            </div>
+                            <div class="" style="padding-right: 0; margin-top: 30px;">
+                                <p for="example-text-input" class="form-control-label" style="width: 100%;" id="message-err"></p>
+                                <div style="margin-top: 5px; " id="div_err_err">
+
+                                </div>
+                                <div style="margin-top: 5px; " id="div_err_errData">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
+                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="btn-import">Import</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @stop
 
 @push('scripts')
@@ -139,6 +177,72 @@
                 .search(role)
                 .draw();
         }
+
+        function setErrImportDefaul(){
+            $('#message-err').html('');
+            $('#div_err_err').html('');
+            $('#div_err_errData').html('');
+        }
+
+        $("#import-user").submit(function (e) {
+            e.preventDefault();
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: '{{ route('v1.users.import') }}',
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                },
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    if (data.status === 200) {
+                        toastr.success('Import thành công!', 'Success');
+                        setTimeout(function (){
+                            window.location.reload();
+                        }, 1000);
+                    }
+                    else if (data.status === 404){
+                        toastr.error('Vui lòng chọn file trước khi import!');
+                    }
+                    else if (data.status === 500){
+                        toastr.error(data.Err_Message, 'Error');
+                        let err = data.err;
+                        let errData = data.errData;
+
+                        if (err.length || errData.length){
+                            $('#message-err').html('>> Có lỗi khi import:');
+                        }
+                        if (err.length){
+                            let str_err = '';
+                            for (let key in err) {
+                                str_err += `<p style="color: red; font-size: small;">* Hàng ` + err[key]['row'] + ` - ` + err[key]['err'] + `</p>`;
+                            }
+                            $("#div_err_err").html(str_err);
+                        }
+
+                        if (errData.length){
+                            let str_err = '';
+                            for (let key in errData) {
+                                str_err += `<p style="color: red; font-size: small;">* Hàng ` + errData[key]['row'] + ` - ` + errData[key]['err'] + `</p>`;
+                            }
+                            $("#div_err_errData").html(str_err);
+                        }
+                    }
+                },
+                error: function (err) {
+                    if (err.status === 500){
+                        toastr.error(err.statusText);
+                        console.log(err);
+                    }
+                },
+            });
+            return true;
+        });
 
         function deleteUser(id){
             if (confirm('Bạn có muốn xóa không?') === true) {

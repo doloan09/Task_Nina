@@ -46,6 +46,7 @@ Route::middleware(['auth:sanctum'])
             ->group(function () {
                 Route::get('/', [UserController::class, 'index'])->name('index'); // danh sach user
                 Route::post('/store', [UserController::class, 'store'])->name('store'); // dang ky
+                Route::post('/import', [UserController::class, 'import'])->name('import');
                 Route::post('/update/{id}', [UserController::class, 'update'])->name('updated');
                 Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
                 Route::get('/top', [UserController::class, 'topSV'])->name('top'); // danh sach user
