@@ -88,7 +88,7 @@
                             <input id="id_class_user_pg" name="id_class_user_pg" class="form-control" type="text" style="display: none;">
                             <div style="padding-left: 0;">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Lớp học phần</label>
+                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Lớp học phần <span style="color: red; ">*</span></label>
                                     <select style="width: 100%; padding: 6px;" id="id_class_pg">
 
                                     </select>
@@ -99,7 +99,7 @@
                             </div>
                             <div style="padding-right: 0;">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Giảng viên</label>
+                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Giảng viên <span style="color: red; ">*</span></label>
                                     <select style="width: 100%; padding: 6px;" id="id_user_gv">
 
                                     </select>

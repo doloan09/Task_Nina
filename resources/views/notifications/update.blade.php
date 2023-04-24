@@ -32,7 +32,7 @@
                                 <input id="id_noti" name="id_noti" class="form-control" type="text" style="display: none;" value="{{ $notification->id }}">
                                 <div class="">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Tiêu đề thông báo</label>
+                                        <label for="example-text-input" class="form-control-label">Tiêu đề thông báo <span style="color: red; ">*</span></label>
                                         <input id="title" name="title" class="form-control" type="text" placeholder="Nhập vào tiêu đề thông báo ..." value="{{ $notification->title }}" required>
                                         <div style="margin-top: 5px; " id="div_err_title">
 
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Nội dung thông báo</label>
+                                        <label for="example-text-input" class="form-control-label">Nội dung thông báo <span style="color: red; ">*</span></label>
                                         <div id="content-noti">
                                             <div id="children">
                                                 {!! $notification->content !!}

@@ -34,7 +34,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Họ tên</label>
+                                    <label for="example-text-input" class="form-control-label">Họ tên <span style="color: red; ">*</span></label>
                                     <input id="name" name="name" class="form-control" type="text" placeholder="Nhập vào họ tên người dùng..." required>
                                     <div style="margin-top: 5px; " id="div_err_name">
 {{--                                        <span style="font-size: smaller; color: red;">* Họ tên không được bỏ trống</span>--}}
@@ -43,7 +43,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Email</label>
+                                    <label for="example-text-input" class="form-control-label">Email <span style="color: red; ">*</span></label>
                                     <input id="email" name="email" class="form-control" type="email" placeholder="Nhập vào email ..." required>
                                     <div style="margin-top: 5px; " id="div_err_email">
 {{--                                        <span style="font-size: smaller; color: red;">* Email không được bỏ trống</span>--}}
@@ -52,7 +52,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Mã nhân viên/Mã sinh viên</label>
+                                    <label for="example-text-input" class="form-control-label">Mã nhân viên/Mã sinh viên <span style="color: red; ">*</span></label>
                                     <input id="code_user" name="code_user" class="form-control" type="text" placeholder="Mã sinh viên hoặc mã nhân viên" required>
                                     <div style="margin-top: 5px; " id="div_err_code_user">
 {{--                                        <span style="font-size: smaller; color: red;">* Mã nhân viên/Mã sinh viên không được bỏ trống</span>--}}
@@ -61,20 +61,20 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Ngày sinh</label>
+                                    <label for="example-text-input" class="form-control-label">Ngày sinh <span style="color: red; ">*</span></label>
                                     <input id="date_of_birth" name="date_of_birth" class="form-control" type="date" value="" required>
                                 </div>
                             </div>
                             <div class="">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Địa chỉ</label>
-                                    <input id="address" name="address" class="form-control" type="text" placeholder="Thông tin địa chỉ người dùng ..." required>
+                                    <input id="address" name="address" class="form-control" type="text" placeholder="Thông tin địa chỉ người dùng ...">
                                 </div>
                             </div>
                             <div class="">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Số điện thoại</label>
-                                    <input id="phone" name="phone" class="form-control" type="text" placeholder="số điện thoại" required>
+                                    <input id="phone" name="phone" class="form-control" type="text" placeholder="số điện thoại">
                                 </div>
                             </div>
                             <div class="">

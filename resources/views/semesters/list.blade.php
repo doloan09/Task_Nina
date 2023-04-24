@@ -76,7 +76,7 @@
                             <input id="id_semester" name="id_semester" class="form-control" type="text" style="display: none;">
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Kỳ</label>
+                                    <label for="example-text-input" class="form-control-label">Kỳ học <span style="color: red; ">*</span></label>
                                     <input id="name_semester" name="name_semester" class="form-control" type="text" placeholder="Nhập vào tên kỳ học ..." required>
                                     <div style="margin-top: 5px; " id="div_err_name_semester">
 
@@ -85,7 +85,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Năm học</label>
+                                    <label for="example-text-input" class="form-control-label">Năm học <span style="color: red; ">*</span></label>
                                     <input id="year_semester" name="year_semester" class="form-control" type="text" placeholder="Nhập vào năm học ... " required>
                                     <div style="margin-top: 5px; " id="div_err_year_semester">
 
@@ -94,7 +94,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Thời gian bắt đầu</label>
+                                    <label for="example-text-input" class="form-control-label">Thời gian bắt đầu <span style="color: red; ">*</span></label>
                                     <input id="start_time" name="start_time" class="form-control" type="date" value="" required>
                                     <div style="margin-top: 5px; " id="div_err_start_time">
 
@@ -103,7 +103,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Thời gian kết thúc</label>
+                                    <label for="example-text-input" class="form-control-label">Thời gian kết thúc <span style="color: red; ">*</span></label>
                                     <input id="end_time" name="end_time" class="form-control" type="date" value="" required>
                                     <div style="margin-top: 5px; " id="div_err_end_time">
 

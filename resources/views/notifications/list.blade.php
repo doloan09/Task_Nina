@@ -87,7 +87,7 @@
                                 <input id="id_noti" name="id_noti" class="form-control" type="text" style="display: none;">
                                 <div class="">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Tiêu đề thông báo</label>
+                                        <label for="example-text-input" class="form-control-label">Tiêu đề thông báo <span style="color: red; ">*</span></label>
                                         <input id="title" name="title" class="form-control" type="text" placeholder="Nhập vào tiêu đề thông báo ..." required>
                                         <div style="margin-top: 5px; " id="div_err_title">
 
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Nội dung thông báo</label>
+                                        <label for="example-text-input" class="form-control-label">Nội dung thông báo <span style="color: red; ">*</span></label>
                                         <div id="content_noti">
 
                                         </div>
@@ -136,7 +136,7 @@
                                 </p>
                             </div>
                             <div class="form-group">
-                                <label for="example-text-input" class="form-control-label" style="width: 100%;">Đối tượng gửi thông báo: </label>
+                                <label for="example-text-input" class="form-control-label" style="width: 100%;">Đối tượng gửi thông báo <span style="color: red; ">*</span></label>
                                 <div style="display: flex;">
                                     <div style="margin-right: 20px;">
                                         <input type="radio" name="role" value="teacher" checked>

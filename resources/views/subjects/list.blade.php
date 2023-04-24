@@ -73,7 +73,7 @@
                             <input id="id_subject" name="id_subject" class="form-control" type="text" style="display: none">
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Tên môn học</label>
+                                    <label for="example-text-input" class="form-control-label">Tên môn học <span style="color: red; ">*</span></label>
                                     <input id="name_subject" name="name_subject" class="form-control" type="text" placeholder="Nhập vào tên môn học ..." required>
                                     <div style="margin-top: 5px; " id="div_err_name_subject">
 
@@ -82,7 +82,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Mã môn học</label>
+                                    <label for="example-text-input" class="form-control-label">Mã môn học <span style="color: red; ">*</span></label>
                                     <input id="code_subject" name="code_subject" class="form-control" type="text" placeholder="Nhập vào mã môn học ... " required>
                                     <div style="margin-top: 5px; " id="div_err_code_subject">
 
@@ -91,7 +91,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Số tín chỉ</label>
+                                    <label for="example-text-input" class="form-control-label">Số tín chỉ <span style="color: red; ">*</span></label>
                                     <input id="number_of_credits" name="number_of_credits" class="form-control" type="text" placeholder="Nhập vào số tín chỉ ... " required>
                                     <div style="margin-top: 5px; " id="div_err_number_of_credits">
 

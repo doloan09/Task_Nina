@@ -103,7 +103,7 @@
                             <input id="id_point" name="id_point" class="form-control" type="text" style="display: none;">
                             <div class="" style="padding-right: 0;">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Lớp học phần</label>
+                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Lớp học phần <span style="color: red; ">*</span></label>
                                     <select style="width: 100%; padding: 6px;" id="id_class">
                                         <option value="">---</option>
                                     </select>
@@ -114,7 +114,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Mã sinh viên</label>
+                                    <label for="example-text-input" class="form-control-label">Mã sinh viên <span style="color: red; ">*</span></label>
                                     <input id="code_user" name="code_user" class="form-control" type="text" placeholder="Nhập vào mã sinh viên ..." required>
                                     <div style="margin-top: 5px; " id="div_err_code_user">
 
@@ -133,7 +133,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Điểm thành phần</label>
+                                    <label for="example-text-input" class="form-control-label">Điểm thành phần <span style="color: red; ">*</span></label>
                                     <input id="score_component" name="score_component" class="form-control" type="text" placeholder="Nhập vào điểm thành phần ..." required>
                                     <div style="margin-top: 5px; " id="div_err_score_component">
 
@@ -142,7 +142,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Điểm thi</label>
+                                    <label for="example-text-input" class="form-control-label">Điểm thi <span style="color: red; ">*</span></label>
                                     <input id="score_test" name="score_test" class="form-control" type="text" placeholder="Nhập vào điểm thi ... " required>
                                     <div style="margin-top: 5px; " id="div_err_score_test">
 
@@ -197,7 +197,7 @@
                         <div class="row">
                             <div class="" style="padding-right: 0;">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Chọn file</label>
+                                    <label for="example-text-input" class="form-control-label" style="width: 100%;">Chọn file <span style="color: red; ">*</span></label>
                                     <input type="file" name="file" id="input-import">
                                     <div style="margin-top: 5px; " id="div_err_id_class">
 

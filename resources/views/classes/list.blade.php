@@ -99,7 +99,7 @@
                             <input id="id_class" name="id_class" class="form-control" type="text" style="display: none;">
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Tên lớp học phần</label>
+                                    <label for="example-text-input" class="form-control-label">Tên lớp học phần <span style="color: red; ">*</span></label>
                                     <input id="name_class" name="name_class" class="form-control" type="text" placeholder="Nhập vào tên lớp học phần..." required>
                                     <div style="margin-top: 5px; " id="div_err_name_class">
 
@@ -108,7 +108,7 @@
                             </div>
                             <div class="">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Mã lớp học phần</label>
+                                    <label for="example-text-input" class="form-control-label">Mã lớp học phần <span style="color: red; ">*</span></label>
                                     <input id="code_class" name="code_class" class="form-control" type="text" placeholder="Nhập vào mã lớp học phần ... " required>
                                     <div style="margin-top: 5px; " id="div_err_code_class">
 
