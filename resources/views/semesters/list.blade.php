@@ -54,6 +54,8 @@
                 <th style="width: 20px;">Id</th>
                 <th>Kỳ</th>
                 <th>Năm học</th>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
                 <th style="width: 10%;">Action</th>
             </tr>
             </thead>
@@ -90,6 +92,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Thời gian bắt đầu</label>
+                                    <input id="start_time" name="start_time" class="form-control" type="date" value="" required>
+                                    <div style="margin-top: 5px; " id="div_err_start_time">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Thời gian kết thúc</label>
+                                    <input id="end_time" name="end_time" class="form-control" type="date" value="" required>
+                                    <div style="margin-top: 5px; " id="div_err_end_time">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
                             <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
@@ -113,12 +133,18 @@
             $('#id_semester').val('');
             $('#name_semester').val('');
             $('#year_semester').val('');
+            $('#start_time').val('');
+            $('#end_time').val('');
         }
 
-        function setValue(id, name, year){
+        function setValue(id, name, year, start, end){
+            console.log(start);
+            console.log(end);
             $('#id_semester').val(id);
             $('#name_semester').val(name);
             $('#year_semester').val(year);
+            $('#start_time').val(start);
+            $('#end_time').val(end);
             $("#create-btn").hide();
             $("#update-btn").show();
         };
@@ -145,6 +171,20 @@
                     { data: 'id', name: 'id' },
                     { data: 'name_semester', name: 'name_semester' },
                     { data: 'year_semester', name: 'year_semester' },
+                    {
+                        data: 'start_time',
+                        render: function (start_time){
+                            date = new Date(start_time);
+                            return pad(date.getDate()) + '-' + pad(date.getMonth() + 1) + '-' + date.getFullYear();
+                        }
+                    },
+                    {
+                        data: 'end_time',
+                        render: function (end_time){
+                            date = new Date(end_time);
+                            return pad(date.getDate()) + '-' + pad(date.getMonth() + 1) + '-' + date.getFullYear();
+                        }
+                    },
                     { data: 'action', name: '', orderable: false, searchable: false},
 
                     // {
@@ -157,6 +197,10 @@
             });
         });
 
+        function pad(num){
+            return (num <= 9) ? '0' + num : num;
+        }
+
         $("#create-semester").submit(function (e) {
             e.preventDefault();
 
@@ -164,6 +208,8 @@
 
             formData.append('name_semester', $("#name_semester").val());
             formData.append('year_semester', $("#year_semester").val());
+            formData.append('start_time', $("#start_time").val());
+            formData.append('end_time', $("#end_time").val());
 
             let url = '{{ route('v1.semesters.store') }}';
             let noti = 'Thêm mới học kỳ thành công!';
@@ -188,14 +234,15 @@
                         toastr.success(noti, 'Success');
 
                         if ($('#id_semester').val() === '') {
-                            $("#name_semester").val('');
-                            $("#year_semester").val('');
+                            setValueDefaul();
                         }else {
                             $('#id_semester').val('');
                             setTimeout(function(){
                                 window.location.reload();
                             }, 1000);
                         }
+                    }else if (data.response.code === 500){
+                        toastr.error('Thời gian bắt đầu và thời gian kết thúc không hợp lệ!');
                     }
                 },
                 error: function (err) {

@@ -18,6 +18,8 @@ class Semester extends Model
     protected $fillable = [
         'name_semester',
         'year_semester',
+        'start_time',
+        'end_time',
     ];
 
 }
