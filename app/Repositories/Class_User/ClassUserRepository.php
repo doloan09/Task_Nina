@@ -41,7 +41,11 @@ class ClassUserRepository extends BaseRepository implements ClassUserRepositoryI
         $item = ClassUser::query()->where('id_class', $request['id_class'])->where('id_user', $request['id_user'])->first(); // môn học này đã phân giảng cho giáo viên này rồi -> không phân giảng lại lần 2 cho giáo viên này
         $teacher = ClassUser::query()->where('id_class', $request['id_class'])->whereIn('id_user', $id_teachers)->first(); // lớp này đã được phân giảng cho một giáo viên khác rồi, nếu muốn thay dổi thì cập nhật phía dưới danh sách
 
-        if ($item || $teacher){
+        if (($item || $teacher) && Auth::user()->hasRole('admin')){ // truong hop phan giang
+            return false;
+        }
+
+        if (Auth::user()->hasRole('student') && $item){ // truong hop sinh vien dang ky hoc phan
             return false;
         }
 
