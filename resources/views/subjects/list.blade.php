@@ -101,7 +101,6 @@
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
                             <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-sub">Create</button>
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-sub">Update</button>
                         </div>
                     </form>
                 </div>
@@ -120,6 +119,7 @@
             $('#name_subject').val('');
             $('#code_subject').val('');
             $('#number_of_credits').val('');
+            $("#create-sub").text('Create');
         }
 
         function setValue(id, name, code, number){
@@ -127,8 +127,7 @@
             $('#name_subject').val(name);
             $('#code_subject').val(code);
             $('#number_of_credits').val(number);
-            $("#create-sub").hide();
-            $("#update-sub").show();
+            $("#create-sub").text('Update');
         };
 
         $(function () {
@@ -192,9 +191,7 @@
                         toastr.success(noti, 'Success');
 
                         if ($('#id_subject').val() === '') {
-                            $("#name_subject").val('');
-                            $("#code_subject").val('');
-                            $("#number_of_credits").val('');
+                            setValueDefaul();
                         }else {
                             $('#id_subject').val('');
                             setTimeout(function(){

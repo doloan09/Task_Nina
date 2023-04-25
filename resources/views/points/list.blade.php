@@ -176,7 +176,6 @@
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
                             <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -307,9 +306,7 @@
             $('#id_class').val('');
             $('#code_user').val('');
             $('#name_user').val('');
-            $('#code_user').attr('readonly', false);
-            $("#create-btn").show();
-            $("#update-btn").hide();
+            $("#create-btn").text('Create');
         });
 
         $('#btn-export').on('click', function() {
@@ -605,7 +602,9 @@
             $('#code_user').val('');
             $('#name_user').val('');
             $('#id_class').val('');
+            $('#code_user').attr('readonly', false);
             $('#div_err_point_unique').html('');
+            $("#create-btn").text('Create');
         };
 
         function setValue(id_point, score_component, score_test, score_final, id_user, id_class){
@@ -616,8 +615,7 @@
             $('#id_user').val(id_user);
             $('#id_class').val(id_class);
             $('#code_user').attr('readonly', true);
-            $("#create-btn").hide();
-            $("#update-btn").show();
+            $("#create-btn").text('Update');
         };
 
         function update(id){

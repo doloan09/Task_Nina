@@ -113,7 +113,6 @@
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
                             <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -135,18 +134,16 @@
             $('#year_semester').val('');
             $('#start_time').val('');
             $('#end_time').val('');
+            $("#create-btn").text('Create');
         }
 
         function setValue(id, name, year, start, end){
-            console.log(start);
-            console.log(end);
             $('#id_semester').val(id);
             $('#name_semester').val(name);
             $('#year_semester').val(year);
             $('#start_time').val(start);
             $('#end_time').val(end);
-            $("#create-btn").hide();
-            $("#update-btn").show();
+            $("#create-btn").text('Update');
         };
 
         $(function() {

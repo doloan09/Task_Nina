@@ -111,7 +111,6 @@
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
                             <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-pg-btn">Create</button>
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-pg-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -135,8 +134,7 @@
         $('#phan_giang_btn').on('click', function (){
             $('#id_user_gv').val('');
             $('#id_class_pg').prop('disabled', false);
-            $("#create-pg-btn").show();
-            $("#update-pg-btn").hide();
+            $("#create-pg-btn").text('Create');
             setErrDefaul();
             getClass();
             getUser();
@@ -192,8 +190,7 @@
             $('#id_class_pg').val(id_class);
             $('#id_class_pg').prop('disabled', 'disabled');
             $('#id_user_gv').val(id_user);
-            $("#create-pg-btn").hide();
-            $("#update-pg-btn").show();
+            $("#create-pg-btn").text('Update');
             setErrDefaul();
         };
 

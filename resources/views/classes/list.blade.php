@@ -140,7 +140,6 @@
                         </div>
                         <div style="margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: right; font-size: small;">
                             <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px;" id="create-btn">Create</button>
-                            <button type="submit" class="btn btn-xs btn-warning" style="padding: 8px; display: none;" id="update-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -214,6 +213,7 @@
             $('#code_class').val('');
             $('#id_subject').val($('#id_subject :first').val());
             $('#id_semester').val($('#id_semester :first').val());
+            $("#create-btn").text('Create');
             setErrDefaul();
         }
 
@@ -228,8 +228,7 @@
             $('#code_class').val(code);
             $('#id_subject').val(id_subject);
             $('#id_semester').val(id_semester);
-            $("#create-btn").hide();
-            $("#update-btn").show();
+            $("#create-btn").text('Update');
         };
 
         function getSubject(){
@@ -458,8 +457,12 @@
                 method: "POST",
                 data: formData,
                 success: function (data) {
+                    console.log(data);
                     if (data.response.code === 200) {
                         toastr.success('Đăng ký môn học thành công!', 'Success');
+                        setTimeout(function (){
+                            window.location.reload();
+                        }, 1000);
                     }else if (data.response.code === 500){
                         toastr.error('Môn học: ' + $("#id_class_DKHP :selected").text() + ' đã được đăng ký rồi!');
                     }
