@@ -17,7 +17,7 @@ class RoleStudentMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::user()){
+        if (!Auth::check()){
             return redirect()->route('login.request');
         }
         if (!Auth::user()->hasRole('admin') && !Auth::user()->hasRole('student')){
