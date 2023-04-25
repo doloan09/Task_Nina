@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="text-uppercase text-sm" style="font-size: 20px;">Cập nhật thông tin người dùng</p>
-                        <form method="POST" action="{{ route('v1.users.updated', ['id' => $user->id]) }}" id="update-user" enctype="multipart/form-data" style="padding-left: 20px; padding-top: 20px;">
+                        <form method="POST" action="" id="update-user" enctype="multipart/form-data" style="padding-left: 20px; padding-top: 20px;">
                             @csrf
                             <div class="row">
                                 <div class="">

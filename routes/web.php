@@ -28,64 +28,40 @@ Route::get('/register', [AuthController::class, 'viewRegister'])->name('register
 /// forgot password
 Route::get('/forgot-password', [ResetPasswordController::class, 'showForgotPass'])->middleware('guest')->name('password.request'); // view forgot pass
 
-Route::middleware('login')->group(function (){
-    Route::middleware('role-admin')->get('/', [AuthController::class, 'home'])->name('home');
-    Route::middleware('role-admin')->get('/home', [AuthController::class, 'home'])->name('home');
+Route::middleware('auth')->group(function (){
 
-    Route::middleware('role-admin')->prefix('users')
+    Route::middleware('role-admin')
         ->group(function (){
-            Route::get('/', [UserController::class, 'list'])->name('users.list'); // view danh sach user
-            Route::get('/create', [UserController::class, 'create'])->name('users.create'); // view create user
-            Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // view edit user
+            Route::get('/', [AuthController::class, 'home'])->name('home');
+            Route::get('/home', [AuthController::class, 'home'])->name('home');
 
-        });
+            Route::get('users/', [UserController::class, 'list'])->name('users.list'); // view danh sach user
+            Route::resource('users', UserController::class)->only([
+                'create', 'edit'
+            ]);
 
-    Route::prefix('notifications')
-        ->group(function (){
-            Route::get('/', [NotificationController::class, 'list'])->name('notifications.list'); // view danh sach notifications
-            Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show'); // view danh sach notifications
-            Route::get('/create', [NotificationController::class, 'create'])->name('notifications.create'); // view create notifications
-            Route::get('/{id}/edit', [NotificationController::class, 'edit'])->name('notifications.edit'); // view edit notifications
-
-        });
-
-    Route::middleware('role-admin')->prefix('semesters')
-        ->group(function (){
-            Route::get('/', [SemesterController::class, 'list'])->name('semesters.list');
-            Route::get('/create', [SemesterController::class, 'create'])->name('semesters.create');
-            Route::get('/{id}/edit', [SemesterController::class, 'viewUpdate'])->name('semesters.edit');
-
-        });
-
-    Route::middleware('role-admin')->prefix('subjects')
-        ->group(function (){
-            Route::get('/', [SubjectController::class, 'list'])->name('subjects.list');
-            Route::get('/create', [SubjectController::class, 'create'])->name('subjects.create');
-            Route::get('/{id}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+            Route::get('semesters/', [SemesterController::class, 'list'])->name('semesters.list'); // danh sach cac hoc ky
+            Route::get('subjects/', [SubjectController::class, 'list'])->name('subjects.list'); // danh sach cac mon hoc
 
         });
 
     Route::middleware('role-admin-student')->prefix('classes')
         ->group(function (){
-            Route::get('/', [ClassHPController::class, 'list'])->name('classes.list');
+            Route::get('/', [ClassHPController::class, 'list'])->name('classes.list'); // danh sach lop hoc phan
             Route::get('/user', [ClassHPController::class, 'view_show'])->name('classes.show'); // view danh sach user trong mot lop
-            Route::get('/create', [ClassHPController::class, 'create'])->name('classes.create');
-            Route::get('/{id}/edit', [ClassHPController::class, 'edit'])->name('classes.edit');
 
         });
 
-    Route::middleware('role-admin-teacher')->prefix('class-user')
-        ->group(function (){
-            Route::get('/', [ClassUserController::class, 'list'])->name('class-user.list');
+    // phan giang
+    Route::middleware('role-admin-teacher')->get('class-user/', [ClassUserController::class, 'list'])->name('class-user.list');
 
-        });
+    // point
+    Route::get('points/', [PointController::class, 'list'])->name('points.list');
 
-    Route::prefix('points')
-        ->group(function (){
-            Route::get('/', [PointController::class, 'list'])->name('points.list');
-            Route::get('/create', [PointController::class, 'create'])->name('points.create');
-            Route::get('/{id}/edit', [PointController::class, 'edit'])->name('points.edit');
-
-        });
+    // notifications
+    Route::get('notifications/', [NotificationController::class, 'list'])->name('notifications.list'); // view danh sach notifications
+    Route::resource('notifications', NotificationController::class)->only([
+        'show', 'edit'
+    ]);
 
 });
