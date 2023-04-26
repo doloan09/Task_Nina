@@ -210,7 +210,7 @@
                     let list = data.data;
                     let str = '';
                     for (let item in list){
-                        let url = '{{ env('APP_URL') }}' + 'notifications/' + list[item]['id_notification'];
+                        let url = '{{ env('APP_URL') }}' + 'notifications/' + list[item]['id'];
 
                         str += `<li style="margin-bottom: 10px;">
                                     <a href="`+ url + `">` + list[item]['title'] + `</a>

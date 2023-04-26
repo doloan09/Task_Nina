@@ -63,4 +63,20 @@ class User extends Authenticatable
     {
         return $this->avatar ? asset('storage/' . $this->avatar) : 'https://res.cloudinary.com/dsh5japr1/image/upload/v1681369552/Web/FB_IMG_1606633099895_nmbqlo.jpg';
     }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_users', 'id_user', 'id_notification');
+    }
+
+    public function classes()
+    {
+        return $this->belongsToMany(Class_HP::class, 'class_users', 'id_user', 'id_class');
+    }
+
+    public function points()
+    {
+        return $this->hasMany(Point::class, 'id_user');
+    }
+
 }

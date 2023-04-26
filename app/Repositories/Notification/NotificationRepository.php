@@ -17,9 +17,8 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
     {
         if (Auth::user()->hasRole('admin')) {
             $list = $this->model->orderBy('id', 'desc')->paginate(5);
-        }else{
-            $list = $this->model->join('notification_users', 'notification_users.id_notification', '=', 'notifications.id')
-                ->where('notification_users.id_user', Auth::id())->orderBy('notifications.id', 'desc')->paginate();
+        } else {
+            $list = Auth::user()->notifications()->orderBy('notifications.id', 'desc')->paginate();
         }
 
         return $list;
